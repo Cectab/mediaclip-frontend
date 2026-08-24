@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediaClip - Create BIHL client</title>
+<style>
+  :root{--red:#DA1F26;--ink:#16181D;--muted:#7A828C;--line:#EBEDF0;--bg:#F3F5F8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:var(--ink)}
+  .card{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.12);width:100%;max-width:520px;padding:36px}
+  h1{font-size:22px;font-weight:800;margin-bottom:6px}
+  .sub{font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.5}
+  label{display:block;font-size:12px;font-weight:700;margin:14px 0 6px;color:var(--ink)}
+  input{width:100%;border:1px solid #E7E9EC;border-radius:10px;padding:12px 14px;font-size:14px;outline:none;font-family:inherit}
+  input:focus{border-color:var(--red)}
+  button{width:100%;margin-top:22px;background:var(--red);color:#fff;border:0;border-radius:10px;padding:14px;font-size:14px;font-weight:700;cursor:pointer}
+  button:hover{background:#B4141b}
+  button:disabled{opacity:.6;cursor:not-allowed}
+  #out{margin-top:18px;padding:14px;border-radius:10px;font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-word;display:none}
+  .ok{background:#e8f7f0;color:#166b44;border:1px solid #b8e6d0}
+  .err{background:#fdecec;color:#8a1a1f;border:1px solid #f0b8bb}
+  .note{margin-top:18px;font-size:11.5px;color:var(--muted);line-height:1.55;padding:10px 12px;background:var(--bg);border-radius:8px}
+  .note b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Create BIHL client</h1>
+  <div class="sub">One-time step. This creates BIHL as your first client and its admin user. After this you can log in on the live site.</div>
+
+  <label>Your ADMIN_API_KEY (from Render)</label>
+  <input id="key" type="password" placeholder="paste it here — this page never sends it anywhere except your own backend">
+
+  <label>Client name</label>
+  <input id="name" type="text" value="BIHL">
+
+  <label>Tier</label>
+  <input id="tier" type="text" value="enterprise">
+
+  <label>Admin email (this is the login you'll use)</label>
+  <input id="email" type="email" value="cecil@voodooad.com">
+
+  <label>Temporary password</label>
+  <input id="pw" type="text" placeholder="pick a password you can remember for 2 minutes">
+
+  <button id="go" onclick="createBIHL()">Create BIHL client</button>
+
+  <div id="out"></div>
+
+  <div class="note">
+    <b>Safety:</b> This file runs entirely in your browser. Your key is sent directly to your Render backend, nowhere else. Close the tab when you're done. You can delete this file after.
+  </div>
+</div>
+
+<script>
+  const API = "https://mediaclip-backend.onrender.com";
+  const $ = (id) => document.getElementById(id);
+  const out = $("out");
+  function show(cls, msg){ out.className = cls; out.textContent = msg; out.style.display = "block"; }
+  async function createBIHL(){
+    const key   = $("key").value.trim();
+    const name  = $("name").value.trim();
+    const tier  = $("tier").value.trim();
+    const email = $("email").value.trim();
+    const pw    = $("pw").value;
+    if (!key)   { show("err","Please paste your ADMIN_API_KEY."); return; }
+    if (!email || !pw) { show("err","Please fill in email and password."); return; }
+    const btn = $("go");
+    btn.disabled = true; btn.textContent = "Creating…"; show("ok","Contacting backend…");
+    try{
+      const r = await fetch(API + "/api/admin/clients", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-key": key },
+        body: JSON.stringify({ name, tier, admin_email: email, admin_password: pw })
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok){
+        show("err","Failed (" + r.status + "): " + (data.error || JSON.stringify(data)));
+      } else {
+        show("ok",
+          "Success! " + name + " client created.\n\n" +
+          "Client id: " + (data.client && data.client.id) + "\n" +
+          "Tier: " + (data.client && data.client.tier) + " (max users: " + (data.client && data.client.max_users) + ")\n\n" +
+          "Admin login:\n  Email: " + email + "\n  Password: (the one you just set)\n\n" +
+          "Now go to https://mediaclip.vercel.app and sign in."
+        );
+      }
+    } catch(e){
+      show("err","Network error: " + (e && e.message ? e.message : String(e)));
+    } finally {
+      btn.disabled = false; btn.textContent = "Create BIHL client";
+    }
+  }
+</script>
+</body>
+</html>
