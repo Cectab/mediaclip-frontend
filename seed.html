@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediaClip - Seed sample data</title>
+<style>
+  :root{--red:#DA1F26;--ink:#16181D;--muted:#7A828C;--line:#EBEDF0;--bg:#F3F5F8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:var(--ink)}
+  .card{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.12);width:100%;max-width:640px;padding:36px}
+  h1{font-size:22px;font-weight:800;margin-bottom:6px}
+  .sub{font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.55}
+  .status{padding:12px 14px;border-radius:10px;font-size:13px;margin-bottom:16px;line-height:1.5}
+  .status.ok{background:#e8f7f0;color:#166b44;border:1px solid #b8e6d0}
+  .status.err{background:#fdecec;color:#8a1a1f;border:1px solid #f0b8bb}
+  .status.info{background:#eef4ff;color:#1a4a8a;border:1px solid #c6d9f5}
+  button{width:100%;background:var(--red);color:#fff;border:0;border-radius:10px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px}
+  button:hover{background:#B4141b}
+  button:disabled{opacity:.6;cursor:not-allowed}
+  button.secondary{background:#33383F;margin-top:8px}
+  button.secondary:hover{background:#1a1e24}
+  #log{margin-top:18px;padding:14px;border-radius:10px;background:var(--bg);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;line-height:1.6;max-height:280px;overflow-y:auto;display:none}
+  #log .line{padding:2px 0}
+  #log .line.ok{color:#166b44}
+  #log .line.err{color:#8a1a1f}
+  .note{margin-top:18px;font-size:11.5px;color:var(--muted);line-height:1.6;padding:12px 14px;background:var(--bg);border-radius:8px}
+  .note b{color:var(--ink)}
+  code{background:#EBEDF0;padding:1px 5px;border-radius:4px;font-size:11px}
+  a{color:var(--red)}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>MediaClip - Seed sample data</h1>
+  <div class="sub">One-tap tool to add ~20 realistic Botswana media mentions to your currently-logged-in client account. Uses your existing login session. Safe to run more than once (adds a new batch each time).</div>
+
+  <div id="auth" class="status info">Checking your login...</div>
+
+  <button id="go" onclick="seedAll()" disabled>Seed 20 sample mentions</button>
+  <button id="clear" class="secondary" onclick="showClear()">I'm done testing (show cleanup command)</button>
+
+  <div id="log"></div>
+
+  <div class="note">
+    <b>What this does:</b> Posts 20 realistic Botswana media mentions (mix of print, radio, broadcast, social, in English and Setswana, with sentiment scores) into your client account via <code>POST /api/analyst/clips</code>. Refresh your dashboard afterwards to see the numbers.<br><br>
+    <b>Cleanup:</b> Before onboarding real BIHL staff, click "I'm done testing" for a one-line SQL command you can run in Neon's SQL editor to delete every seeded row in one go.
+  </div>
+</div>
+
+<script>
+  const API = "https://mediaclip-backend.onrender.com";
+  const $ = (id) => document.getElementById(id);
+
+  let token = null;
+  try { token = localStorage.getItem("mc_token"); } catch(e){}
+  let user = null;
+  try { user = JSON.parse(localStorage.getItem("mc_user") || "null"); } catch(e){}
+
+  if (!token) {
+    $("auth").className = "status err";
+    $("auth").textContent = "You're not logged in. Go to https://www.mediaclip.net first, sign in, then come back to this page.";
+  } else {
+    const email = (user && user.email) || "(unknown)";
+    const role = (user && user.role) || "?";
+    $("auth").className = "status ok";
+    $("auth").textContent = "Logged in as " + email + " (role: " + role + "). Ready to seed.";
+    $("go").disabled = false;
+  }
+
+  // 20 realistic Botswana media mentions for BIHL and related brands
+  const now = new Date();
+  const daysAgo = (n) => new Date(now.getTime() - n * 24 * 60 * 60 * 1000).toISOString();
+
+  const MENTIONS = [
+    { media_type:"print", source:"Mmegi", title:"BIHL posts strong half-year results, dividend held steady", content:"Botswana Insurance Holdings Limited (BIHL) announced firm half-year earnings, buoyed by growth in life insurance premiums and improved investment returns. Group CEO commented on continued disciplined underwriting.", url:"https://www.mmegi.bw/business/bihl-results", language:"en", sentiment:"positive", brand:"BIHL", published_at:daysAgo(2), reach:42000, ad_value:18500 },
+    { media_type:"print", source:"Sunday Standard", title:"Insurance sector under pressure as claims tick up", content:"Analysis of the Botswana insurance landscape shows major players including BIHL, Botswana Life and Sanlam navigating a rise in claims following recent weather events.", url:"https://www.sundaystandard.info/insurance-pressure", language:"en", sentiment:"neutral", brand:"BIHL", published_at:daysAgo(4), reach:31000, ad_value:12200 },
+    { media_type:"print", source:"The Voice", title:"BIHL Foundation backs youth entrepreneurship programme", content:"The BIHL Foundation announced a P2.5 million commitment to a new youth-focused entrepreneurship initiative running in Gaborone, Francistown and Maun.", url:"https://www.thevoicebw.com/bihl-foundation-youth", language:"en", sentiment:"positive", brand:"BIHL", published_at:daysAgo(1), reach:28500, ad_value:9800 },
+    { media_type:"print", source:"Weekend Post", title:"Botswana Life extends corporate cover to SMMEs", content:"Botswana Life, a subsidiary of BIHL, has expanded its group cover proposition to reach small and medium enterprises, a segment historically underserved by mainstream insurers.", url:"https://www.weekendpost.co.bw/botswana-life-smme", language:"en", sentiment:"positive", brand:"Botswana Life", published_at:daysAgo(6), reach:22000, ad_value:7500 },
+    { media_type:"print", source:"Botswana Guardian", title:"Regulator flags disclosure gaps at insurers", content:"NBFIRA raised concerns about disclosure practices across the insurance sector. BIHL, Sanlam and Old Mutual were among the entities engaged.", url:"https://www.botswanaguardian.co.bw/nbfira-insurers", language:"en", sentiment:"negative", brand:"BIHL", published_at:daysAgo(9), reach:19500, ad_value:6200 },
+    { media_type:"print", source:"Mmegi", title:"Tirisanyo ya BIHL le baithuti ba dikoloto tsa tuelo", content:"BIHL e tsentse letsogo mo tirisanyong e ncha le lekgotla la Botswana Accountancy College go rutuntsha baithuti ka ga tsa madi le tshireletso ya botshelo.", url:"https://www.mmegi.bw/setswana/bihl-bac", language:"tn", sentiment:"positive", brand:"BIHL", published_at:daysAgo(3), reach:38000, ad_value:14500 },
+
+    { media_type:"radio", source:"Yarona FM", title:"Business Hour - BIHL executive on retirement savings gap", content:"Interview with senior BIHL executive discussing Botswana's retirement savings gap and the role of voluntary annuity products.", url:"https://www.yaronafm.co.bw/business-hour", language:"en", sentiment:"positive", brand:"BIHL", published_at:daysAgo(5), reach:65000, ad_value:24000 },
+    { media_type:"radio", source:"Duma FM", title:"Morning drive - Sanlam vs BIHL market share commentary", content:"Panel discussion comparing recent market share moves between Sanlam Life Botswana and BIHL group companies.", url:"https://www.dumafm.com/morning-drive", language:"en", sentiment:"neutral", brand:"Sanlam", published_at:daysAgo(7), reach:48000, ad_value:18000 },
+    { media_type:"radio", source:"Gabz FM", title:"Consumer talk - Life insurance for young professionals", content:"Segment featuring BIHL and Old Mutual products for early-career professionals in Gaborone.", url:"https://www.gabzfm.com/consumer-talk", language:"en", sentiment:"positive", brand:"BIHL", published_at:daysAgo(8), reach:52000, ad_value:19500 },
+    { media_type:"radio", source:"RB2", title:"Kgotla ya tsa Ikonomi - BIHL le maduo a ngwaga", content:"Puisano ka Setswana ka ga maduo a BIHL a ngwaga o o fetileng le ditlhaga tsa ngwaga o o tlang.", url:"https://www.rb.co.bw/rb2/kgotla-ikonomi", language:"tn", sentiment:"positive", brand:"BIHL", published_at:daysAgo(2), reach:71000, ad_value:26500 },
+
+    { media_type:"broadcast", source:"Btv", title:"BTV News - BIHL Foundation youth grant handover", content:"Coverage of the BIHL Foundation's grant handover ceremony to a Gaborone-based youth entrepreneurship hub, attended by senior BIHL executives.", url:"https://www.btvnews.bw/bihl-grant", language:"en", sentiment:"positive", brand:"BIHL", published_at:daysAgo(1), reach:120000, ad_value:45000 },
+    { media_type:"broadcast", source:"Btv", title:"Business Botswana - Insurance market outlook 2026", content:"Panel discussion including BIHL, Botswana Life, Bomaid and Bharti AXA on the 2026 outlook for insurance and medical aid in Botswana.", url:"https://www.btvnews.bw/business-botswana", language:"en", sentiment:"neutral", brand:"BIHL", published_at:daysAgo(6), reach:98000, ad_value:38500 },
+    { media_type:"broadcast", source:"Now TV", title:"Now Weekend - Community insurance drive with BIHL", content:"Feature on a community-focused insurance awareness campaign led by BIHL in Francistown and Selebi-Phikwe.", url:"https://nowtvbw.com/now-weekend", language:"en", sentiment:"positive", brand:"BIHL", published_at:daysAgo(4), reach:56000, ad_value:22000 },
+    { media_type:"broadcast", source:"eBotswana", title:"eBotswana News - Insurance complaints down year on year", content:"Report citing NBFIRA data showing complaints against BIHL and peers have declined 12% year on year.", url:"https://www.ebotswana.com/news/complaints", language:"en", sentiment:"positive", brand:"BIHL", published_at:daysAgo(10), reach:44000, ad_value:16000 },
+
+    { media_type:"social", source:"Facebook", title:"Community post about BIHL claims turnaround", content:"Positive customer post on Facebook praising a fast BIHL claims payout after a bereavement, generating over 300 comments and shares.", url:"https://www.facebook.com/post/bihl-claims", language:"en", sentiment:"positive", brand:"BIHL", published_at:daysAgo(3), reach:14000, ad_value:0 },
+    { media_type:"social", source:"X/Twitter", title:"Thread comparing insurance premiums in Botswana", content:"A financial influencer posted a comparison thread on X including BIHL, Sanlam, and Old Mutual premiums for young professionals, gathering strong engagement.", url:"https://x.com/finfluencer/status/12345", language:"en", sentiment:"neutral", brand:"BIHL", published_at:daysAgo(2), reach:9500, ad_value:0 },
+    { media_type:"social", source:"LinkedIn", title:"BIHL sponsors accountancy conference", content:"Official BIHL LinkedIn post announcing sponsorship of the Botswana Institute of Chartered Accountants annual conference. Well received in professional circles.", url:"https://linkedin.com/company/bihl-limited/posts/bica", language:"en", sentiment:"positive", brand:"BIHL", published_at:daysAgo(5), reach:8200, ad_value:0 },
+    { media_type:"social", source:"Facebook", title:"Frustration over claim delay - individual case", content:"Individual Facebook complaint about a delayed BIHL claim, moderate engagement, resolved in comments by BIHL's social team within 48 hours.", url:"https://www.facebook.com/post/claim-delay", language:"en", sentiment:"negative", brand:"BIHL", published_at:daysAgo(8), reach:3200, ad_value:0 },
+
+    { media_type:"online", source:"Mmegi Online", title:"Analysis - BIHL vs Sanlam over the last 5 years", content:"In-depth online analysis piece comparing BIHL and Sanlam Life Botswana on premium growth, claims ratio and investment performance from 2021 to 2026.", url:"https://www.mmegi.bw/business/bihl-sanlam-5yr", language:"en", sentiment:"neutral", brand:"BIHL", published_at:daysAgo(11), reach:26000, ad_value:8800 },
+    { media_type:"online", source:"Botswana Youth Magazine", title:"Why every young professional in Gaborone needs life cover", content:"Consumer-focused online article recommending BIHL and Botswana Life as accessible options for young professionals, driving product enquiries.", url:"https://byoumag.co.bw/life-cover-young-pros", language:"en", sentiment:"positive", brand:"BIHL", published_at:daysAgo(4), reach:11000, ad_value:3500 }
+  ];
+
+  function log(line, cls){
+    const box = $("log");
+    box.style.display = "block";
+    const el = document.createElement("div");
+    el.className = "line " + (cls || "");
+    el.textContent = line;
+    box.appendChild(el);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  async function seedAll(){
+    if (!token) return;
+    const btn = $("go");
+    btn.disabled = true; btn.textContent = "Seeding...";
+    let ok = 0, fail = 0;
+    for (let i = 0; i < MENTIONS.length; i++){
+      const m = MENTIONS[i];
+      try {
+        const res = await fetch(API + "/api/analyst/clips", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          },
+          body: JSON.stringify(m)
+        });
+        if (res.ok){
+          ok++;
+          log((i+1) + "/" + MENTIONS.length + " OK: [" + m.media_type + "] " + m.source + " - " + m.title.substring(0, 60), "ok");
+        } else {
+          fail++;
+          const data = await res.json().catch(()=>({}));
+          log((i+1) + "/" + MENTIONS.length + " FAIL (" + res.status + "): " + (data.error || "unknown"), "err");
+        }
+      } catch (e){
+        fail++;
+        log((i+1) + "/" + MENTIONS.length + " ERROR: " + String(e.message || e), "err");
+      }
+    }
+    log("", "");
+    log("Done. " + ok + " seeded, " + fail + " failed.", ok === MENTIONS.length ? "ok" : "err");
+    log("Refresh your dashboard at https://www.mediaclip.net to see the numbers.", "");
+    btn.disabled = false; btn.textContent = "Seed 20 more (another batch)";
+  }
+
+  function showClear(){
+    log("", "");
+    log("To delete every 'local' (seeded) mention from your DB, run this SQL in Neon's SQL Editor:", "");
+    log("", "");
+    log("DELETE FROM mentions WHERE origin = 'local';", "err");
+    log("", "");
+    log("This removes ONLY analyst-entered / seeded mentions. Datastreamer-ingested mentions (origin = 'datastreamer') are untouched.", "");
+  }
+</script>
+</body>
+</html>
