@@ -1217,10 +1217,10 @@
       if (k === "broadcast") return "TV";
       return t || "-";
     };
-    const openRow = (url) => url ? `onclick="window.open('${esc(url)}','_blank')"` : "";
+    const openRow = (mid) => (mid !== undefined && mid !== null) ? `onclick="mcOpenClipDetail('${esc(String(mid))}')"` : "";
 
     tbody.innerHTML = sorted.map(m => `
-      <tr ${openRow(m.url)}>
+      <tr ${openRow(m.id)}>
         <td class="m-title" title="${esc(m.title||'')}">${esc(m.title || '(untitled)')}</td>
         <td>${esc(m.brand || '-')}</td>
         <td class="m-source">${esc(m.source || '-')}</td>
@@ -1474,8 +1474,45 @@
     });
     let body = "";
     if (stats) body += `<div class="stat-row">${stats}</div>`;
-    body += `<div class="note"><b>Detail view coming in v5.</b> Full drill-down for “${title}” is scheduled in the next release. For now, use the Export button to pull the underlying data as CSV, or open Analytics for the trend view.</div>`;
+    body += `<div class="note">Full drill-down page for “${title}” is on the roadmap — includes filtered charts, comparable competitor data, and CSV export. For now, use the Export button on the toolbar to pull the underlying data.</div>`;
     mcOpenModal(title, "Card detail · " + mcFilters.client, body);
+  }
+
+  // =====================================================================
+  // v5.2: In-app clip detail modal (replaces external-URL open)
+  // =====================================================================
+  function mcOpenClipDetail(mentionId){
+    const mentions = window._lastMentions || [];
+    const m = mentions.find(x => String(x.id) === String(mentionId));
+    if (!m){ return; }
+    const isTn = (m.language||"").toLowerCase() === "tn";
+    const content = _escapeHtml(m.content || "");
+    const body = `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;font-size:12px;color:var(--muted);flex-wrap:wrap">
+        <span style="font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.05em">${_escapeHtml(_typeLabel(m.media_type))}</span>
+        <span>·</span>
+        <span style="font-weight:600;color:var(--ink)">${_escapeHtml(m.source || 'Unknown source')}</span>
+        ${m.brand ? `<span style="background:var(--bg);padding:3px 10px;border-radius:12px;font-weight:600;color:var(--ink);font-size:11px">${_escapeHtml(m.brand)}</span>` : ''}
+        ${isTn ? `<span style="background:#FDF3D1;color:#7A5411;padding:3px 8px;border-radius:4px;font-weight:700;font-size:10px;letter-spacing:.05em">SETSWANA</span>` : ''}
+        <span style="margin-left:auto">${_escapeHtml(_fmtDate(m.published_at))}</span>
+      </div>
+      <div style="font-size:19px;font-weight:800;color:var(--ink);line-height:1.35;margin-bottom:14px;letter-spacing:-.005em">${_escapeHtml(m.title || '(untitled)')}</div>
+      ${content ? `<div style="font-size:14.5px;line-height:1.65;color:var(--text);margin-bottom:18px;white-space:pre-wrap">${content}</div>` : '<div style="font-size:13px;color:var(--muted);margin-bottom:18px;font-style:italic">No article body captured for this clip.</div>'}
+      <div class="stat-row">
+        <div class="stat" style="text-align:center"><div class="n"><span class="clip-sent ${_sentClass(m.sentiment)}" style="font-size:11px">${_sentLabel(m.sentiment)}</span></div><div class="l">Sentiment</div></div>
+        <div class="stat"><div class="n">${_fmt(m.reach)}</div><div class="l">Reach</div></div>
+        <div class="stat"><div class="n">P ${(Number(m.ad_value)||0).toLocaleString()}</div><div class="l">Est. ad value</div></div>
+      </div>
+    `;
+    mcOpenModal("Clip", (m.source || "Source") + " · " + (m.brand || ""), body);
+    // Replace the default modal foot with Close + Open source
+    const foot = document.querySelector('#modal .modal-foot');
+    if (foot){
+      const openBtn = m.url
+        ? `<button class="btn primary" onclick="window.open('${_escapeHtml(m.url)}','_blank')">Open source ↗</button>`
+        : `<button class="btn primary" disabled style="opacity:.5;cursor:not-allowed">No source URL</button>`;
+      foot.innerHTML = `<button class="btn" onclick="mcCloseModal()">Close</button>${openBtn}`;
+    }
   }
   // Wire card clickability once the DOM is ready. Skip cards with existing interactive children.
   function mcWireCards(){
@@ -1497,7 +1534,7 @@
   }
   function mcNewReport(){
     mcOpenModal("New report", "Create a scheduled or one-off report",
-      `<div class="note"><b>Report builder coming in v5.</b> The next release will support daily executive briefs, weekly reputation reports, monthly PR reports, campaign reports, and crisis reports — each with scheduled email delivery.</div>`);
+      `<div class="note">The report builder will support daily executive briefs, weekly reputation reports, monthly PR reports, campaign reports, and crisis reports — each with scheduled email delivery. Wires into your Datastreamer feed once the pipeline is live.</div>`);
   }
 
   function mcAddTopic(){
@@ -1537,9 +1574,9 @@
       const type = (m.media_type||"").toLowerCase();
       const isTn = (m.language||"").toLowerCase() === "tn";
       const excerpt = _escapeHtml((m.content||"").slice(0, 220));
-      const openUrl = m.url ? `onclick="event.stopPropagation();window.open('${_escapeHtml(m.url)}','_blank')"` : "";
+      const openDetail = (m.id !== undefined && m.id !== null) ? `onclick="mcOpenClipDetail('${_escapeHtml(String(m.id))}')"` : "";
       return `
-        <div class="clip ${isTn?'clip-lang-tn':''}" ${openUrl}>
+        <div class="clip ${isTn?'clip-lang-tn':''}" ${openDetail}>
           <div class="clip-source ${type}">${_escapeHtml(_sourceInitial(m.source))}</div>
           <div class="clip-body">
             <div class="clip-meta">
@@ -1740,9 +1777,9 @@
       const type = (m.media_type||"").toLowerCase();
       const isTn = (m.language||"").toLowerCase() === "tn";
       const excerpt = _escapeHtml((m.content||"").slice(0, 220));
-      const openUrl = m.url ? `onclick="event.stopPropagation();window.open('${_escapeHtml(m.url)}','_blank')"` : "";
+      const openDetail = (m.id !== undefined && m.id !== null) ? `onclick="mcOpenClipDetail('${_escapeHtml(String(m.id))}')"` : "";
       return `
-        <div class="clip ${isTn?'clip-lang-tn':''}" ${openUrl}>
+        <div class="clip ${isTn?'clip-lang-tn':''}" ${openDetail}>
           <div class="clip-source ${type}">${_escapeHtml(_sourceInitial(m.source))}</div>
           <div class="clip-body">
             <div class="clip-meta">
