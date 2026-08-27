@@ -366,6 +366,7 @@
           <button data-tab="demographics">Demographics</button>
         </div>
 
+        <div id="tab-performance" class="tab-panel">
         <div class="grid g3">
           <div class="card">
             <h3>Media Spend <span class="tag" id="gauge-client-tag">Client</span></h3>
@@ -449,6 +450,83 @@
                 <tr><td colspan="7" class="mentions-empty">No mentions yet. When Datastreamer pipes in coverage, it lands here.</td></tr>
               </tbody>
             </table>
+          </div>
+        </div>
+        </div><!-- /#tab-performance -->
+
+        <!-- ARTICLE CLIPS PANEL -->
+        <div id="tab-article-clips" class="tab-panel" style="display:none">
+          <div class="clips-card">
+            <div class="clips-head">
+              <h3>Article clips <span style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.05em;margin-left:8px" id="tab-articles-total">Loading…</span></h3>
+              <div style="font-size:12px;color:var(--muted)">Print &amp; online coverage of your brands</div>
+            </div>
+            <div class="clips-list" id="tab-articles-list">
+              <div class="clip-empty">Loading article clips…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADVERT CLIPS PANEL -->
+        <div id="tab-advert-clips" class="tab-panel" style="display:none">
+          <div class="clips-card">
+            <div class="clips-head">
+              <h3>Advert clips <span style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.05em;margin-left:8px" id="tab-adverts-total">Loading…</span></h3>
+              <div style="font-size:12px;color:var(--muted)">Radio &amp; broadcast coverage — where paid media spend appears</div>
+            </div>
+            <div class="clips-list" id="tab-adverts-list">
+              <div class="clip-empty">Loading advert clips…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DEMOGRAPHICS PANEL -->
+        <div id="tab-demographics" class="tab-panel" style="display:none">
+          <div class="grid g2" style="margin-top:0">
+            <div class="card">
+              <h3>Audience by age <span class="tag">Coming with data</span></h3>
+              <div class="bars" style="margin-top:14px">
+                <div class="b"><div class="top"><span class="name">18–24</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">25–34</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">35–44</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">45–54</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">55+</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+              </div>
+              <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5">Age distribution of the audience your coverage reaches, calculated from source-audience data once the Datastreamer feed is delivering audience metrics.</div>
+            </div>
+            <div class="card">
+              <h3>Audience by region <span class="tag">Coming with data</span></h3>
+              <div class="bars" style="margin-top:14px">
+                <div class="b"><div class="top"><span class="name">Gaborone &amp; South East</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Francistown &amp; North East</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Central District</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Kweneng &amp; Kgatleng</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Ngamiland &amp; North West</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+              </div>
+              <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5">Regional reach across Botswana — where in the country your coverage is landing. Populates from broadcast-station and print-title audience data.</div>
+            </div>
+          </div>
+          <div class="grid g2" style="margin-top:18px">
+            <div class="card">
+              <h3>Language mix <span class="tag">Coming with data</span></h3>
+              <div class="bars" style="margin-top:14px">
+                <div class="b"><div class="top"><span class="name">English</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Setswana</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Code-switched</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+              </div>
+              <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5">Language split of the coverage — the primary language of each article, broadcast, or post. MediaClip's Setswana wedge shows up here.</div>
+            </div>
+            <div class="card">
+              <h3>Platform &amp; channel <span class="tag">Coming with data</span></h3>
+              <div class="bars" style="margin-top:14px">
+                <div class="b"><div class="top"><span class="name">Print titles</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Radio stations</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Broadcast/TV</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Online news</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Social platforms</span><span class="pct" style="color:var(--muted)">—</span></div><div class="track"><i style="width:0%;background:var(--c3)"></i></div></div>
+              </div>
+              <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5">Where your audience is being reached — the mix of channels driving impressions. Feeds from the Datastreamer source metadata.</div>
+            </div>
           </div>
         </div>
       </section>
@@ -1428,39 +1506,108 @@
   }
 
   // =====================================================================
-  // v5.1: Dashboard tabs (Performance / Article Clips / Advert Clips / Demographics)
+  // v5.2: Dashboard tabs — swap entire panels (Performance / Article Clips / Advert Clips / Demographics)
   // =====================================================================
-  const DASHBOARD_TAB_MAP = {
+  const DASHBOARD_TAB_FILTER = {
     "article-clips": ["print","online"],
-    "advert-clips":  ["radio","broadcast"],
-    "demographics":  null,   // shows demographic panel instead of clips
-    "performance":   null    // shows everything (default)
+    "advert-clips":  ["radio","broadcast"]
   };
   let mcActiveDashTab = "performance";
 
-  function mcRenderDashTab(mentions){
-    // Always keep KPIs and charts visible. This function only affects
-    // what's shown in the Recent Mentions table below the charts.
-    const mentionsCard = document.getElementById("mentions-card");
-    if (!mentionsCard || !mentions) return;
-    const filter = DASHBOARD_TAB_MAP[mcActiveDashTab];
-    if (mcActiveDashTab === "demographics"){
-      // Replace mentions body with demographic placeholder
-      mentionsCard.style.display = "block";
-      const head = mentionsCard.querySelector(".head h3");
-      if (head) head.textContent = "Audience demographics";
-      const count = document.getElementById("mentions-count");
-      if (count) count.textContent = "Coming with real data";
-      const tbody = document.getElementById("mentions-tbody");
-      if (tbody) tbody.innerHTML = `<tr><td colspan="7" style="padding:36px 20px;text-align:center;color:var(--muted);font-size:13px">Audience demographics — age, gender, location, language, and platform breakdown — will populate here once your Datastreamer pipeline is delivering audience data. Feed connects on the deploy that ends this weekend.</td></tr>`;
+  // Render a filtered clippings feed into a given container (reuses the Listening clippings styling)
+  function mcRenderTabClips(listEl, totalEl, mentions, typeFilter){
+    if (!listEl) return;
+    if (!mentions || !mentions.length){
+      listEl.innerHTML = '<div class="clip-empty">No clips yet. When Datastreamer coverage arrives, matching clips land here.</div>';
+      if (totalEl) totalEl.textContent = "0 clips";
       return;
     }
-    // Restore head
-    const head = mentionsCard.querySelector(".head h3");
-    if (head) head.textContent = "Recent mentions";
-    // Filter mentions by media type list (or show all)
-    const filtered = filter ? mentions.filter(m => filter.includes((m.media_type||"").toLowerCase())) : mentions;
-    updateRecentMentions(filtered);
+    const filtered = mentions.filter(m => typeFilter.includes((m.media_type||"").toLowerCase()));
+    if (!filtered.length){
+      listEl.innerHTML = '<div class="clip-empty">No clips match this category yet. Add matching sources to your Datastreamer pipeline to see coverage here.</div>';
+      if (totalEl) totalEl.textContent = mentions.length + " total · 0 in category";
+      return;
+    }
+    filtered.sort((a,b) => {
+      const da = a.published_at ? new Date(a.published_at).getTime() : 0;
+      const db = b.published_at ? new Date(b.published_at).getTime() : 0;
+      return db - da;
+    });
+    const rows = filtered.slice(0, 100).map(m => {
+      const type = (m.media_type||"").toLowerCase();
+      const isTn = (m.language||"").toLowerCase() === "tn";
+      const excerpt = _escapeHtml((m.content||"").slice(0, 220));
+      const openUrl = m.url ? `onclick="event.stopPropagation();window.open('${_escapeHtml(m.url)}','_blank')"` : "";
+      return `
+        <div class="clip ${isTn?'clip-lang-tn':''}" ${openUrl}>
+          <div class="clip-source ${type}">${_escapeHtml(_sourceInitial(m.source))}</div>
+          <div class="clip-body">
+            <div class="clip-meta">
+              <span class="m-type">${_escapeHtml(_typeLabel(m.media_type))}</span>
+              <span>·</span>
+              <span class="m-source">${_escapeHtml(m.source || 'Unknown source')}</span>
+              ${m.brand ? `<span class="m-brand">${_escapeHtml(m.brand)}</span>` : ''}
+              ${isTn ? `<span class="m-lang">SETSWANA</span>` : ''}
+            </div>
+            <div class="clip-headline">${_escapeHtml(m.title || '(untitled)')}</div>
+            ${excerpt ? `<div class="clip-excerpt">${excerpt}${(m.content||'').length > 220 ? '…' : ''}</div>` : ''}
+            <div class="clip-footer">
+              <span class="clip-sent ${_sentClass(m.sentiment)}">${_sentLabel(m.sentiment)}</span>
+              <span>${_fmtDate(m.published_at)}</span>
+              <span class="clip-reach">${_fmt(m.reach)}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+    listEl.innerHTML = rows;
+    if (totalEl) totalEl.textContent = filtered.length + (filtered.length === 1 ? " clip" : " clips");
+  }
+
+  function mcRenderDashTab(mentions){
+    // Show only the active tab panel, hide others
+    const panels = {
+      "performance":   document.getElementById("tab-performance"),
+      "article-clips": document.getElementById("tab-article-clips"),
+      "advert-clips":  document.getElementById("tab-advert-clips"),
+      "demographics":  document.getElementById("tab-demographics"),
+    };
+    Object.entries(panels).forEach(([key, el]) => {
+      if (!el) return;
+      el.style.display = (key === mcActiveDashTab) ? "" : "none";
+    });
+    // Populate clip panels when they become active
+    if (mcActiveDashTab === "article-clips" && mentions){
+      mcRenderTabClips(
+        document.getElementById("tab-articles-list"),
+        document.getElementById("tab-articles-total"),
+        mentions,
+        DASHBOARD_TAB_FILTER["article-clips"]
+      );
+    } else if (mcActiveDashTab === "advert-clips" && mentions){
+      mcRenderTabClips(
+        document.getElementById("tab-adverts-list"),
+        document.getElementById("tab-adverts-total"),
+        mentions,
+        DASHBOARD_TAB_FILTER["advert-clips"]
+      );
+    }
+    // Resize charts if returning to Performance so they redraw correctly
+    if (mcActiveDashTab === "performance"){
+      setTimeout(() => Object.values(charts).forEach(c => { try { c.resize(); } catch(e){} }), 20);
+    }
+    // Scroll top of dashboard area so the change is immediately visible
+    try {
+      const dash = document.getElementById("dashboard");
+      const tabs = document.getElementById("dashboard-tabs");
+      if (dash && tabs){
+        const rect = tabs.getBoundingClientRect();
+        // Only scroll if tabs are above the fold or the panel change would be off-screen
+        if (rect.bottom < 0 || rect.top > window.innerHeight){
+          tabs.scrollIntoView({ behavior:"smooth", block:"start" });
+        }
+      }
+    } catch(e){}
   }
 
   // Wire Dashboard tab buttons
@@ -1470,7 +1617,7 @@
     document.querySelectorAll('#dashboard-tabs button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     mcActiveDashTab = btn.dataset.tab || "performance";
-    if (window._lastMentions) mcRenderDashTab(window._lastMentions);
+    mcRenderDashTab(window._lastMentions || []);
   });
 
   // =====================================================================
