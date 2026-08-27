@@ -35,6 +35,99 @@
   .sent-badge.neutral{background:#EBEDF0;color:#4a5060}
   .sent-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
   .mentions-empty{padding:40px 18px;text-align:center;color:var(--muted);font-size:13px}
+
+  /* ========== v4: page titles ========== */
+  .page-title{font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.3px;margin-bottom:4px;display:flex;align-items:center;gap:12px}
+  .page-title .filter-chip{font-family:'IBM Plex Mono',SFMono-Regular,Menlo,monospace;font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;background:var(--bg);padding:4px 9px;border-radius:20px;border:1px solid var(--line)}
+  .page-sub{font-size:12.5px;color:var(--muted);margin-bottom:14px}
+
+  /* ========== v4: real dropdown (client + others) ========== */
+  .dd{position:relative;display:inline-block;}
+  .dd-btn{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:var(--shadow);color:var(--ink);font-family:inherit}
+  .dd-btn:hover{border-color:#C4C8CE}
+  .dd-btn .caret{color:var(--muted);font-size:11px;transition:transform .15s}
+  .dd.open .dd-btn .caret{transform:rotate(180deg)}
+  .dd-menu{position:absolute;top:calc(100% + 6px);left:0;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(16,18,25,.10);min-width:220px;padding:6px;z-index:100;display:none}
+  .dd.open .dd-menu{display:block}
+  .dd-menu button{display:flex;align-items:center;justify-content:space-between;width:100%;background:transparent;border:0;padding:9px 12px;font-size:13px;color:var(--ink);text-align:left;cursor:pointer;border-radius:7px;font-family:inherit;font-weight:500}
+  .dd-menu button:hover{background:var(--bg)}
+  .dd-menu button.active{background:rgba(218,31,38,.08);color:var(--red)}
+  .dd-menu button.active::after{content:"✓";font-weight:700;color:var(--red)}
+  .dd-section{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;padding:8px 12px 4px}
+
+  /* ========== v4: logout / profile menu ========== */
+  .user-menu{position:relative;}
+  .user-menu .avatar{cursor:pointer}
+  .um-dd{position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(16,18,25,.14);min-width:240px;padding:6px;z-index:100;display:none}
+  .user-menu.open .um-dd{display:block}
+  .um-header{padding:12px 14px 10px;border-bottom:1px solid var(--line);margin-bottom:6px}
+  .um-header .who{font-size:12px;color:var(--muted);margin-bottom:2px}
+  .um-header .email{font-size:13.5px;font-weight:700;color:var(--ink);word-break:break-all}
+  .um-item{display:flex;align-items:center;gap:10px;width:100%;background:transparent;border:0;padding:9px 12px;font-size:13.5px;color:var(--ink);text-align:left;cursor:pointer;border-radius:7px;font-family:inherit;font-weight:500}
+  .um-item:hover{background:var(--bg)}
+  .um-item svg{width:15px;height:15px;color:var(--muted)}
+  .um-item.danger{color:var(--red)}
+  .um-item.danger svg{color:var(--red)}
+
+  /* ========== v4: filter drawer ========== */
+  .drawer-scrim{position:fixed;inset:0;background:rgba(16,18,25,.35);z-index:200;opacity:0;pointer-events:none;transition:opacity .18s}
+  .drawer-scrim.open{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;background:#fff;box-shadow:-20px 0 40px rgba(0,0,0,.15);z-index:201;transform:translateX(105%);transition:transform .22s ease;display:flex;flex-direction:column}
+  .drawer.open{transform:translateX(0)}
+  .drawer-head{padding:22px 26px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+  .drawer-head h3{font-size:16px;font-weight:800;color:var(--ink);margin:0}
+  .drawer-close{background:transparent;border:0;color:var(--muted);cursor:pointer;padding:6px;border-radius:6px;font-size:20px;line-height:1}
+  .drawer-close:hover{background:var(--bg);color:var(--ink)}
+  .drawer-body{flex:1;overflow-y:auto;padding:20px 26px}
+  .drawer-group{margin-bottom:22px}
+  .drawer-group .lbl{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:9px}
+  .chip-row{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:7px 13px;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;font-family:inherit}
+  .chip:hover{border-color:#B8BCC4}
+  .chip.on{background:rgba(218,31,38,.10);border-color:var(--red);color:var(--red)}
+  .drawer-foot{padding:16px 26px 20px;border-top:1px solid var(--line);display:flex;gap:10px}
+  .btn{padding:11px 18px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;flex:1}
+  .btn:hover{background:var(--bg)}
+  .btn.primary{background:var(--red);color:#fff;border-color:var(--red)}
+  .btn.primary:hover{background:#B4141b}
+
+  /* ========== v4: card interactivity (click-through) ========== */
+  .card{position:relative;transition:transform .12s,box-shadow .12s}
+  .card.clickable{cursor:pointer}
+  .card.clickable:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(16,18,25,.10),0 12px 28px rgba(16,18,25,.06)}
+  .card.clickable::after{content:"↗";position:absolute;top:14px;right:16px;color:var(--muted);font-size:14px;opacity:0;transition:opacity .12s}
+  .card.clickable:hover::after{opacity:1}
+
+  /* ========== v4: detail modal ========== */
+  .modal-scrim{position:fixed;inset:0;background:rgba(16,18,25,.45);z-index:200;opacity:0;pointer-events:none;transition:opacity .18s}
+  .modal-scrim.open{opacity:1;pointer-events:auto}
+  .modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.96);background:#fff;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.30);z-index:201;width:640px;max-width:92vw;max-height:86vh;overflow:hidden;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
+  .modal.open{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}
+  .modal-head{padding:20px 24px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+  .modal-head h3{font-size:17px;font-weight:800;color:var(--ink);margin:0 0 4px}
+  .modal-head .sub{font-size:12.5px;color:var(--muted)}
+  .modal-body{padding:20px 24px;overflow-y:auto;flex:1}
+  .modal-body .stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:18px}
+  .modal-body .stat{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px}
+  .modal-body .stat .n{font-size:20px;font-weight:800;color:var(--ink)}
+  .modal-body .stat .l{font-size:11.5px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.03em}
+  .modal-body .note{background:rgba(242,169,59,.10);border:1px solid rgba(242,169,59,.35);color:#7A5411;padding:11px 14px;border-radius:8px;font-size:12.5px;line-height:1.5}
+  .modal-body .note b{color:#5A3F0A}
+  .modal-foot{padding:14px 24px 18px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end}
+
+  /* ========== v4: settings page ========== */
+  #settings h3{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:10px}
+  .settings-grid{display:grid;grid-template-columns:1fr;gap:18px;max-width:640px}
+  .settings-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+  .settings-row:last-child{border-bottom:0}
+  .settings-row .k{font-size:13px;color:var(--ink);font-weight:600}
+  .settings-row .v{font-size:13px;color:var(--muted)}
+  .settings-row input[type=text],.settings-row input[type=email],.settings-row input[type=password]{border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:13px;width:260px;font-family:inherit}
+  .settings-row input:focus{border-color:var(--red);outline:none}
+  .toggle{position:relative;display:inline-block;width:38px;height:22px;background:#D0D3D8;border-radius:20px;cursor:pointer;transition:background .15s;flex-shrink:0}
+  .toggle::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform .15s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+  .toggle.on{background:var(--red)}
+  .toggle.on::after{transform:translateX(16px)}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
   .app{display:flex;min-height:100vh}
@@ -182,8 +275,25 @@
       <a data-view="reach" title="Media Reach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg></a>
       <a data-view="analytics" title="Analytics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-4 3 2 4-6"/></svg></a>
       <a data-view="reports" title="Reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></a>
+      <a data-view="settings" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
     </nav>
-    <div class="avatar" title="Sign out" onclick="mcSignOut()" style="cursor:pointer"></div>
+    <div class="user-menu" id="user-menu">
+      <div class="avatar" title="Account" onclick="mcToggleUserMenu(event)"></div>
+      <div class="um-dd" onclick="event.stopPropagation()">
+        <div class="um-header">
+          <div class="who">Signed in as</div>
+          <div class="email" id="um-email">…</div>
+        </div>
+        <button class="um-item" onclick="mcNavTo('settings');mcCloseUserMenu()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+          Profile &amp; settings
+        </button>
+        <button class="um-item danger" onclick="mcSignOut()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          Sign out
+        </button>
+      </div>
+    </div>
   </aside>
 
   <div class="main">
@@ -200,12 +310,14 @@
 
       <!-- ===================== DASHBOARD ===================== -->
       <section class="view active" id="dashboard">
+        <div class="page-title">Dashboard <span class="filter-chip" id="chip-dashboard">Last 30 days</span></div>
+        <div class="page-sub">Overview of BIHL Group brand coverage, sentiment, and share of voice.</div>
         <div class="pagehead">
-          <div class="brandsel" onclick="cycleBrand(this)">BIHL Group <span class="caret">&#9662;</span></div>
+          <div class="dd" data-dd="client"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">BIHL Group</span> <span class="caret">&#9662;</span></button><div class="dd-menu" id="dd-client-menu"></div></div>
           <div class="spacer"></div>
-          <div class="daterange">Last 30 days &#9662;</div>
-          <div class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg> Filters</div>
-          <div class="pill primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3M8 7l4-4 4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg> Export</div>
+          <div class="dd" data-dd="date"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">Last 30 days</span> <span class="caret">&#9662;</span></button><div class="dd-menu" id="dd-date-menu"></div></div>
+          <div class="pill" onclick="mcOpenFilters()" style="cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg> Filters<span id="filter-count" style="display:none;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;margin-left:2px"></span></div>
+          <div class="pill primary" onclick="mcExport()" style="cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3M8 7l4-4 4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg> Export</div>
         </div>
         <div class="tabs">
           <button class="active">Performance</button>
@@ -303,11 +415,13 @@
 
       <!-- ===================== LISTENING ===================== -->
       <section class="view" id="listening">
+        <div class="page-title">Listening</div>
+        <div class="page-sub">Track mentions of BIHL Group brands, topics, and keywords across all monitored media.</div>
         <div class="pagehead">
-          <div class="brandsel">Topic: BIHL Group brands <span class="caret">&#9662;</span></div>
+          <div class="dd" data-dd="client"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">BIHL Group</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
           <div class="spacer"></div>
           <div class="daterange">Last 30 days &#9662;</div>
-          <div class="pill primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add topic</div>
+          <div class="pill primary" onclick="mcAddTopic()" style="cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add topic</div>
         </div>
 
         <div class="topicbar">
@@ -362,11 +476,13 @@
 
       <!-- ===================== MEDIA REACH ===================== -->
       <section class="view" id="reach">
+        <div class="page-title">Media reach</div>
+        <div class="page-sub">Estimated audience reach across print, radio, TV, online, and social channels.</div>
         <div class="pagehead">
-          <div class="brandsel">BIHL Group <span class="caret">&#9662;</span></div>
+          <div class="dd" data-dd="client"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">BIHL Group</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
           <div class="spacer"></div>
-          <div class="daterange">Last 30 days &#9662;</div>
-          <div class="pill primary">Export</div>
+          <div class="dd" data-dd="date"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">Last 30 days</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
+          <div class="pill primary" onclick="mcExport()" style="cursor:pointer">Export</div>
         </div>
         <div class="grid g2">
           <div class="card">
@@ -392,11 +508,13 @@
 
       <!-- ===================== ANALYTICS ===================== -->
       <section class="view" id="analytics">
+        <div class="page-title">Analytics</div>
+        <div class="page-sub">Trend analysis, PR value, and competitive coverage over the last 90 days.</div>
         <div class="pagehead">
-          <div class="brandsel">BIHL Group <span class="caret">&#9662;</span></div>
+          <div class="dd" data-dd="client"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">BIHL Group</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
           <div class="spacer"></div>
-          <div class="daterange">Last 90 days &#9662;</div>
-          <div class="pill primary">Export</div>
+          <div class="dd" data-dd="date"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">Last 90 days</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
+          <div class="pill primary" onclick="mcExport()" style="cursor:pointer">Export</div>
         </div>
         <div class="grid g3">
           <div class="card"><h3>Total mentions</h3><div class="kpi" style="margin-top:10px"><div class="n">200.4K</div><div class="l">up 14% vs prior period</div></div></div>
@@ -411,10 +529,12 @@
 
       <!-- ===================== REPORTS ===================== -->
       <section class="view" id="reports">
+        <div class="page-title">Reports</div>
+        <div class="page-sub">Scheduled and on-demand PR reports for BIHL Group and its subsidiaries.</div>
         <div class="pagehead">
-          <div class="brandsel">BIHL Group <span class="caret">&#9662;</span></div>
+          <div class="dd" data-dd="client"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">BIHL Group</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
           <div class="spacer"></div>
-          <div class="pill primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> New report</div>
+          <div class="pill primary" onclick="mcNewReport()" style="cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> New report</div>
         </div>
         <div class="cats">
           <div class="cat active">All reports</div>
@@ -438,10 +558,162 @@
         </div>
       </section>
 
+      <!-- ===================== SETTINGS (v4) ===================== -->
+      <section class="view" id="settings">
+        <div class="page-title">Profile &amp; settings</div>
+        <div class="page-sub">Manage your account, notification preferences, and access.</div>
+
+        <div class="card" style="margin-top:14px">
+          <h3>Account</h3>
+          <div class="settings-grid" style="margin-top:10px">
+            <div class="settings-row">
+              <div class="k">Email address</div>
+              <div class="v" id="set-email">—</div>
+            </div>
+            <div class="settings-row">
+              <div class="k">Role</div>
+              <div class="v" id="set-role">Admin</div>
+            </div>
+            <div class="settings-row">
+              <div class="k">Client</div>
+              <div class="v" id="set-client">BIHL Group</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px">
+          <h3>Change password</h3>
+          <div class="settings-grid" style="margin-top:10px">
+            <div class="settings-row">
+              <div class="k">Current password</div>
+              <input type="password" id="pw-current" placeholder="Enter current password">
+            </div>
+            <div class="settings-row">
+              <div class="k">New password</div>
+              <input type="password" id="pw-new" placeholder="At least 8 characters">
+            </div>
+            <div class="settings-row">
+              <div class="k">Confirm new password</div>
+              <input type="password" id="pw-confirm" placeholder="Re-enter new password">
+            </div>
+          </div>
+          <button class="btn primary" style="margin-top:16px;max-width:200px" onclick="mcChangePassword()">Update password</button>
+          <div id="pw-msg" style="margin-top:10px;font-size:12.5px"></div>
+        </div>
+
+        <div class="card" style="margin-top:18px">
+          <h3>Notification preferences</h3>
+          <div class="settings-grid" style="margin-top:10px">
+            <div class="settings-row">
+              <div>
+                <div class="k">Daily brief</div>
+                <div class="v" style="margin-top:2px">One-page summary of yesterday's mentions, delivered 06:00.</div>
+              </div>
+              <div class="toggle on" data-pref="daily_brief" onclick="mcTogglePref(this)"></div>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="k">Crisis alerts</div>
+                <div class="v" style="margin-top:2px">Immediate email when negative sentiment or mention spike is detected.</div>
+              </div>
+              <div class="toggle on" data-pref="crisis" onclick="mcTogglePref(this)"></div>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="k">Weekly summary</div>
+                <div class="v" style="margin-top:2px">Monday morning overview of the past week's coverage.</div>
+              </div>
+              <div class="toggle" data-pref="weekly" onclick="mcTogglePref(this)"></div>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="k">Competitor alerts</div>
+                <div class="v" style="margin-top:2px">Notify when tracked competitors post significant coverage.</div>
+              </div>
+              <div class="toggle" data-pref="competitor" onclick="mcTogglePref(this)"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px">
+          <h3>Session</h3>
+          <div class="settings-grid" style="margin-top:10px">
+            <div class="settings-row">
+              <div>
+                <div class="k">Sign out</div>
+                <div class="v" style="margin-top:2px">End your session on this device.</div>
+              </div>
+              <button class="btn" style="max-width:140px;color:var(--red);border-color:rgba(218,31,38,.35)" onclick="mcSignOut()">Sign out</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   </div>
 </div>
 <div class="protoflag">Illustrative prototype &middot; sample data</div>
+
+<!-- ===================== v4: Filter drawer ===================== -->
+<div class="drawer-scrim" id="drawer-scrim" onclick="mcCloseFilters()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>Filters</h3>
+    <button class="drawer-close" onclick="mcCloseFilters()" aria-label="Close">&times;</button>
+  </div>
+  <div class="drawer-body">
+    <div class="drawer-group">
+      <div class="lbl">Date range</div>
+      <div class="chip-row" id="filter-date">
+        <button class="chip" data-v="7">Last 7 days</button>
+        <button class="chip on" data-v="30">Last 30 days</button>
+        <button class="chip" data-v="90">Last 90 days</button>
+        <button class="chip" data-v="all">All time</button>
+      </div>
+    </div>
+    <div class="drawer-group">
+      <div class="lbl">Sentiment</div>
+      <div class="chip-row" id="filter-sent">
+        <button class="chip on" data-v="all">All</button>
+        <button class="chip" data-v="positive">Positive</button>
+        <button class="chip" data-v="neutral">Neutral</button>
+        <button class="chip" data-v="negative">Negative</button>
+      </div>
+    </div>
+    <div class="drawer-group">
+      <div class="lbl">Media type</div>
+      <div class="chip-row" id="filter-type">
+        <button class="chip on" data-v="all">All</button>
+        <button class="chip" data-v="print">Print</button>
+        <button class="chip" data-v="online">Online</button>
+        <button class="chip" data-v="radio">Radio</button>
+        <button class="chip" data-v="broadcast">TV</button>
+        <button class="chip" data-v="social">Social</button>
+      </div>
+    </div>
+  </div>
+  <div class="drawer-foot">
+    <button class="btn" onclick="mcResetFilters()">Reset</button>
+    <button class="btn primary" onclick="mcApplyFilters()">Apply filters</button>
+  </div>
+</div>
+
+<!-- ===================== v4: Detail modal ===================== -->
+<div class="modal-scrim" id="modal-scrim" onclick="mcCloseModal()"></div>
+<div class="modal" id="modal">
+  <div class="modal-head">
+    <div>
+      <h3 id="modal-title">Detail</h3>
+      <div class="sub" id="modal-sub"></div>
+    </div>
+    <button class="drawer-close" onclick="mcCloseModal()" aria-label="Close">&times;</button>
+  </div>
+  <div class="modal-body" id="modal-body"></div>
+  <div class="modal-foot">
+    <button class="btn" onclick="mcCloseModal()">Close</button>
+    <button class="btn primary" onclick="mcCloseModal()">Got it</button>
+  </div>
+</div>
 
 <script>
   // ============================================================
@@ -517,37 +789,77 @@
     }
   }
 
+  // Compute ISO date range from mcFilters.date
+  function mcDateRange(){
+    if (!window.mcFilters || mcFilters.date === "all") return { from: null, to: null };
+    const days = parseInt(mcFilters.date, 10) || 30;
+    const to = new Date();
+    const from = new Date(to.getTime() - days * 86400000);
+    return { from: from.toISOString().slice(0,10), to: to.toISOString().slice(0,10) };
+  }
+
   async function loadDashboard(){
     let token = null;
     try { token = localStorage.getItem("mc_token"); } catch(e){}
     if (!token) return;
     try {
       const auth = { "Authorization": "Bearer " + token };
+      const { from, to } = mcDateRange();
+      const qs = from ? `?from=${from}&to=${to}` : "";
       const [dashRes, mentRes] = await Promise.all([
-        fetch(API_BASE + "/api/dashboard", { headers: auth }),
+        fetch(API_BASE + "/api/dashboard" + qs, { headers: auth }),
         fetch(API_BASE + "/api/mentions?limit=500", { headers: auth })
       ]);
       if (dashRes.status === 401){ mcSignOut(); return; }
       if (!dashRes.ok) return;
       const d = await dashRes.json();
-      const mentions = mentRes.ok ? (await mentRes.json()) : [];
+      let mentions = mentRes.ok ? (await mentRes.json()) : [];
 
-      // Set client badge — inferred from stored user, defaults to BIHL Group
-      try {
-        const rawUser = localStorage.getItem("mc_user");
-        const u = rawUser ? JSON.parse(rawUser) : null;
-        const email = (u && u.email) || "";
-        if (/bihl|bifm|botswana life|bic/i.test(email)) setClientBadge("BIHL Group");
-        else if (email) setClientBadge("BIHL Group");
-        else setClientBadge("BIHL Group");
-      } catch(e){ setClientBadge("BIHL Group"); }
+      // Client-side filtering by sentiment/type/date/client
+      const clientBrands = (window.mcFilters && mcFilters.client && mcFilters.client !== "BIHL Group")
+        ? [mcFilters.client]
+        : null;
+      if (window.mcFilters){
+        const cutoff = from ? new Date(from + "T00:00:00Z").getTime() : null;
+        mentions = mentions.filter(m => {
+          if (mcFilters.sent !== "all" && (m.sentiment||"").toLowerCase() !== mcFilters.sent) return false;
+          if (mcFilters.type !== "all" && (m.media_type||"").toLowerCase() !== mcFilters.type) return false;
+          if (cutoff && m.published_at){
+            const t = new Date(m.published_at).getTime();
+            if (isFinite(t) && t < cutoff) return false;
+          }
+          if (clientBrands){
+            const b = (m.brand||"").toLowerCase();
+            if (!clientBrands.some(x => x.toLowerCase() === b)) return false;
+          }
+          return true;
+        });
+      }
+
+      // Set client badge
+      setClientBadge((window.mcFilters && mcFilters.client) || "BIHL Group");
 
       // ---- KPI tiles ----
-      const fp = (d && d.footprint) || {};
-      setEl("kpi-impressions", _fmt(fp.impressions));
-      setEl("kpi-reach",       _fmt(fp.reach));
-      setEl("kpi-engagements", _fmt(fp.engagements));
-      setEl("kpi-positive",    (fp.positive_pct == null ? "-" : fp.positive_pct + "%"));
+      // If any client-side filters are active, recompute KPIs from filtered mentions;
+      // otherwise trust the backend footprint numbers.
+      const filtersActive = window.mcFilters && (mcFilters.sent !== "all" || mcFilters.type !== "all" || clientBrands);
+      if (filtersActive){
+        const reach = mentions.reduce((s,m)=>s+(Number(m.reach)||0),0);
+        const impressions = mentions.reduce((s,m)=>s+(Number(m.impressions)||0),0);
+        const engagements = mentions.reduce((s,m)=>s+(Number(m.engagements)||0),0);
+        const pos = mentions.filter(m => (m.sentiment||"").toLowerCase()==="positive").length;
+        const positivePct = mentions.length ? Math.round(100 * pos / mentions.length) : null;
+        setEl("kpi-impressions", _fmt(impressions));
+        setEl("kpi-reach",       _fmt(reach));
+        setEl("kpi-engagements", _fmt(engagements));
+        setEl("kpi-positive",    positivePct == null ? "-" : positivePct + "%");
+      } else {
+        const fp = (d && d.footprint) || {};
+        setEl("kpi-impressions", _fmt(fp.impressions));
+        setEl("kpi-reach",       _fmt(fp.reach));
+        setEl("kpi-engagements", _fmt(fp.engagements));
+        setEl("kpi-positive",    (fp.positive_pct == null ? "-" : fp.positive_pct + "%"));
+      }
 
       updateDashboardCharts(d, mentions);
     } catch (e) { /* silent — dashboard just stays on sample view */ }
@@ -796,8 +1108,256 @@
   document.querySelectorAll('.cat').forEach(c=>c.addEventListener('click',()=>{
     document.querySelectorAll('.cat').forEach(x=>x.classList.remove('active')); c.classList.add('active');
   }));
-  const brands=["BIHL Group","BIHL","BIFM","Botswana Life","BIC"];
-  function cycleBrand(el){const cur=el.childNodes[0].textContent.trim();let i=brands.indexOf(cur);i=(i+1)%brands.length;el.childNodes[0].textContent=brands[i]+" ";}
+  // =====================================================================
+  // v4: Real dropdowns, filters, user menu, card click-throughs, settings
+  // =====================================================================
+  const CLIENT_OPTIONS = [
+    {group:"BIHL Group", label:"BIHL Group (all)", value:"BIHL Group"},
+    {group:"BIHL Group", label:"BIHL", value:"BIHL"},
+    {group:"BIHL Group", label:"BIFM", value:"BIFM"},
+    {group:"BIHL Group", label:"Botswana Life", value:"Botswana Life"},
+    {group:"BIHL Group", label:"BIC", value:"BIC"},
+  ];
+  const DATE_OPTIONS = [
+    {label:"Last 7 days", value:"7"},
+    {label:"Last 30 days", value:"30"},
+    {label:"Last 90 days", value:"90"},
+    {label:"All time", value:"all"},
+  ];
+
+  // ----- filter state (persisted) -----
+  const mcFilters = {
+    client: (function(){try{return localStorage.getItem("mc_f_client")||"BIHL Group";}catch(e){return "BIHL Group";}})(),
+    date:   (function(){try{return localStorage.getItem("mc_f_date")||"30";}catch(e){return "30";}})(),
+    sent:   (function(){try{return localStorage.getItem("mc_f_sent")||"all";}catch(e){return "all";}})(),
+    type:   (function(){try{return localStorage.getItem("mc_f_type")||"all";}catch(e){return "all";}})(),
+  };
+  function mcSaveFilters(){try{
+    localStorage.setItem("mc_f_client",mcFilters.client);
+    localStorage.setItem("mc_f_date",mcFilters.date);
+    localStorage.setItem("mc_f_sent",mcFilters.sent);
+    localStorage.setItem("mc_f_type",mcFilters.type);
+  }catch(e){}}
+
+  // ----- populate dropdown menus -----
+  function mcBuildDropdowns(){
+    document.querySelectorAll('.dd').forEach(dd=>{
+      const kind = dd.dataset.dd;
+      const menu = dd.querySelector('.dd-menu');
+      if (!menu) return;
+      menu.innerHTML = "";
+      if (kind === "client"){
+        const hdr = document.createElement('div');
+        hdr.className = 'dd-section'; hdr.textContent = 'Filter by brand'; menu.appendChild(hdr);
+        CLIENT_OPTIONS.forEach(o=>{
+          const b = document.createElement('button');
+          b.textContent = o.label; b.dataset.v = o.value;
+          if (o.value === mcFilters.client) b.classList.add('active');
+          b.onclick = () => { mcFilters.client = o.value; mcSaveFilters(); mcUpdateAllDropdownLabels(); mcCloseAllDD(); loadDashboard(); };
+          menu.appendChild(b);
+        });
+      } else if (kind === "date"){
+        DATE_OPTIONS.forEach(o=>{
+          const b = document.createElement('button');
+          b.textContent = o.label; b.dataset.v = o.value;
+          if (o.value === mcFilters.date) b.classList.add('active');
+          b.onclick = () => { mcFilters.date = o.value; mcSaveFilters(); mcUpdateAllDropdownLabels(); mcCloseAllDD(); loadDashboard(); };
+          menu.appendChild(b);
+        });
+      }
+    });
+    mcUpdateAllDropdownLabels();
+  }
+  function mcUpdateAllDropdownLabels(){
+    document.querySelectorAll('.dd').forEach(dd=>{
+      const kind = dd.dataset.dd;
+      const lbl = dd.querySelector('.dd-label');
+      if (!lbl) return;
+      if (kind === "client") lbl.textContent = mcFilters.client;
+      else if (kind === "date"){
+        const opt = DATE_OPTIONS.find(o=>o.value===mcFilters.date);
+        lbl.textContent = opt ? opt.label : "Last 30 days";
+      }
+    });
+    // Also update chip on dashboard title
+    const chip = document.getElementById("chip-dashboard");
+    if (chip){
+      const opt = DATE_OPTIONS.find(o=>o.value===mcFilters.date);
+      chip.textContent = opt ? opt.label : "Last 30 days";
+    }
+    // Filter count badge
+    let n = 0;
+    if (mcFilters.sent !== "all") n++;
+    if (mcFilters.type !== "all") n++;
+    const badge = document.getElementById("filter-count");
+    if (badge){
+      if (n > 0){ badge.textContent = n; badge.style.display = "inline-block"; }
+      else { badge.style.display = "none"; }
+    }
+  }
+  function mcToggleDD(btn){
+    const dd = btn.closest('.dd');
+    const open = dd.classList.contains('open');
+    mcCloseAllDD();
+    if (!open) dd.classList.add('open');
+  }
+  function mcCloseAllDD(){ document.querySelectorAll('.dd.open').forEach(d=>d.classList.remove('open')); }
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.dd')) mcCloseAllDD();
+    if (!e.target.closest('.user-menu')) mcCloseUserMenu();
+  });
+
+  // ----- Filters drawer -----
+  function mcOpenFilters(){
+    // sync chip UI with current state
+    document.querySelectorAll('#filter-date .chip').forEach(c=>c.classList.toggle('on', c.dataset.v===mcFilters.date));
+    document.querySelectorAll('#filter-sent .chip').forEach(c=>c.classList.toggle('on', c.dataset.v===mcFilters.sent));
+    document.querySelectorAll('#filter-type .chip').forEach(c=>c.classList.toggle('on', c.dataset.v===mcFilters.type));
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('drawer-scrim').classList.add('open');
+  }
+  function mcCloseFilters(){
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('drawer-scrim').classList.remove('open');
+  }
+  document.querySelectorAll('#filter-date .chip, #filter-sent .chip, #filter-type .chip').forEach(c=>{
+    c.addEventListener('click', () => {
+      c.parentElement.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+      c.classList.add('on');
+    });
+  });
+  function mcApplyFilters(){
+    const dp = document.querySelector('#filter-date .chip.on'); if (dp) mcFilters.date = dp.dataset.v;
+    const sp = document.querySelector('#filter-sent .chip.on'); if (sp) mcFilters.sent = sp.dataset.v;
+    const tp = document.querySelector('#filter-type .chip.on'); if (tp) mcFilters.type = tp.dataset.v;
+    mcSaveFilters(); mcUpdateAllDropdownLabels(); mcCloseFilters(); loadDashboard();
+  }
+  function mcResetFilters(){
+    mcFilters.date = "30"; mcFilters.sent = "all"; mcFilters.type = "all";
+    document.querySelectorAll('#filter-date .chip').forEach(c=>c.classList.toggle('on', c.dataset.v==="30"));
+    document.querySelectorAll('#filter-sent .chip').forEach(c=>c.classList.toggle('on', c.dataset.v==="all"));
+    document.querySelectorAll('#filter-type .chip').forEach(c=>c.classList.toggle('on', c.dataset.v==="all"));
+  }
+
+  // ----- User menu -----
+  function mcToggleUserMenu(e){
+    if (e && e.stopPropagation) e.stopPropagation();
+    const um = document.getElementById('user-menu');
+    um.classList.toggle('open');
+    // fill email
+    try {
+      const raw = localStorage.getItem("mc_user");
+      const u = raw ? JSON.parse(raw) : null;
+      const el = document.getElementById('um-email');
+      if (el) el.textContent = (u && u.email) || "unknown@mediaclip.net";
+    } catch(e){}
+  }
+  function mcCloseUserMenu(){ document.getElementById('user-menu').classList.remove('open'); }
+
+  // ----- Nav helper (used by settings link etc.) -----
+  function mcNavTo(view){
+    document.querySelectorAll('.nav a').forEach(n=>{
+      n.classList.toggle('active', n.dataset.view === view);
+    });
+    document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id === view));
+    setTimeout(()=>Object.values(charts).forEach(c=>{try{c.resize()}catch(e){}}),30);
+    if (view === 'settings') mcFillSettings();
+  }
+  function mcFillSettings(){
+    try {
+      const raw = localStorage.getItem("mc_user");
+      const u = raw ? JSON.parse(raw) : null;
+      const emailEl = document.getElementById('set-email');
+      const roleEl  = document.getElementById('set-role');
+      if (emailEl) emailEl.textContent = (u && u.email) || "—";
+      if (roleEl)  roleEl.textContent  = (u && u.role) || "Admin";
+    } catch(e){}
+    // notification prefs
+    try {
+      const prefs = JSON.parse(localStorage.getItem("mc_prefs") || "{}");
+      document.querySelectorAll('.toggle[data-pref]').forEach(t=>{
+        const k = t.dataset.pref;
+        if (k in prefs) t.classList.toggle('on', !!prefs[k]);
+      });
+    } catch(e){}
+  }
+  function mcTogglePref(el){
+    el.classList.toggle('on');
+    try {
+      const prefs = JSON.parse(localStorage.getItem("mc_prefs") || "{}");
+      prefs[el.dataset.pref] = el.classList.contains('on');
+      localStorage.setItem("mc_prefs", JSON.stringify(prefs));
+    } catch(e){}
+  }
+  function mcChangePassword(){
+    const cur = document.getElementById('pw-current').value;
+    const nw  = document.getElementById('pw-new').value;
+    const cf  = document.getElementById('pw-confirm').value;
+    const msg = document.getElementById('pw-msg');
+    if (!cur || !nw || !cf){ msg.style.color='#8a1a1f'; msg.textContent='Please fill in all fields.'; return; }
+    if (nw.length < 8){ msg.style.color='#8a1a1f'; msg.textContent='New password must be at least 8 characters.'; return; }
+    if (nw !== cf){ msg.style.color='#8a1a1f'; msg.textContent='New passwords do not match.'; return; }
+    msg.style.color='#166b44'; msg.textContent='Password change endpoint will be wired in v5. Front-end validation passed.';
+    document.getElementById('pw-current').value=''; document.getElementById('pw-new').value=''; document.getElementById('pw-confirm').value='';
+  }
+
+  // ----- Card click-through modal -----
+  function mcOpenModal(title, sub, bodyHTML){
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-sub').textContent = sub || "";
+    document.getElementById('modal-body').innerHTML = bodyHTML || "";
+    document.getElementById('modal').classList.add('open');
+    document.getElementById('modal-scrim').classList.add('open');
+  }
+  function mcCloseModal(){
+    document.getElementById('modal').classList.remove('open');
+    document.getElementById('modal-scrim').classList.remove('open');
+  }
+  function mcCardDetail(cardEl){
+    const h3 = cardEl.querySelector('h3');
+    const title = h3 ? h3.childNodes[0].textContent.trim() : "Detail";
+    // Gather any KPI numbers in the card
+    const kpis = cardEl.querySelectorAll('.kpi, .kpis .kpi');
+    let stats = "";
+    kpis.forEach(k=>{
+      const n = k.querySelector('.n'); const l = k.querySelector('.l');
+      if (n && l) stats += `<div class="stat"><div class="n">${n.textContent}</div><div class="l">${l.textContent}</div></div>`;
+    });
+    let body = "";
+    if (stats) body += `<div class="stat-row">${stats}</div>`;
+    body += `<div class="note"><b>Detail view coming in v5.</b> Full drill-down for “${title}” is scheduled in the next release. For now, use the Export button to pull the underlying data as CSV, or open Analytics for the trend view.</div>`;
+    mcOpenModal(title, "Card detail · " + mcFilters.client, body);
+  }
+  // Wire card clickability once the DOM is ready. Skip cards with existing interactive children.
+  function mcWireCards(){
+    document.querySelectorAll('#dashboard .card, #analytics .card, #reach .card, #listening .card').forEach(c=>{
+      if (c.classList.contains('clickable')) return;
+      c.classList.add('clickable');
+      c.addEventListener('click', (e)=>{
+        // Don't hijack clicks on interactive children (buttons, tabs, dl links)
+        if (e.target.closest('button, a, .tabs, .cat, .dl, input, select')) return;
+        mcCardDetail(c);
+      });
+    });
+  }
+
+  // ----- Export placeholder -----
+  function mcExport(){
+    mcOpenModal("Export data", "Download the current view",
+      `<div class="note"><b>Export will be wired in v5.</b> When ready, the current filters (${mcFilters.client}, ${DATE_OPTIONS.find(o=>o.value===mcFilters.date)?.label || mcFilters.date}${mcFilters.sent!=="all"?", "+mcFilters.sent:""}${mcFilters.type!=="all"?", "+mcFilters.type:""}) will export to CSV and PDF.</div>`);
+  }
+  function mcNewReport(){
+    mcOpenModal("New report", "Create a scheduled or one-off report",
+      `<div class="note"><b>Report builder coming in v5.</b> The next release will support daily executive briefs, weekly reputation reports, monthly PR reports, campaign reports, and crisis reports — each with scheduled email delivery.</div>`);
+  }
+
+  function mcAddTopic(){
+    mcOpenModal("Add topic", "Track a new keyword, brand, or phrase",
+      `<div class="note"><b>Topic management coming in v5.</b> The next release will let you add custom keywords, brands, competitor names, hashtags, or phrases — MediaClip will monitor them across print, radio, TV, online, and social. Each topic gets its own filter chip on Listening.</div>`);
+  }
+
+  // Boot v4 wiring after existing setup
+  setTimeout(() => { mcBuildDropdowns(); mcWireCards(); }, 50);
 
   // ---- chart defaults ----
   const RED='#DA1F26',INK='#33383F',GREY='#C4C8CE',GREEN='#1FA97A',AMBER='#F2A93B';
