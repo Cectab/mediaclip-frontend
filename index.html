@@ -359,11 +359,11 @@
           <div class="pill" onclick="mcOpenFilters()" style="cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg> Filters<span id="filter-count" style="display:none;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;margin-left:2px"></span></div>
           <div class="pill primary" onclick="mcExport()" style="cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3M8 7l4-4 4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg> Export</div>
         </div>
-        <div class="tabs">
-          <button class="active">Performance</button>
-          <button>Article Clips</button>
-          <button>Advert Clips</button>
-          <button>Demographics</button>
+        <div class="tabs" id="dashboard-tabs">
+          <button class="active" data-tab="performance">Performance</button>
+          <button data-tab="article-clips">Article Clips</button>
+          <button data-tab="advert-clips">Advert Clips</button>
+          <button data-tab="demographics">Demographics</button>
         </div>
 
         <div class="grid g3">
@@ -599,25 +599,26 @@
           <div class="spacer"></div>
           <div class="pill primary" onclick="mcNewReport()" style="cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> New report</div>
         </div>
-        <div class="cats">
-          <div class="cat active">All reports</div>
-          <div class="cat">Internal</div>
-          <div class="cat">Print</div>
-          <div class="cat">Radio</div>
-          <div class="cat">Broadcast</div>
+        <div class="cats" id="reports-cats">
+          <div class="cat active" data-cat="all">All reports</div>
+          <div class="cat" data-cat="internal">Internal</div>
+          <div class="cat" data-cat="print">Print</div>
+          <div class="cat" data-cat="radio">Radio</div>
+          <div class="cat" data-cat="broadcast">Broadcast</div>
         </div>
         <div class="card">
           <table class="rep">
             <thead><tr><th>Report</th><th>Type</th><th>Period</th><th>Status</th><th></th></tr></thead>
-            <tbody>
-              <tr><td>BIHL Group monthly PR report</td><td><span class="rtag internal">Internal</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl">Download</a></td></tr>
-              <tr><td>Print coverage digest</td><td><span class="rtag print">Print</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl">Download</a></td></tr>
-              <tr><td>Radio mentions summary</td><td><span class="rtag radio">Radio</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl">Download</a></td></tr>
-              <tr><td>Broadcast monitoring report</td><td><span class="rtag broadcast">Broadcast</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl">Download</a></td></tr>
-              <tr><td>Summer campaign reach analysis</td><td><span class="rtag internal">Internal</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl">Download</a></td></tr>
-              <tr><td>Competitor share of voice</td><td><span class="rtag internal">Internal</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl">Download</a></td></tr>
+            <tbody id="reports-tbody">
+              <tr data-rcat="internal"><td>BIHL Group monthly PR report</td><td><span class="rtag internal">Internal</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>
+              <tr data-rcat="print"><td>Print coverage digest</td><td><span class="rtag print">Print</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>
+              <tr data-rcat="radio"><td>Radio mentions summary</td><td><span class="rtag radio">Radio</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>
+              <tr data-rcat="broadcast"><td>Broadcast monitoring report</td><td><span class="rtag broadcast">Broadcast</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>
+              <tr data-rcat="internal"><td>Summer campaign reach analysis</td><td><span class="rtag internal">Internal</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>
+              <tr data-rcat="internal"><td>Competitor share of voice</td><td><span class="rtag internal">Internal</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>
             </tbody>
           </table>
+          <div id="reports-empty" style="display:none;padding:36px 20px;text-align:center;color:var(--muted);font-size:13px">No reports in this category yet. Reports generate automatically each period once Datastreamer coverage is flowing.</div>
         </div>
       </section>
 
@@ -929,6 +930,9 @@
       // v5: store mentions globally so filter chips can re-render, and populate Clippings feed
       window._lastMentions = mentions;
       renderClippings(mentions);
+
+      // v5.1: apply the currently-selected Dashboard tab filter
+      if (typeof mcRenderDashTab === 'function') mcRenderDashTab(mentions);
     } catch (e) { /* silent — dashboard just stays on sample view */ }
   }
 
@@ -1421,6 +1425,88 @@
   function mcAddTopic(){
     mcOpenModal("Add topic", "Track a new keyword, brand, or phrase",
       `<div class="note">Topic management wires into your Datastreamer pipeline — the next release will let you add keywords, brands, competitor names, hashtags, or phrases here, and they'll be pushed into your Datastreamer query jobs automatically. For now, add topics directly in your Datastreamer console.</div>`);
+  }
+
+  // =====================================================================
+  // v5.1: Dashboard tabs (Performance / Article Clips / Advert Clips / Demographics)
+  // =====================================================================
+  const DASHBOARD_TAB_MAP = {
+    "article-clips": ["print","online"],
+    "advert-clips":  ["radio","broadcast"],
+    "demographics":  null,   // shows demographic panel instead of clips
+    "performance":   null    // shows everything (default)
+  };
+  let mcActiveDashTab = "performance";
+
+  function mcRenderDashTab(mentions){
+    // Always keep KPIs and charts visible. This function only affects
+    // what's shown in the Recent Mentions table below the charts.
+    const mentionsCard = document.getElementById("mentions-card");
+    if (!mentionsCard || !mentions) return;
+    const filter = DASHBOARD_TAB_MAP[mcActiveDashTab];
+    if (mcActiveDashTab === "demographics"){
+      // Replace mentions body with demographic placeholder
+      mentionsCard.style.display = "block";
+      const head = mentionsCard.querySelector(".head h3");
+      if (head) head.textContent = "Audience demographics";
+      const count = document.getElementById("mentions-count");
+      if (count) count.textContent = "Coming with real data";
+      const tbody = document.getElementById("mentions-tbody");
+      if (tbody) tbody.innerHTML = `<tr><td colspan="7" style="padding:36px 20px;text-align:center;color:var(--muted);font-size:13px">Audience demographics — age, gender, location, language, and platform breakdown — will populate here once your Datastreamer pipeline is delivering audience data. Feed connects on the deploy that ends this weekend.</td></tr>`;
+      return;
+    }
+    // Restore head
+    const head = mentionsCard.querySelector(".head h3");
+    if (head) head.textContent = "Recent mentions";
+    // Filter mentions by media type list (or show all)
+    const filtered = filter ? mentions.filter(m => filter.includes((m.media_type||"").toLowerCase())) : mentions;
+    updateRecentMentions(filtered);
+  }
+
+  // Wire Dashboard tab buttons
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('#dashboard-tabs button');
+    if (!btn) return;
+    document.querySelectorAll('#dashboard-tabs button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    mcActiveDashTab = btn.dataset.tab || "performance";
+    if (window._lastMentions) mcRenderDashTab(window._lastMentions);
+  });
+
+  // =====================================================================
+  // v5.1: Reports category filter (All / Internal / Print / Radio / Broadcast)
+  // =====================================================================
+  document.addEventListener('click', (e) => {
+    const cat = e.target.closest('#reports-cats .cat');
+    if (!cat) return;
+    document.querySelectorAll('#reports-cats .cat').forEach(c => c.classList.remove('active'));
+    cat.classList.add('active');
+    const filter = cat.dataset.cat || "all";
+    const rows = document.querySelectorAll('#reports-tbody tr');
+    let visible = 0;
+    rows.forEach(r => {
+      const show = filter === "all" || r.dataset.rcat === filter;
+      r.style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+    const empty = document.getElementById('reports-empty');
+    if (empty) empty.style.display = visible === 0 ? "block" : "none";
+  });
+
+  // =====================================================================
+  // v5.1: Download button — opens report status modal
+  // =====================================================================
+  function mcDownloadReport(el){
+    const row = el.closest('tr');
+    const title = row?.querySelector('td:first-child')?.textContent?.trim() || "Report";
+    const period = row?.querySelector('td:nth-child(3)')?.textContent?.trim() || "";
+    mcOpenModal("Download " + title, "Report generation",
+      `<div class="stat-row">
+         <div class="stat"><div class="n">${period || "-"}</div><div class="l">Period</div></div>
+         <div class="stat"><div class="n">PDF + CSV</div><div class="l">Format</div></div>
+         <div class="stat"><div class="n">~30 sec</div><div class="l">Est. time</div></div>
+       </div>
+       <div class="note">Report generation runs on the backend and delivers to your inbox as a PDF plus a CSV of underlying data. The download engine will be wired to your Datastreamer feed this weekend — until then, reports render from the seeded sample data.</div>`);
   }
 
   // =====================================================================
