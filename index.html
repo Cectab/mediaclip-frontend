@@ -58,7 +58,9 @@
   /* ========== v4: logout / profile menu ========== */
   .user-menu{position:relative;}
   .user-menu .avatar{cursor:pointer}
-  .um-dd{position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(16,18,25,.14);min-width:240px;padding:6px;z-index:100;display:none}
+  /* Dropdown opens to the RIGHT of the sidebar (not below), so it stays visible */
+  .um-dd{position:fixed;left:84px;bottom:16px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(16,18,25,.20);min-width:240px;padding:6px;z-index:1000;display:none}
+  .um-dd::before{content:"";position:absolute;left:-6px;bottom:22px;width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;border-right:6px solid #fff;filter:drop-shadow(-1px 0 0 var(--line))}
   .user-menu.open .um-dd{display:block}
   .um-header{padding:12px 14px 10px;border-bottom:1px solid var(--line);margin-bottom:6px}
   .um-header .who{font-size:12px;color:var(--muted);margin-bottom:2px}
@@ -128,6 +130,44 @@
   .toggle::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform .15s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
   .toggle.on{background:var(--red)}
   .toggle.on::after{transform:translateX(16px)}
+
+  /* ========== v5: Clippings feed (rich cards) ========== */
+  .clips-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-top:18px;overflow:hidden}
+  .clips-head{padding:18px 20px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .clips-head h3{font-size:15px;font-weight:800;color:var(--ink);margin:0}
+  .clips-filters{display:flex;gap:6px;flex-wrap:wrap}
+  .clip-chip{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:5px 11px;font-size:11px;font-weight:700;color:var(--ink);cursor:pointer;font-family:inherit;letter-spacing:.02em;text-transform:uppercase}
+  .clip-chip:hover{border-color:#B8BCC4}
+  .clip-chip.on{background:rgba(218,31,38,.10);border-color:var(--red);color:var(--red)}
+  .clips-list{display:flex;flex-direction:column;max-height:640px;overflow-y:auto}
+  .clip{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;gap:14px;cursor:pointer;transition:background .1s;position:relative}
+  .clip:hover{background:#FAFBFD}
+  .clip:last-child{border-bottom:0}
+  .clip-source{flex-shrink:0;width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#33383F,#16181D);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;letter-spacing:-.4px;font-family:inherit}
+  .clip-source.print{background:linear-gradient(135deg,#2B4B7A,#1F3760)}
+  .clip-source.online{background:linear-gradient(135deg,#4A6FA5,#33528A)}
+  .clip-source.radio{background:linear-gradient(135deg,#DA1F26,#B4141b)}
+  .clip-source.broadcast{background:linear-gradient(135deg,#7A3E9C,#5A2A75)}
+  .clip-source.social{background:linear-gradient(135deg,#1FA97A,#158A62)}
+  .clip-body{flex:1;min-width:0}
+  .clip-meta{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:11px;color:var(--muted);flex-wrap:wrap}
+  .clip-meta .m-type{font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.05em}
+  .clip-meta .m-source{color:var(--ink);font-weight:600}
+  .clip-meta .m-brand{background:var(--bg);padding:2px 8px;border-radius:12px;font-weight:600;color:var(--ink);font-size:10.5px}
+  .clip-meta .m-lang{background:#EBEDF0;color:#4a5060;padding:2px 6px;border-radius:4px;font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .clip-headline{font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:5px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .clip-excerpt{font-size:12.5px;color:var(--text);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:8px}
+  .clip-footer{display:flex;align-items:center;gap:14px;font-size:11px;color:var(--muted)}
+  .clip-footer .clip-sent{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+  .clip-footer .clip-sent.positive{background:#e8f7f0;color:#166b44}
+  .clip-footer .clip-sent.negative{background:#fdecec;color:#8a1a1f}
+  .clip-footer .clip-sent.neutral{background:#EBEDF0;color:#4a5060}
+  .clip-footer .clip-sent::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .clip-footer .clip-reach{margin-left:auto;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+  .clip-footer .clip-reach::before{content:"👁 ";font-size:10px;opacity:.6}
+  .clip-empty{padding:60px 20px;text-align:center;color:var(--muted);font-size:13px}
+  /* Setswana content marker */
+  .clip-lang-tn .clip-meta .m-lang{background:#FDF3D1;color:#7A5411}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
   .app{display:flex;min-height:100vh}
@@ -472,6 +512,29 @@
             </div>
           </div>
         </div>
+
+        <!-- ===================== CLIPPINGS FEED (v5) ===================== -->
+        <div class="clips-card">
+          <div class="clips-head">
+            <h3>Clippings feed <span style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.05em;margin-left:8px" id="clips-total">0 clips</span></h3>
+            <div class="clips-filters" id="clips-filters">
+              <button class="clip-chip on" data-filter="sent" data-v="all">All sentiment</button>
+              <button class="clip-chip" data-filter="sent" data-v="positive">Positive</button>
+              <button class="clip-chip" data-filter="sent" data-v="negative">Negative</button>
+              <button class="clip-chip" data-filter="sent" data-v="neutral">Neutral</button>
+              <span style="border-left:1px solid var(--line);margin:0 4px"></span>
+              <button class="clip-chip on" data-filter="type" data-v="all">All media</button>
+              <button class="clip-chip" data-filter="type" data-v="print">Print</button>
+              <button class="clip-chip" data-filter="type" data-v="online">Online</button>
+              <button class="clip-chip" data-filter="type" data-v="radio">Radio</button>
+              <button class="clip-chip" data-filter="type" data-v="broadcast">TV</button>
+              <button class="clip-chip" data-filter="type" data-v="social">Social</button>
+            </div>
+          </div>
+          <div class="clips-list" id="clips-list">
+            <div class="clip-empty">Loading clippings…</div>
+          </div>
+        </div>
       </section>
 
       <!-- ===================== MEDIA REACH ===================== -->
@@ -652,7 +715,7 @@
     </div>
   </div>
 </div>
-<div class="protoflag">Illustrative prototype &middot; sample data</div>
+<!-- v5: prototype flag removed for production tenants -->
 
 <!-- ===================== v4: Filter drawer ===================== -->
 <div class="drawer-scrim" id="drawer-scrim" onclick="mcCloseFilters()"></div>
@@ -862,6 +925,10 @@
       }
 
       updateDashboardCharts(d, mentions);
+
+      // v5: store mentions globally so filter chips can re-render, and populate Clippings feed
+      window._lastMentions = mentions;
+      renderClippings(mentions);
     } catch (e) { /* silent — dashboard just stays on sample view */ }
   }
 
@@ -1353,10 +1420,137 @@
 
   function mcAddTopic(){
     mcOpenModal("Add topic", "Track a new keyword, brand, or phrase",
-      `<div class="note"><b>Topic management coming in v5.</b> The next release will let you add custom keywords, brands, competitor names, hashtags, or phrases — MediaClip will monitor them across print, radio, TV, online, and social. Each topic gets its own filter chip on Listening.</div>`);
+      `<div class="note">Topic management wires into your Datastreamer pipeline — the next release will let you add keywords, brands, competitor names, hashtags, or phrases here, and they'll be pushed into your Datastreamer query jobs automatically. For now, add topics directly in your Datastreamer console.</div>`);
   }
 
-  // Boot v4 wiring after existing setup
+  // =====================================================================
+  // v5: Clippings feed — rich editorial cards on Listening view
+  // =====================================================================
+  const clipFilterState = { sent: "all", type: "all" };
+
+  function _escapeHtml(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    })[c]);
+  }
+  function _sourceInitial(source){
+    const s = (source||"").trim();
+    if (!s) return "?";
+    const parts = s.split(/[\s\-]+/).filter(Boolean);
+    if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+    return s.substring(0,2).toUpperCase();
+  }
+  function _fmtDate(iso){
+    if (!iso) return "-";
+    try {
+      const d = new Date(iso);
+      const now = new Date();
+      const diffMs = now.getTime() - d.getTime();
+      const diffH = Math.floor(diffMs / 3600000);
+      if (diffH < 1) return "just now";
+      if (diffH < 24) return diffH + "h ago";
+      const diffD = Math.floor(diffH / 24);
+      if (diffD < 7) return diffD + "d ago";
+      return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short" });
+    } catch(e){ return String(iso).slice(0,10); }
+  }
+  function _typeLabel(t){
+    const k = (t||"").toLowerCase();
+    const map = { print:"Print", online:"Online", radio:"Radio", broadcast:"TV", social:"Social" };
+    return map[k] || (t || "-");
+  }
+  function _sentLabel(s){
+    const k = (s||"").toLowerCase();
+    if (k === "positive") return "Positive";
+    if (k === "negative") return "Negative";
+    return "Neutral";
+  }
+  function _sentClass(s){
+    const k = (s||"").toLowerCase();
+    if (k === "positive") return "positive";
+    if (k === "negative") return "negative";
+    return "neutral";
+  }
+
+  function renderClippings(mentions){
+    const list = document.getElementById('clips-list');
+    const total = document.getElementById('clips-total');
+    if (!list) return;
+
+    if (!mentions || !mentions.length){
+      list.innerHTML = '<div class="clip-empty">No clippings yet. Once Datastreamer starts feeding coverage in, articles, social posts, and broadcast clips will land here.</div>';
+      if (total) total.textContent = "0 clips";
+      return;
+    }
+
+    // Apply filters
+    const filtered = mentions.filter(m => {
+      if (clipFilterState.sent !== "all" && (m.sentiment||"").toLowerCase() !== clipFilterState.sent) return false;
+      if (clipFilterState.type !== "all" && (m.media_type||"").toLowerCase() !== clipFilterState.type) return false;
+      return true;
+    });
+
+    if (!filtered.length){
+      list.innerHTML = '<div class="clip-empty">No clippings match those filters. Try widening the filters above.</div>';
+      if (total) total.textContent = mentions.length + " clips · 0 shown";
+      return;
+    }
+
+    // Sort newest first
+    filtered.sort((a,b) => {
+      const da = a.published_at ? new Date(a.published_at).getTime() : 0;
+      const db = b.published_at ? new Date(b.published_at).getTime() : 0;
+      return db - da;
+    });
+
+    const rows = filtered.slice(0, 100).map(m => {
+      const type = (m.media_type||"").toLowerCase();
+      const isTn = (m.language||"").toLowerCase() === "tn";
+      const excerpt = _escapeHtml((m.content||"").slice(0, 220));
+      const openUrl = m.url ? `onclick="event.stopPropagation();window.open('${_escapeHtml(m.url)}','_blank')"` : "";
+      return `
+        <div class="clip ${isTn?'clip-lang-tn':''}" ${openUrl}>
+          <div class="clip-source ${type}">${_escapeHtml(_sourceInitial(m.source))}</div>
+          <div class="clip-body">
+            <div class="clip-meta">
+              <span class="m-type">${_escapeHtml(_typeLabel(m.media_type))}</span>
+              <span>·</span>
+              <span class="m-source">${_escapeHtml(m.source || 'Unknown source')}</span>
+              ${m.brand ? `<span class="m-brand">${_escapeHtml(m.brand)}</span>` : ''}
+              ${isTn ? `<span class="m-lang">SETSWANA</span>` : ''}
+            </div>
+            <div class="clip-headline">${_escapeHtml(m.title || '(untitled)')}</div>
+            ${excerpt ? `<div class="clip-excerpt">${excerpt}${(m.content||'').length > 220 ? '…' : ''}</div>` : ''}
+            <div class="clip-footer">
+              <span class="clip-sent ${_sentClass(m.sentiment)}">${_sentLabel(m.sentiment)}</span>
+              <span>${_fmtDate(m.published_at)}</span>
+              <span class="clip-reach">${_fmt(m.reach)}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    list.innerHTML = rows;
+    if (total) total.textContent = mentions.length + " clips" + (filtered.length !== mentions.length ? ` · ${filtered.length} shown` : "");
+  }
+
+  // Wire up clip filter chips
+  document.addEventListener('click', (e) => {
+    const chip = e.target.closest('.clip-chip');
+    if (!chip) return;
+    const filter = chip.dataset.filter;
+    const value = chip.dataset.v;
+    if (!filter || !value) return;
+    // Toggle within the same filter group
+    document.querySelectorAll(`.clip-chip[data-filter="${filter}"]`).forEach(c => c.classList.remove('on'));
+    chip.classList.add('on');
+    clipFilterState[filter] = value;
+    // Re-render using last known mentions
+    if (window._lastMentions) renderClippings(window._lastMentions);
+  });
+
+  // Boot v4 + v5 wiring after existing setup
   setTimeout(() => { mcBuildDropdowns(); mcWireCards(); }, 50);
 
   // ---- chart defaults ----
