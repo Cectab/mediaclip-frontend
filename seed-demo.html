@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediaClip - Seed demo tenant</title>
+<style>
+  :root{--red:#DA1F26;--ink:#16181D;--muted:#7A828C;--line:#EBEDF0;--bg:#F3F5F8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:var(--ink)}
+  .card{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.12);width:100%;max-width:680px;padding:36px}
+  h1{font-size:22px;font-weight:800;margin-bottom:6px}
+  .tag{display:inline-block;background:#33383F;color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase;margin-left:8px;vertical-align:middle}
+  .sub{font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.55}
+  .status{padding:12px 14px;border-radius:10px;font-size:13px;margin-bottom:16px;line-height:1.5}
+  .status.ok{background:#e8f7f0;color:#166b44;border:1px solid #b8e6d0}
+  .status.err{background:#fdecec;color:#8a1a1f;border:1px solid #f0b8bb}
+  .status.info{background:#eef4ff;color:#1a4a8a;border:1px solid #c6d9f5}
+  button{width:100%;background:var(--red);color:#fff;border:0;border-radius:10px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;font-family:inherit}
+  button:hover{background:#B4141b}
+  button:disabled{opacity:.6;cursor:not-allowed}
+  button.secondary{background:#33383F;margin-top:8px}
+  button.secondary:hover{background:#1a1e24}
+  #log{margin-top:18px;padding:14px;border-radius:10px;background:var(--bg);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;line-height:1.6;max-height:280px;overflow-y:auto;display:none}
+  #log .line{padding:2px 0}
+  #log .line.ok{color:#166b44}
+  #log .line.err{color:#8a1a1f}
+  .note{margin-top:18px;font-size:11.5px;color:var(--muted);line-height:1.6;padding:12px 14px;background:var(--bg);border-radius:8px}
+  .note b{color:var(--ink)}
+  code{background:#EBEDF0;padding:1px 5px;border-radius:4px;font-size:11px}
+  .brands{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .brand-pill{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Seed demo tenant<span class="tag">Demo only</span></h1>
+  <div class="sub">
+    Loads ~35 realistic Botswana media mentions into the currently-signed-in tenant. Use this to populate the demo environment before sharing access with Datastreamer.
+    <div class="brands">
+      <span class="brand-pill">Kgale Bank</span>
+      <span class="brand-pill">Kalahari Insurance</span>
+      <span class="brand-pill">Setlogelo Telecom</span>
+      <span class="brand-pill">Motswedi Retail</span>
+      <span class="brand-pill">Diamond Traders</span>
+      <span class="brand-pill">+ 4 competitors</span>
+    </div>
+  </div>
+
+  <div id="auth" class="status info">Checking your login...</div>
+
+  <div id="loginbox" style="display:none;padding:16px;border-radius:10px;background:var(--bg);margin-bottom:16px">
+    <div style="font-size:12px;font-weight:700;margin-bottom:8px">Sign in to the demo tenant</div>
+    <input id="li-email" type="email" placeholder="Demo admin email" style="width:100%;border:1px solid #E7E9EC;border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;font-family:inherit">
+    <input id="li-pass" type="password" placeholder="Password" style="width:100%;border:1px solid #E7E9EC;border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:10px;font-family:inherit">
+    <button id="li-btn" onclick="loginHere()" style="margin:0">Sign in</button>
+    <div id="li-err" style="color:#DA1F26;font-size:12px;margin-top:8px;min-height:14px;font-weight:600"></div>
+  </div>
+
+  <button id="go" onclick="seedAll()" disabled>Seed 35 demo mentions</button>
+  <button id="clear" class="secondary" onclick="showClear()">Show cleanup command</button>
+
+  <div id="log"></div>
+
+  <div class="note">
+    <b>Before running:</b> Sign in as the demo tenant's admin (not your BIHL account). If you're currently signed in as BIHL, sign out first, then log in with the demo credentials.<br><br>
+    <b>What this does:</b> Posts 35 realistic Botswana media mentions across five fictional client brands and four fictional competitors, mixing print, radio, broadcast, online, and social — English and Setswana, with sentiment scores. Uses <code>POST /api/analyst/clips</code>.<br><br>
+    <b>Cleanup:</b> To reset the demo, click "Show cleanup command" for a one-line SQL you can run in Neon.
+  </div>
+</div>
+
+<script>
+  const API = "https://mediaclip-backend.onrender.com";
+  const $ = (id) => document.getElementById(id);
+
+  let token = null;
+  try { token = localStorage.getItem("mc_token"); } catch(e){}
+  let user = null;
+  try { user = JSON.parse(localStorage.getItem("mc_user") || "null"); } catch(e){}
+
+  function refreshAuthUI(){
+    let t = null; try { t = localStorage.getItem("mc_token"); } catch(e){}
+    let u = null; try { u = JSON.parse(localStorage.getItem("mc_user") || "null"); } catch(e){}
+    token = t; user = u;
+    if (!t) {
+      $("auth").className = "status err";
+      $("auth").textContent = "No login session found in this browser. Sign in below to seed.";
+      $("loginbox").style.display = "block";
+      $("go").disabled = true;
+    } else {
+      const email = (u && u.email) || "(unknown)";
+      const role = (u && u.role) || "?";
+      $("auth").className = "status ok";
+      $("auth").textContent = "Logged in as " + email + " (role: " + role + "). Confirm this is the demo tenant, then click Seed.";
+      $("loginbox").style.display = "none";
+      $("go").disabled = false;
+    }
+  }
+  refreshAuthUI();
+
+  async function loginHere(){
+    const email = ($("li-email").value || "").trim();
+    const pass  = $("li-pass").value || "";
+    const btn = $("li-btn");
+    $("li-err").textContent = "";
+    if (!email || !pass){ $("li-err").textContent = "Enter email and password."; return; }
+    btn.disabled = true; btn.textContent = "Signing in...";
+    try {
+      const res = await fetch(API + "/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email, password: pass })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok){
+        $("li-err").textContent = (data && data.error) ? data.error : "Sign in failed.";
+        return;
+      }
+      try { localStorage.setItem("mc_token", data.token); } catch(e){}
+      try { localStorage.setItem("mc_user", JSON.stringify(data.user || {})); } catch(e){}
+      refreshAuthUI();
+    } catch (err) {
+      $("li-err").textContent = "Cannot reach the server. Please try again in a moment.";
+    } finally {
+      btn.disabled = false; btn.textContent = "Sign in";
+    }
+  }
+
+  // 35 realistic Botswana media mentions across 5 fictional client brands + 4 competitors
+  const now = new Date();
+  const daysAgo = (n) => new Date(now.getTime() - n * 24 * 60 * 60 * 1000).toISOString();
+
+  const MENTIONS = [
+    // ========== PRINT ==========
+    { media_type:"print", source:"Mmegi", title:"Kgale Bank posts record Q3 driven by SME lending growth", content:"Kgale Bank reported a 14% year-on-year jump in profit for Q3, led by strong growth in its SME lending book. CEO commented on continued digital investment.", url:"https://www.mmegi.bw/business/kgale-q3", language:"en", sentiment:"positive", brand:"Kgale Bank", published_at:daysAgo(2), reach:42000, ad_value:18500 },
+    { media_type:"print", source:"Botswana Guardian", title:"Kalahari Insurance launches microcover for informal traders", content:"Kalahari Insurance today unveiled a new microinsurance product targeting informal traders in Gaborone, Francistown and Maun, with premiums starting at P30 per month.", url:"https://www.botswanaguardian.co.bw/kalahari-microcover", language:"en", sentiment:"positive", brand:"Kalahari Insurance", published_at:daysAgo(3), reach:31000, ad_value:12200 },
+    { media_type:"print", source:"The Voice", title:"Setlogelo Telecom rolls out 5G across Gaborone", content:"Setlogelo Telecom announced full 5G coverage across Gaborone and Phase 1 rollout in Francistown, positioning the telecom as first-to-market in the metro band.", url:"https://www.thevoicebw.com/setlogelo-5g", language:"en", sentiment:"positive", brand:"Setlogelo Telecom", published_at:daysAgo(1), reach:28500, ad_value:9800 },
+    { media_type:"print", source:"Sunday Standard", title:"Motswedi Retail expands to 15 new stores, targets small towns", content:"Motswedi Retail's aggressive expansion continues with 15 new outlets confirmed for smaller centres including Ghanzi, Kasane and Selebi-Phikwe.", url:"https://www.sundaystandard.info/motswedi-expansion", language:"en", sentiment:"positive", brand:"Motswedi Retail", published_at:daysAgo(5), reach:22000, ad_value:7500 },
+    { media_type:"print", source:"Weekend Post", title:"Diamond Traders reports higher Q2 rough sales", content:"Diamond Traders Botswana Ltd delivered Q2 rough sales up 8% on the prior quarter, benefiting from a firming market for premium stones.", url:"https://www.weekendpost.co.bw/diamond-traders-q2", language:"en", sentiment:"positive", brand:"Diamond Traders", published_at:daysAgo(6), reach:19500, ad_value:6200 },
+    { media_type:"print", source:"Mmegi", title:"Consumer frustration mounts over Kgale Bank ATM outages", content:"Kgale Bank has faced growing complaints after a weekend-long ATM outage across several key branches. The bank has committed to enhanced monitoring.", url:"https://www.mmegi.bw/business/kgale-atm-outage", language:"en", sentiment:"negative", brand:"Kgale Bank", published_at:daysAgo(9), reach:38000, ad_value:14500 },
+    { media_type:"print", source:"Botswana Guardian", title:"Chobe Assurance appoints new managing director", content:"Chobe Assurance confirmed the appointment of a new MD, effective 1 October, in a move seen as signalling a strategic reset for the insurer.", url:"https://www.botswanaguardian.co.bw/chobe-md", language:"en", sentiment:"neutral", brand:"Chobe Assurance", published_at:daysAgo(4), reach:26000, ad_value:9500 },
+    { media_type:"print", source:"Sunday Standard", title:"Boteti Bank Q3 down 3% as competition intensifies", content:"Boteti Bank slipped 3% on prior year Q3 profit, citing competitive pressure from Kgale Bank and margin compression on the mortgage book.", url:"https://www.sundaystandard.info/boteti-q3", language:"en", sentiment:"negative", brand:"Boteti Bank", published_at:daysAgo(7), reach:24000, ad_value:8200 },
+    { media_type:"print", source:"Weekend Post", title:"Baobab Mobile launches Botswana MVNO service", content:"Baobab Mobile officially launched its MVNO offering in Botswana, entering the postpaid segment with aggressive intro pricing.", url:"https://www.weekendpost.co.bw/baobab-launch", language:"en", sentiment:"neutral", brand:"Baobab Mobile", published_at:daysAgo(8), reach:18500, ad_value:6800 },
+    { media_type:"print", source:"Mmegi", title:"Setlogelo e ntsha kabelo ya intanete kwa metsaneng", content:"Setlogelo Telecom e simolotse tirelo ya intanete e e magetla mo metsaneng ya Kweneng le Central District, e leng lenaneo la P250 million.", url:"https://www.mmegi.bw/setswana/setlogelo-village", language:"tn", sentiment:"positive", brand:"Setlogelo Telecom", published_at:daysAgo(3), reach:35000, ad_value:13800 },
+
+    // ========== RADIO ==========
+    { media_type:"radio", source:"Yarona FM", title:"Business Hour - Kalahari Insurance CEO on climate cover", content:"Interview with Kalahari Insurance CEO discussing new climate-linked crop cover products in response to increasing weather variability.", url:"https://www.yaronafm.co.bw/kalahari-climate", language:"en", sentiment:"positive", brand:"Kalahari Insurance", published_at:daysAgo(5), reach:65000, ad_value:24000 },
+    { media_type:"radio", source:"Duma FM", title:"Morning Drive - Kgale Bank vs Boteti Bank rate panel", content:"Panel discussion pitting Kgale Bank against Boteti Bank on home loan rates, with expert commentary on which offers the better package for first-time buyers.", url:"https://www.dumafm.com/rate-panel", language:"en", sentiment:"neutral", brand:"Kgale Bank", published_at:daysAgo(6), reach:48000, ad_value:18000 },
+    { media_type:"radio", source:"Gabz FM", title:"Consumer Talk - Setlogelo vs Baobab on data pricing", content:"Comparison segment on Gabz FM discussing pricing structures between Setlogelo Telecom and new entrant Baobab Mobile.", url:"https://www.gabzfm.com/telecom-pricing", language:"en", sentiment:"neutral", brand:"Setlogelo Telecom", published_at:daysAgo(7), reach:52000, ad_value:19500 },
+    { media_type:"radio", source:"RB1", title:"Business Talk - Diamond Traders quarterly briefing", content:"Coverage of Diamond Traders quarterly briefing, highlighting stronger sales and stable dividend guidance.", url:"https://www.rb.co.bw/rb1/diamond-brief", language:"en", sentiment:"positive", brand:"Diamond Traders", published_at:daysAgo(4), reach:58000, ad_value:22000 },
+    { media_type:"radio", source:"RB2", title:"Kgotla ya Ikonomi - Kgale Bank le boleng jwa tuelo", content:"Puisano ka Setswana ka ga di-rate tsa Kgale Bank tse dintsha le gore di raya eng mo babolokeding le babadiring.", url:"https://www.rb.co.bw/rb2/kgale-rates", language:"tn", sentiment:"positive", brand:"Kgale Bank", published_at:daysAgo(2), reach:71000, ad_value:26500 },
+    { media_type:"radio", source:"Yarona FM", title:"Afternoon Feature - Motswedi Retail founder interview", content:"Long-form interview with Motswedi Retail founder on the expansion strategy, supplier partnerships and the retailer's Botswana-first sourcing approach.", url:"https://www.yaronafm.co.bw/motswedi-founder", language:"en", sentiment:"positive", brand:"Motswedi Retail", published_at:daysAgo(3), reach:60000, ad_value:23000 },
+    { media_type:"radio", source:"Duma FM", title:"Health & Wealth - Kalahari Insurance funeral cover uptake", content:"Segment covering strong uptake of Kalahari Insurance's group funeral cover among community savings groups.", url:"https://www.dumafm.com/kalahari-funeral", language:"en", sentiment:"positive", brand:"Kalahari Insurance", published_at:daysAgo(6), reach:44000, ad_value:16500 },
+    { media_type:"radio", source:"Gabz FM", title:"Consumer Alert - Setlogelo network outage frustration", content:"Consumer feedback segment on recent Setlogelo Telecom network issues in the northern regions, with customer testimonials.", url:"https://www.gabzfm.com/setlogelo-outage", language:"en", sentiment:"negative", brand:"Setlogelo Telecom", published_at:daysAgo(10), reach:41000, ad_value:15500 },
+    { media_type:"radio", source:"RB1", title:"Consumer Watch - Chobe Assurance premium hike concern", content:"Consumer watchdog segment covering complaints about a mid-year premium hike by Chobe Assurance, with regulator commentary.", url:"https://www.rb.co.bw/rb1/chobe-hike", language:"en", sentiment:"negative", brand:"Chobe Assurance", published_at:daysAgo(11), reach:38000, ad_value:14500 },
+    { media_type:"radio", source:"Yarona FM", title:"Youth Money - Kgale Bank student banking product", content:"Youth-focused segment on Kgale Bank's new student banking product, positioned as fee-free until graduation.", url:"https://www.yaronafm.co.bw/kgale-student", language:"en", sentiment:"positive", brand:"Kgale Bank", published_at:daysAgo(1), reach:55000, ad_value:20500 },
+
+    // ========== BROADCAST (TV) ==========
+    { media_type:"broadcast", source:"Btv", title:"BTV News - Kgale Bank Foundation youth grant handover", content:"Coverage of the Kgale Bank Foundation's grant handover to a Gaborone-based youth entrepreneurship hub, attended by senior executives and the Minister for Youth.", url:"https://www.btvnews.bw/kgale-foundation", language:"en", sentiment:"positive", brand:"Kgale Bank", published_at:daysAgo(1), reach:120000, ad_value:45000 },
+    { media_type:"broadcast", source:"Btv", title:"Business Botswana - Insurance market outlook 2026", content:"Panel discussion covering the 2026 insurance market outlook, with contributions from Kalahari Insurance, Chobe Assurance and industry analysts.", url:"https://www.btvnews.bw/insurance-outlook", language:"en", sentiment:"neutral", brand:"Kalahari Insurance", published_at:daysAgo(6), reach:98000, ad_value:38500 },
+    { media_type:"broadcast", source:"Now TV", title:"Now Weekend - Setlogelo Telecom network expansion story", content:"Feature on the impact of Setlogelo Telecom's rural network expansion on connectivity in remote communities, with interviews from affected residents.", url:"https://nowtvbw.com/setlogelo-rural", language:"en", sentiment:"positive", brand:"Setlogelo Telecom", published_at:daysAgo(4), reach:56000, ad_value:22000 },
+    { media_type:"broadcast", source:"eBotswana", title:"eBotswana News - Baobab Mobile customer service complaints", content:"News report highlighting a rising number of customer service complaints against new entrant Baobab Mobile in its opening months.", url:"https://www.ebotswana.com/news/baobab-complaints", language:"en", sentiment:"negative", brand:"Baobab Mobile", published_at:daysAgo(10), reach:44000, ad_value:16000 },
+    { media_type:"broadcast", source:"Btv", title:"BTV News - Motswedi Retail employee of the year event", content:"Coverage of Motswedi Retail's annual employee recognition event, featuring award ceremony and CEO address on staff-first culture.", url:"https://www.btvnews.bw/motswedi-employees", language:"en", sentiment:"positive", brand:"Motswedi Retail", published_at:daysAgo(3), reach:88000, ad_value:34000 },
+
+    // ========== SOCIAL ==========
+    { media_type:"social", source:"Facebook", title:"Viral post - Kgale Bank quick loan approval praised", content:"Positive customer post on Facebook praising Kgale Bank's under-24-hour loan approval process, generating over 400 comments and 1,200 shares.", url:"https://www.facebook.com/post/kgale-loan-praise", language:"en", sentiment:"positive", brand:"Kgale Bank", published_at:daysAgo(3), reach:14000, ad_value:0 },
+    { media_type:"social", source:"X/Twitter", title:"Thread - Botswana telecom price comparison", content:"A local finance influencer posted a comparison thread on X including Setlogelo Telecom, Baobab Mobile and legacy operators, with a mixed reception.", url:"https://x.com/finfluencer/status/98765", language:"en", sentiment:"neutral", brand:"Setlogelo Telecom", published_at:daysAgo(2), reach:9500, ad_value:0 },
+    { media_type:"social", source:"LinkedIn", title:"Kalahari Insurance sponsors Botswana insurance conference", content:"Official Kalahari Insurance LinkedIn post announcing headline sponsorship of the Botswana Insurance Association annual conference. Well received among professionals.", url:"https://linkedin.com/company/kalahari-insurance/posts/bia", language:"en", sentiment:"positive", brand:"Kalahari Insurance", published_at:daysAgo(5), reach:8200, ad_value:0 },
+    { media_type:"social", source:"Facebook", title:"Motswedi Retail loyalty programme going viral", content:"Motswedi Retail's rebate-week loyalty programme is trending on Facebook with over 800 organic mentions and enthusiastic customer photos.", url:"https://www.facebook.com/post/motswedi-loyalty", language:"en", sentiment:"positive", brand:"Motswedi Retail", published_at:daysAgo(2), reach:22000, ad_value:0 },
+    { media_type:"social", source:"TikTok", title:"Consumer complaint video about Baobab Mobile signal", content:"TikTok video complaining about weak Baobab Mobile signal in Francistown gained significant traction with 45,000 views and mixed engagement.", url:"https://www.tiktok.com/@user/video/baobab-signal", language:"en", sentiment:"negative", brand:"Baobab Mobile", published_at:daysAgo(4), reach:11000, ad_value:0 },
+    { media_type:"social", source:"X/Twitter", title:"Diamond Traders trending after export sanction rumour", content:"Rumours on X about a possible export sanction affecting Diamond Traders caused negative sentiment across financial and news accounts.", url:"https://x.com/diamondnewsbw/status/54321", language:"en", sentiment:"negative", brand:"Diamond Traders", published_at:daysAgo(8), reach:7800, ad_value:0 },
+    { media_type:"social", source:"LinkedIn", title:"Kgale Bank appoints new Chief Financial Officer", content:"Kgale Bank's LinkedIn announcement of a new CFO with 20 years of regional banking experience received strong professional engagement.", url:"https://linkedin.com/company/kgale-bank/posts/cfo", language:"en", sentiment:"positive", brand:"Kgale Bank", published_at:daysAgo(6), reach:6900, ad_value:0 },
+
+    // ========== ONLINE ==========
+    { media_type:"online", source:"Mmegi Online", title:"Analysis - Kgale Bank's five-year growth trajectory", content:"In-depth online analysis of Kgale Bank's five-year financial trajectory covering loan book expansion, digital investments and market share.", url:"https://www.mmegi.bw/business/kgale-5yr-analysis", language:"en", sentiment:"positive", brand:"Kgale Bank", published_at:daysAgo(11), reach:26000, ad_value:8800 },
+    { media_type:"online", source:"Botswana Guardian Online", title:"Kalahari vs Chobe Assurance - the numbers behind the market", content:"Feature comparing Kalahari Insurance and Chobe Assurance across premium growth, claims ratio and investment performance over 2023-2026.", url:"https://www.botswanaguardian.co.bw/kalahari-chobe-comparison", language:"en", sentiment:"neutral", brand:"Kalahari Insurance", published_at:daysAgo(9), reach:14500, ad_value:5200 },
+    { media_type:"online", source:"TechBotswana.com", title:"Baobab Mobile MVNO launch - what customers can expect", content:"Tech industry review of Baobab Mobile's MVNO launch, examining pricing structure, network coverage and market positioning against incumbents.", url:"https://techbotswana.com/baobab-mvno-review", language:"en", sentiment:"neutral", brand:"Baobab Mobile", published_at:daysAgo(8), reach:9800, ad_value:3200 },
+    { media_type:"online", source:"Botswana Youth Magazine", title:"Best banks for graduates - Kgale Bank feature", content:"Consumer-focused article naming Kgale Bank among the top banking options for recent graduates, driving product enquiry uplift.", url:"https://byoumag.co.bw/best-banks-graduates", language:"en", sentiment:"positive", brand:"Kgale Bank", published_at:daysAgo(4), reach:11000, ad_value:3500 },
+    { media_type:"online", source:"Mmegi Online", title:"Motswedi Retail e ngwenya e-commerce", content:"Article ka Setswana ka ga tsa e-commerce ya Motswedi Retail, e simolodisa go romela dilo ka intanete mo Botswana yotlhe.", url:"https://www.mmegi.bw/setswana/motswedi-ecommerce", language:"tn", sentiment:"positive", brand:"Motswedi Retail", published_at:daysAgo(7), reach:19000, ad_value:6800 }
+  ];
+
+  function log(line, cls){
+    const box = $("log");
+    box.style.display = "block";
+    const el = document.createElement("div");
+    el.className = "line " + (cls || "");
+    el.textContent = line;
+    box.appendChild(el);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  async function seedAll(){
+    if (!token) return;
+    const btn = $("go");
+    btn.disabled = true; btn.textContent = "Seeding...";
+    let ok = 0, fail = 0;
+    for (let i = 0; i < MENTIONS.length; i++){
+      const m = MENTIONS[i];
+      try {
+        const res = await fetch(API + "/api/analyst/clips", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          },
+          body: JSON.stringify(m)
+        });
+        if (res.ok){
+          ok++;
+          log((i+1) + "/" + MENTIONS.length + " OK: [" + m.media_type + "] " + m.source + " - " + m.title.substring(0, 60), "ok");
+        } else {
+          fail++;
+          const data = await res.json().catch(()=>({}));
+          log((i+1) + "/" + MENTIONS.length + " FAIL (" + res.status + "): " + (data.error || "unknown"), "err");
+        }
+      } catch (e){
+        fail++;
+        log((i+1) + "/" + MENTIONS.length + " ERROR: " + String(e.message || e), "err");
+      }
+    }
+    log("", "");
+    log("Done. " + ok + " seeded, " + fail + " failed.", ok === MENTIONS.length ? "ok" : "err");
+    log("Refresh https://www.mediaclip.net signed in as the demo tenant admin to see the numbers.", "");
+    btn.disabled = false; btn.textContent = "Seed 35 more (another batch)";
+  }
+
+  function showClear(){
+    log("", "");
+    log("To wipe every 'local' (seeded) mention from the demo tenant, sign in to Neon SQL Editor and run:", "");
+    log("", "");
+    log("DELETE FROM mentions WHERE origin = 'local' AND client_id = (SELECT id FROM clients WHERE name = 'Kalahari Group');", "err");
+    log("", "");
+    log("This scopes the delete strictly to the demo tenant. BIHL data stays untouched.", "");
+  }
+</script>
+</body>
+</html>
