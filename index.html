@@ -168,6 +168,63 @@
   .clip-empty{padding:60px 20px;text-align:center;color:var(--muted);font-size:13px}
   /* Setswana content marker */
   .clip-lang-tn .clip-meta .m-lang{background:#FDF3D1;color:#7A5411}
+
+  /* ========== v5.5: Alerts ========== */
+  .nav a{position:relative}
+  .nav-badge{position:absolute;top:4px;right:4px;min-width:16px;height:16px;background:#fff;color:var(--red);font-size:9.5px;font-weight:800;padding:0 4px;border-radius:8px;display:flex;align-items:center;justify-content:center;line-height:1}
+  .alert-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+  .alert-kpi{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+  .alert-kpi .n{font-size:22px;font-weight:800;color:var(--ink);margin-bottom:2px;letter-spacing:-.5px}
+  .alert-kpi .l{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .alert-kpi.critical .n{color:var(--red)}
+  .alerts-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+  .alerts-card .head{padding:18px 20px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .alerts-card .head h3{font-size:15px;font-weight:800;color:var(--ink);margin:0}
+  .alerts-card .head .sub{font-size:12px;color:var(--muted)}
+  .alerts-list{display:flex;flex-direction:column}
+  .alert-row{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:flex-start}
+  .alert-row:last-child{border-bottom:0}
+  .alert-row:hover{background:#FAFBFD}
+  .alert-icon{flex-shrink:0;width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+  .alert-icon svg{width:18px;height:18px;color:#fff}
+  .alert-icon.critical{background:linear-gradient(135deg,#DA1F26,#B4141b)}
+  .alert-icon.warning{background:linear-gradient(135deg,#F2A93B,#D48819)}
+  .alert-icon.info{background:linear-gradient(135deg,#4A6FA5,#33528A)}
+  .alert-body{flex:1;min-width:0}
+  .alert-meta{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:11px;color:var(--muted);flex-wrap:wrap}
+  .alert-sev{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+  .alert-sev.critical{background:#fdecec;color:#8a1a1f}
+  .alert-sev.warning{background:#fef3e2;color:#7A5411}
+  .alert-sev.info{background:#eef4ff;color:#1a4a8a}
+  .alert-brand{background:var(--bg);padding:2px 8px;border-radius:12px;font-weight:600;color:var(--ink);font-size:10.5px}
+  .alert-title{font-size:14px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:4px}
+  .alert-desc{font-size:12.5px;color:var(--text);line-height:1.5;margin-bottom:8px}
+  .alert-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .alert-btn{background:var(--bg);border:1px solid var(--line);color:var(--ink);font-size:11px;font-weight:600;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit}
+  .alert-btn:hover{background:#EBEDF0}
+  .alert-btn.primary{background:var(--red);color:#fff;border-color:var(--red)}
+  .alert-btn.primary:hover{background:#B4141b}
+  .alert-time{font-size:11px;color:var(--muted);white-space:nowrap;flex-shrink:0;font-variant-numeric:tabular-nums}
+
+  /* Alert threshold config */
+  .thresh-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px}
+  .thresh-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+  .thresh-card h4{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:4px}
+  .thresh-card .desc{font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+  .thresh-card .row{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:13px}
+  .thresh-card .row label{color:var(--text);flex:1}
+  .thresh-card .row input[type=number]{width:80px;border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px;font-family:inherit;font-variant-numeric:tabular-nums}
+  .thresh-card .row input:focus{border-color:var(--red);outline:none}
+  .thresh-card .row select{border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px;font-family:inherit;background:#fff}
+
+  /* Recipients table */
+  .recips{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  .recips th,.recips td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+  .recips th{font-size:10.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-weight:700;background:var(--bg)}
+  .recips td:first-child{font-weight:600;color:var(--ink)}
+  .recips tbody tr:last-child td{border-bottom:0}
+  .recips .role-pill{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:12px;background:var(--bg);color:var(--ink)}
+  .recips .ch-pill{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;background:#eef4ff;color:#1a4a8a;margin-right:4px;text-transform:uppercase;letter-spacing:.04em}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
   .app{display:flex;min-height:100vh}
@@ -315,6 +372,7 @@
       <a data-view="reach" title="Media Reach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg></a>
       <a data-view="analytics" title="Analytics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-4 3 2 4-6"/></svg></a>
       <a data-view="reports" title="Reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></a>
+      <a data-view="alerts" title="Alerts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="nav-badge" id="alerts-nav-badge" style="display:none">0</span></a>
       <a data-view="settings" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
     </nav>
     <div class="user-menu" id="user-menu">
@@ -697,6 +755,174 @@
             </tbody>
           </table>
           <div id="reports-empty" style="display:none;padding:36px 20px;text-align:center;color:var(--muted);font-size:13px">No reports in this category yet. Reports generate automatically each period once Datastreamer coverage is flowing.</div>
+        </div>
+      </section>
+
+      <!-- ===================== ALERTS (v5.5) ===================== -->
+      <section class="view" id="alerts">
+        <div class="page-title">Alerts <span class="filter-chip" id="alerts-status">3 active</span></div>
+        <div class="page-sub">Real-time notifications for coverage spikes, sentiment drops, competitor moves, and crisis-signal patterns.</div>
+
+        <div class="alert-kpis">
+          <div class="alert-kpi critical"><div class="n" id="alert-kpi-critical">1</div><div class="l">Critical, needs action</div></div>
+          <div class="alert-kpi"><div class="n" id="alert-kpi-warning">2</div><div class="l">Warnings, watch</div></div>
+          <div class="alert-kpi"><div class="n" id="alert-kpi-resolved">4</div><div class="l">Resolved today</div></div>
+          <div class="alert-kpi"><div class="n" id="alert-kpi-baseline">1.8×</div><div class="l">Volume vs 30-day baseline</div></div>
+        </div>
+
+        <!-- Active alerts feed -->
+        <div class="alerts-card">
+          <div class="head">
+            <div>
+              <h3>Active alerts</h3>
+              <div class="sub">Sorted by severity and recency. Click any to expand full context.</div>
+            </div>
+            <div>
+              <button class="alert-btn">Mark all reviewed</button>
+            </div>
+          </div>
+          <div class="alerts-list" id="alerts-list">
+            <div class="alert-row">
+              <div class="alert-icon critical">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v4M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+              </div>
+              <div class="alert-body">
+                <div class="alert-meta">
+                  <span class="alert-sev critical">Critical</span>
+                  <span class="alert-brand">BIHL</span>
+                  <span>·</span>
+                  <span>Negative sentiment cluster</span>
+                </div>
+                <div class="alert-title">12 negative mentions in 2 hours — 3.2× baseline</div>
+                <div class="alert-desc">A cluster of negative sentiment is forming around a claim-payout complaint. Sources: Sunday Standard, Facebook (3 posts), X (2 threads). Two bloggers have picked up the story. Recommend drafting a holding statement.</div>
+                <div class="alert-actions">
+                  <button class="alert-btn primary" onclick="mcAlertAction('draft-response')">Draft response</button>
+                  <button class="alert-btn" onclick="mcAlertAction('view-context')">View context</button>
+                  <button class="alert-btn" onclick="mcAlertAction('reviewed')">Mark reviewed</button>
+                </div>
+              </div>
+              <div class="alert-time">14 min ago</div>
+            </div>
+
+            <div class="alert-row">
+              <div class="alert-icon warning">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              </div>
+              <div class="alert-body">
+                <div class="alert-meta">
+                  <span class="alert-sev warning">Warning</span>
+                  <span class="alert-brand">BIFM</span>
+                  <span>·</span>
+                  <span>Coverage spike</span>
+                </div>
+                <div class="alert-title">28 mentions in 60 minutes — 2.1× baseline</div>
+                <div class="alert-desc">BIFM's new pension product launch is trending. Overall sentiment is positive, but volume is above the alert threshold. Consider amplifying with paid social while momentum holds.</div>
+                <div class="alert-actions">
+                  <button class="alert-btn primary" onclick="mcAlertAction('view-coverage')">View coverage</button>
+                  <button class="alert-btn" onclick="mcAlertAction('reviewed')">Mark reviewed</button>
+                </div>
+              </div>
+              <div class="alert-time">1h 20m ago</div>
+            </div>
+
+            <div class="alert-row">
+              <div class="alert-icon info">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+              </div>
+              <div class="alert-body">
+                <div class="alert-meta">
+                  <span class="alert-sev info">Info</span>
+                  <span class="alert-brand">Competitor</span>
+                  <span>·</span>
+                  <span>Competitor move</span>
+                </div>
+                <div class="alert-title">Sanlam Life radio campaign detected across three stations</div>
+                <div class="alert-desc">Sanlam Life ran ad-slots on Yarona FM, Duma FM, and Gabz FM this week — estimated spend P 380,000. First campaign detected this quarter. Worth benchmarking against BIHL's current radio share.</div>
+                <div class="alert-actions">
+                  <button class="alert-btn primary" onclick="mcAlertAction('view-competitor')">View competitor page</button>
+                  <button class="alert-btn" onclick="mcAlertAction('reviewed')">Mark reviewed</button>
+                </div>
+              </div>
+              <div class="alert-time">3h ago</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alert configuration -->
+        <div class="card" style="margin-top:22px">
+          <h3>Alert thresholds <span class="tag">Per-brand rules</span></h3>
+          <div style="font-size:12.5px;color:var(--muted);margin-top:6px">Set the conditions that trigger each alert type. Applied to every tracked brand unless overridden per-brand.</div>
+          <div class="thresh-grid">
+
+            <div class="thresh-card">
+              <h4>Volume spike detection</h4>
+              <div class="desc">Alerts when mention volume in a rolling window exceeds a multiple of the 30-day baseline.</div>
+              <div class="row"><label>Trigger when volume exceeds</label><input type="number" value="200" min="100" step="10"><span style="color:var(--muted)">% of baseline</span></div>
+              <div class="row"><label>Rolling window</label><select><option>15 minutes</option><option selected>60 minutes</option><option>3 hours</option><option>6 hours</option></select></div>
+              <div class="row"><label>Minimum mentions to trigger</label><input type="number" value="10" min="1" step="1"></div>
+            </div>
+
+            <div class="thresh-card">
+              <h4>Negative sentiment threshold</h4>
+              <div class="desc">Escalates when negative-sentiment mentions cross a critical share in a short window.</div>
+              <div class="row"><label>Trigger when negative share exceeds</label><input type="number" value="30" min="10" step="5"><span style="color:var(--muted)">%</span></div>
+              <div class="row"><label>Rolling window</label><select><option>15 minutes</option><option selected>1 hour</option><option>2 hours</option></select></div>
+              <div class="row"><label>Minimum mentions to trigger</label><input type="number" value="5" min="1" step="1"></div>
+            </div>
+
+            <div class="thresh-card">
+              <h4>Crisis pattern-match</h4>
+              <div class="desc">Detects new coverage that resembles the shape of past reputational events (claim delays, service outages, executive controversies).</div>
+              <div class="row"><label>Match sensitivity</label><select><option>Conservative</option><option selected>Balanced</option><option>Aggressive</option></select></div>
+              <div class="row"><label>Historical patterns tracked</label><span style="font-weight:600;color:var(--ink)">7 patterns</span></div>
+            </div>
+
+            <div class="thresh-card">
+              <h4>Competitor moves</h4>
+              <div class="desc">Detects significant activity from tracked competitor brands — ad campaigns, product launches, executive announcements.</div>
+              <div class="row"><label>Alert on new ad campaigns</label><span class="toggle on" onclick="this.classList.toggle('on')"></span></div>
+              <div class="row"><label>Alert on product launches</label><span class="toggle on" onclick="this.classList.toggle('on')"></span></div>
+              <div class="row"><label>Alert on exec announcements</label><span class="toggle" onclick="this.classList.toggle('on')"></span></div>
+            </div>
+
+          </div>
+          <button class="btn primary" style="margin-top:18px;max-width:180px" onclick="mcSaveThresholds()">Save thresholds</button>
+          <div id="thresh-msg" style="margin-top:10px;font-size:12.5px;color:#166b44"></div>
+        </div>
+
+        <!-- Notification recipients -->
+        <div class="card" style="margin-top:22px">
+          <h3>Notification recipients <span class="tag">Who receives what</span></h3>
+          <div style="font-size:12.5px;color:var(--muted);margin-top:6px;margin-bottom:12px">Assign alert categories and delivery channels per person. Critical alerts always deliver by email, others are configurable.</div>
+          <table class="recips">
+            <thead>
+              <tr><th>Recipient</th><th>Role</th><th>Alerts received</th><th>Channels</th><th></th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Cecil Tabona</td>
+                <td><span class="role-pill">Admin</span></td>
+                <td>All alerts</td>
+                <td><span class="ch-pill">Email</span><span class="ch-pill">In-app</span></td>
+                <td><button class="alert-btn">Edit</button></td>
+              </tr>
+              <tr>
+                <td>BIHL Group Comms Lead</td>
+                <td><span class="role-pill">Client</span></td>
+                <td>Critical + warnings</td>
+                <td><span class="ch-pill">Email</span><span class="ch-pill">In-app</span></td>
+                <td><button class="alert-btn">Edit</button></td>
+              </tr>
+              <tr>
+                <td>BIHL Group CEO</td>
+                <td><span class="role-pill">Client</span></td>
+                <td>Critical only</td>
+                <td><span class="ch-pill">Email</span></td>
+                <td><button class="alert-btn">Edit</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn" style="margin-top:16px;max-width:180px" onclick="mcAddRecipient()">Add recipient</button>
         </div>
       </section>
 
@@ -1541,6 +1767,38 @@
     mcOpenModal("Add topic", "Track a new keyword, brand, or phrase",
       `<div class="note">Topic management wires into your Datastreamer pipeline — the next release will let you add keywords, brands, competitor names, hashtags, or phrases here, and they'll be pushed into your Datastreamer query jobs automatically. For now, add topics directly in your Datastreamer console.</div>`);
   }
+
+  // =====================================================================
+  // v5.5: Alerts handlers
+  // =====================================================================
+  function mcAlertAction(action){
+    const messages = {
+      "draft-response": ["Draft response", "Auto-drafted holding statement", `<div class="note">The AI-drafted response is generated based on the negative-sentiment cluster and past comms tone. Review, tweak, and send from your platform of choice. Full response-composition flow ships with the AI intelligence layer.</div>`],
+      "view-context":   ["View coverage cluster", "12 negative mentions",     `<div class="note">Opens the filtered Clippings feed with all mentions in this negative cluster — headline, source, timestamp, sentiment, and reach. From there, expand any clip to see full content.</div>`],
+      "view-coverage":  ["View coverage",         "Positive spike",           `<div class="note">Opens the filtered Clippings feed for BIFM's product-launch coverage this hour.</div>`],
+      "view-competitor":["Competitor page",       "Sanlam Life",             `<div class="note">Full competitor tracking page — spend by channel, campaign creative, historical trend, share-of-voice comparison against BIHL Group.</div>`],
+      "reviewed":       ["Alert marked reviewed", "Removed from active feed", `<div class="note">The alert is archived and no longer appears in the active list. You can find it in the alert history for audit and pattern analysis.</div>`],
+    };
+    const [title, sub, body] = messages[action] || ["Alert", "", ""];
+    mcOpenModal(title, sub, body);
+  }
+  function mcSaveThresholds(){
+    const msg = document.getElementById('thresh-msg');
+    if (msg){ msg.textContent = "Thresholds saved. New rules apply to alerts generated from this moment onwards."; }
+  }
+  function mcAddRecipient(){
+    mcOpenModal("Add recipient", "Notification delivery",
+      `<div class="note">Add a team member or client contact who should receive alerts. Configure which alert categories they get (critical only, critical + warnings, or all) and which channels (email, in-app, WhatsApp when integrated).</div>`);
+  }
+  function mcUpdateAlertsBadge(){
+    // Count active alert-rows and set the sidebar badge
+    const active = document.querySelectorAll('#alerts-list .alert-row').length;
+    const badge = document.getElementById('alerts-nav-badge');
+    if (!badge) return;
+    if (active > 0){ badge.textContent = active; badge.style.display = "flex"; }
+    else { badge.style.display = "none"; }
+  }
+  setTimeout(mcUpdateAlertsBadge, 100);
 
   // =====================================================================
   // v5.2: Dashboard tabs — swap entire panels (Performance / Article Clips / Advert Clips / Demographics)
