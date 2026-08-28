@@ -312,9 +312,9 @@
   .subtle{color:var(--muted);font-size:12px;margin-top:2px}
 
   .gauge-wrap{position:relative;height:150px;margin-top:6px}
-  .gauge-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
-  .gauge-center .big{font-size:20px;font-weight:800;color:var(--ink)}
-  .gauge-center .lab{font-size:11px;color:var(--muted)}
+  .gauge-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;padding:0 24px;text-align:center}
+  .gauge-center .big{font-size:20px;font-weight:800;color:var(--ink);line-height:1.1}
+  .gauge-center .lab{font-size:11px;color:var(--muted);line-height:1.3;margin-top:2px;max-width:110px;white-space:normal;word-break:break-word}
   .legend{display:flex;flex-direction:column;gap:9px;margin-top:14px}
   .legend .row{display:flex;align-items:center;gap:9px;font-size:13px}
   .legend .dot{width:9px;height:9px;border-radius:50%}
