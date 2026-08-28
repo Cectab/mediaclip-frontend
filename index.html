@@ -169,6 +169,27 @@
   /* Setswana content marker */
   .clip-lang-tn .clip-meta .m-lang{background:#FDF3D1;color:#7A5411}
 
+  /* ========== v5.7: Priority (RPCS) + Sentiment type ========== */
+  .m-priority{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+  .m-priority::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+  .m-priority.risk{background:#FDECEC;color:#8A1A1F}
+  .m-priority.purchase{background:#E8F7F0;color:#166B44}
+  .m-priority.cancel{background:#FFF1E0;color:#8A4A0F}
+  .m-priority.service{background:#E6F0FA;color:#1F477A}
+  .m-senttype{background:transparent;border:1px solid var(--line);color:var(--muted);padding:2px 7px;border-radius:10px;font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .m-senttype.operational{border-color:#D6BFA0;color:#8A5A2A}
+  .m-senttype.reputational{border-color:#B0A0D6;color:#4A2A8A}
+  .intent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+  .intent-tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden}
+  .intent-tile.risk{border-left:4px solid #8A1A1F}
+  .intent-tile.purchase{border-left:4px solid #166B44}
+  .intent-tile.cancel{border-left:4px solid #8A4A0F}
+  .intent-tile.service{border-left:4px solid #1F477A}
+  .intent-tile .intent-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:6px}
+  .intent-tile .intent-count{font-size:26px;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.5px}
+  .intent-tile .intent-desc{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.4}
+  @media (max-width:960px){ .intent-grid{grid-template-columns:repeat(2,1fr)} }
+
   /* ========== v5.5: Alerts ========== */
   .nav a{position:relative}
   .nav-badge{position:absolute;top:4px;right:4px;min-width:16px;height:16px;background:#fff;color:var(--red);font-size:9.5px;font-weight:800;padding:0 4px;border-radius:8px;display:flex;align-items:center;justify-content:center;line-height:1}
@@ -770,6 +791,34 @@
           <div class="alert-kpi"><div class="n" id="alert-kpi-baseline">1.8×</div><div class="l">Volume vs 30-day baseline</div></div>
         </div>
 
+        <!-- v5.7: By intent (RPCS) — reflects the priority tags from the Datastreamer classification pass -->
+        <div style="margin-top:22px">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:2px">By intent · last 30 days</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.5">Every mention is scored for the four intents that move the needle for BIHL Group — reputational risk, purchase interest, cancellation signals, and service requests. Click any tile to filter the feed.</div>
+          <div class="intent-grid">
+            <div class="intent-tile risk" onclick="mcFilterByIntent('risk')" style="cursor:pointer">
+              <div class="intent-label">Risk</div>
+              <div class="intent-count" id="intent-count-risk">—</div>
+              <div class="intent-desc">Scandal, regulatory, viral negative content</div>
+            </div>
+            <div class="intent-tile purchase" onclick="mcFilterByIntent('purchase')" style="cursor:pointer">
+              <div class="intent-label">Purchase intent</div>
+              <div class="intent-count" id="intent-count-purchase">—</div>
+              <div class="intent-desc">Signals to open a policy, subscribe, join</div>
+            </div>
+            <div class="intent-tile cancel" onclick="mcFilterByIntent('cancel')" style="cursor:pointer">
+              <div class="intent-label">Cancel intent</div>
+              <div class="intent-count" id="intent-count-cancel">—</div>
+              <div class="intent-desc">Signals to leave, downgrade, switch away</div>
+            </div>
+            <div class="intent-tile service" onclick="mcFilterByIntent('service')" style="cursor:pointer">
+              <div class="intent-label">Service</div>
+              <div class="intent-count" id="intent-count-service">—</div>
+              <div class="intent-desc">Feedback, claims, requests for help</div>
+            </div>
+          </div>
+        </div>
+
         <!-- Active alerts feed -->
         <div class="alerts-card">
           <div class="head">
@@ -1234,6 +1283,7 @@
       // v5: store mentions globally so filter chips can re-render, and populate Clippings feed
       window._lastMentions = mentions;
       renderClippings(mentions);
+      if (typeof mcUpdateIntentCounts === 'function') mcUpdateIntentCounts();
 
       // v5.1: apply the currently-selected Dashboard tab filter
       if (typeof mcRenderDashTab === 'function') mcRenderDashTab(mentions);
@@ -1817,12 +1867,14 @@
         <span style="font-weight:600;color:var(--ink)">${_escapeHtml(m.source || 'Unknown source')}</span>
         ${m.brand ? `<span style="background:var(--bg);padding:3px 10px;border-radius:12px;font-weight:600;color:var(--ink);font-size:11px">${_escapeHtml(m.brand)}</span>` : ''}
         ${isTn ? `<span style="background:#FDF3D1;color:#7A5411;padding:3px 8px;border-radius:4px;font-weight:700;font-size:10px;letter-spacing:.05em">SETSWANA</span>` : ''}
+        ${_renderPriorityPill(m)}
         <span style="margin-left:auto">${_escapeHtml(_fmtDate(m.published_at))}</span>
       </div>
       <div style="font-size:19px;font-weight:800;color:var(--ink);line-height:1.35;margin-bottom:14px;letter-spacing:-.005em">${_escapeHtml(m.title || '(untitled)')}</div>
       ${content ? `<div style="font-size:14.5px;line-height:1.65;color:var(--text);margin-bottom:18px;white-space:pre-wrap">${content}</div>` : '<div style="font-size:13px;color:var(--muted);margin-bottom:18px;font-style:italic">No article body captured for this clip.</div>'}
       <div class="stat-row">
         <div class="stat" style="text-align:center"><div class="n"><span class="clip-sent ${_sentClass(m.sentiment)}" style="font-size:11px">${_sentLabel(m.sentiment)}</span></div><div class="l">Sentiment</div></div>
+        ${_sentTypeLabel(m.sentiment_type) ? `<div class="stat" style="text-align:center"><div class="n"><span class="m-senttype ${_sentTypeLabel(m.sentiment_type).toLowerCase()}" style="font-size:10.5px">${_sentTypeLabel(m.sentiment_type)}</span></div><div class="l">Sentiment type</div></div>` : ''}
         <div class="stat"><div class="n">${_fmt(m.reach)}</div><div class="l">Reach</div></div>
         <div class="stat"><div class="n">P ${(Number(m.ad_value)||0).toLocaleString()}</div><div class="l">Est. ad value</div></div>
       </div>
@@ -2063,6 +2115,49 @@
     if (row) row.remove();
     mcCloseModal();
   }
+  // v5.7: Intent-count tiles (RPCS) on the Alerts view
+  function mcUpdateIntentCounts(){
+    const mentions = window._lastMentions || [];
+    const counts = { risk:0, purchase:0, cancel:0, service:0 };
+    mentions.forEach(m => {
+      const p = (m.priority||"").toLowerCase();
+      if (p in counts) counts[p]++;
+    });
+    ['risk','purchase','cancel','service'].forEach(k => {
+      const el = document.getElementById('intent-count-'+k);
+      if (el) el.textContent = counts[k] > 0 ? counts[k] : '0';
+    });
+  }
+  setTimeout(mcUpdateIntentCounts, 200);
+  // Jump to Listening view + filter clip feed by intent when a tile is clicked
+  function mcFilterByIntent(intent){
+    mcGoto('listening');
+    setTimeout(() => {
+      const list = document.getElementById('clips-list');
+      if (!list) return;
+      list.querySelectorAll('.clip').forEach(el => {
+        const pillText = el.querySelector('.m-priority')?.textContent?.trim().toLowerCase();
+        el.style.display = pillText === intent ? '' : 'none';
+      });
+      // Show a header banner so it's clear the filter is active
+      let banner = document.getElementById('intent-filter-banner');
+      if (!banner){
+        banner = document.createElement('div');
+        banner.id = 'intent-filter-banner';
+        banner.style.cssText = 'margin:12px 0;padding:10px 14px;background:var(--bg);border-left:3px solid var(--red);border-radius:6px;font-size:13px;color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:12px';
+        list.parentNode.insertBefore(banner, list);
+      }
+      const map = { risk:'Risk', purchase:'Purchase intent', cancel:'Cancel intent', service:'Service' };
+      banner.innerHTML = `<span><b>Filtered:</b> showing only ${map[intent]||intent} mentions</span><button class="alert-btn" onclick="mcClearIntentFilter()">Clear filter</button>`;
+    }, 60);
+  }
+  function mcClearIntentFilter(){
+    const list = document.getElementById('clips-list');
+    if (list) list.querySelectorAll('.clip').forEach(el => el.style.display = '');
+    const banner = document.getElementById('intent-filter-banner');
+    if (banner) banner.remove();
+  }
+
   function mcMarkAllReviewed(){
     // Fade out and remove every active alert row
     const rows = document.querySelectorAll('#alerts-list .alert-row');
@@ -2153,11 +2248,13 @@
               <span class="m-source">${_escapeHtml(m.source || 'Unknown source')}</span>
               ${m.brand ? `<span class="m-brand">${_escapeHtml(m.brand)}</span>` : ''}
               ${isTn ? `<span class="m-lang">SETSWANA</span>` : ''}
+              ${_renderPriorityPill(m)}
             </div>
             <div class="clip-headline">${_escapeHtml(m.title || '(untitled)')}</div>
             ${excerpt ? `<div class="clip-excerpt">${excerpt}${(m.content||'').length > 220 ? '…' : ''}</div>` : ''}
             <div class="clip-footer">
               <span class="clip-sent ${_sentClass(m.sentiment)}">${_sentLabel(m.sentiment)}</span>
+              ${_renderSentTypeBadge(m)}
               <span>${_fmtDate(m.published_at)}</span>
               <span class="clip-reach">${_fmt(m.reach)}</span>
             </div>
@@ -2405,6 +2502,32 @@
     if (k === "negative") return "negative";
     return "neutral";
   }
+  // v5.7 helpers — Priority (RPCS) + Sentiment type (Op/Rep)
+  function _priorityLabel(p){
+    const k = (p||"").toLowerCase();
+    const map = { risk:"Risk", purchase:"Purchase", cancel:"Cancel", service:"Service" };
+    return map[k] || null;   // "none" or anything else -> no pill rendered
+  }
+  function _priorityClass(p){
+    const k = (p||"").toLowerCase();
+    return ["risk","purchase","cancel","service"].includes(k) ? k : null;
+  }
+  function _sentTypeLabel(t){
+    const k = (t||"").toLowerCase();
+    if (k === "operational") return "Operational";
+    if (k === "reputational") return "Reputational";
+    return null;
+  }
+  function _renderPriorityPill(m){
+    const cls = _priorityClass(m.priority);
+    if (!cls) return "";
+    return `<span class="m-priority ${cls}">${_priorityLabel(m.priority)}</span>`;
+  }
+  function _renderSentTypeBadge(m){
+    const lbl = _sentTypeLabel(m.sentiment_type);
+    if (!lbl) return "";
+    return `<span class="m-senttype ${lbl.toLowerCase()}">${lbl}</span>`;
+  }
 
   function renderClippings(mentions){
     const list = document.getElementById('clips-list');
@@ -2452,11 +2575,13 @@
               <span class="m-source">${_escapeHtml(m.source || 'Unknown source')}</span>
               ${m.brand ? `<span class="m-brand">${_escapeHtml(m.brand)}</span>` : ''}
               ${isTn ? `<span class="m-lang">SETSWANA</span>` : ''}
+              ${_renderPriorityPill(m)}
             </div>
             <div class="clip-headline">${_escapeHtml(m.title || '(untitled)')}</div>
             ${excerpt ? `<div class="clip-excerpt">${excerpt}${(m.content||'').length > 220 ? '…' : ''}</div>` : ''}
             <div class="clip-footer">
               <span class="clip-sent ${_sentClass(m.sentiment)}">${_sentLabel(m.sentiment)}</span>
+              ${_renderSentTypeBadge(m)}
               <span>${_fmtDate(m.published_at)}</span>
               <span class="clip-reach">${_fmt(m.reach)}</span>
             </div>
