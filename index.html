@@ -35,13 +35,13 @@ button{font-family:inherit;cursor:pointer}
 .wrap{max-width:1240px;margin:0 auto;padding:0 40px}
 @media (max-width:900px){.wrap{padding:0 24px}}
 @media (max-width:480px){.wrap{padding:0 20px}}
-.nav{border-bottom:1px solid var(--line);background:rgba(255,255,255,.9);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100;height:130px}
+.nav{border-bottom:1px solid var(--line);background:rgba(255,255,255,.9);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100;height:72px}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:28px;height:100%}
 .mc-logo{display:block;background:transparent}
 .nav-logo{display:flex;align-items:center;flex-shrink:0}
-.nav-logo .mc-logo{height:96px;width:auto}
-.foot-brand .mc-logo{height:100px;width:auto}
-.signin-logo,.demo-logo{height:64px;width:auto;margin:0 auto 16px;display:block}
+.nav-logo .mc-logo{height:40px;width:auto}
+.foot-brand .mc-logo{height:44px;width:auto}
+.signin-logo,.demo-logo{height:40px;width:auto;margin:0 auto 16px;display:block}
 .nav-links{display:flex;align-items:center;gap:36px;font-size:15px;font-weight:500;flex:1;justify-content:center}
 .nav-links a{color:var(--ink-3);padding:10px 0;transition:color .18s;cursor:pointer;background:none;border:0;font-family:inherit;font-weight:500;font-size:15px}
 .nav-links a:hover{color:var(--red)}
@@ -63,9 +63,9 @@ button{font-family:inherit;cursor:pointer}
 .mm-cta{margin-top:20px;background:var(--red);color:#fff;padding:16px;border-radius:11px;font-size:15px;font-weight:700;border:0;cursor:pointer;font-family:inherit}
 @media (max-width:1024px){.nav-links{display:none}.nav-toggle{display:flex}}
 @media (min-width:1025px){.mobile-menu{display:none!important}}
-@media (max-width:900px){.nav{height:104px}.nav-logo .mc-logo{height:78px}.foot-brand .mc-logo{height:86px}}
-@media (max-width:640px){.nav{height:88px}.nav-logo .mc-logo{height:64px}.foot-brand .mc-logo{height:76px}.nav-cta{padding:11px 16px;font-size:13.5px}}
-@media (max-width:420px){.nav{height:78px}.nav-logo .mc-logo{height:54px}.foot-brand .mc-logo{height:66px}.nav-cta{padding:10px 14px;font-size:13px}}
+@media (max-width:900px){.nav{height:64px}.nav-logo .mc-logo{height:36px}.foot-brand .mc-logo{height:40px}}
+@media (max-width:640px){.nav{height:60px}.nav-logo .mc-logo{height:32px}.foot-brand .mc-logo{height:36px}.nav-cta{padding:11px 16px;font-size:13.5px}}
+@media (max-width:420px){.nav{height:56px}.nav-logo .mc-logo{height:28px}.foot-brand .mc-logo{height:32px}.nav-cta{padding:10px 14px;font-size:13px}}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 .hero{position:relative;padding:80px 0 96px;overflow:hidden;background:radial-gradient(ellipse 900px 600px at 85% 30%,rgba(218,31,38,.06) 0%,transparent 60%),linear-gradient(180deg,#fff 0%,#FAFBFC 100%);border-bottom:1px solid var(--line)}
 .hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.018) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
