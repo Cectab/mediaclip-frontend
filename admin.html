@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#DA1F26">
+<link rel="icon" type="image/png" href="/logo.png">
+<title>MediaClip — Admin</title>
+<style>
+:root{color-scheme:light only;--red:#DA1F26;--red-dark:#B4141B;--red-soft:#FDF3F3;--red-glow:rgba(218,31,38,.12);--ink:#0A0C10;--ink-2:#16181D;--ink-3:#2A2E36;--slate:#4B5563;--muted:#6B7280;--muted-2:#9CA3AF;--line:#EBEDF0;--line-2:#DCE0E6;--bg:#F5F7FA;--bg-warm:#FAFAF7;--pos:#0E9F6E;--warn:#D97706;--info:#2563EB;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink-2);line-height:1.5;font-size:14.5px;min-height:100vh}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+img{max-width:100%;display:block}
+
+/* --- Login screen --- */
+.gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse 800px 500px at 50% 30%,rgba(218,31,38,.07) 0%,transparent 60%),#fff}
+.gate-card{width:100%;max-width:400px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:40px 36px;box-shadow:0 40px 100px -30px rgba(15,25,50,.12),0 8px 24px -8px rgba(15,25,50,.06)}
+.gate-logo{height:56px;width:auto;margin:0 auto 20px;display:block}
+.gate-title{font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.01em;text-align:center;margin-bottom:6px}
+.gate-sub{font-size:13.5px;color:var(--muted);text-align:center;margin-bottom:28px}
+.gate label{display:block;font-size:12px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.gate input{width:100%;padding:13px 14px;border:1.5px solid var(--line-2);border-radius:11px;font-size:14.5px;background:#fff;transition:border-color .15s;font-family:var(--mono)}
+.gate input:focus{outline:0;border-color:var(--red)}
+.gate-btn{width:100%;background:var(--red);color:#fff;padding:14px;border-radius:11px;font-size:14.5px;font-weight:700;margin-top:18px;transition:all .18s}
+.gate-btn:hover{background:var(--red-dark);transform:translateY(-1px)}
+.gate-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.gate-err{background:var(--red-soft);color:var(--red-dark);padding:10px 14px;border-radius:9px;font-size:13px;margin-top:14px;font-weight:500;text-align:center}
+.gate-note{font-size:11.5px;color:var(--muted-2);text-align:center;margin-top:16px;line-height:1.5}
+
+/* --- App shell --- */
+.app{display:none;min-height:100vh}
+.app.on{display:block}
+.topbar{background:#fff;border-bottom:1px solid var(--line);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:sticky;top:0;z-index:10}
+.topbar-brand{display:flex;align-items:center;gap:14px}
+.topbar-brand img{height:36px;width:auto}
+.topbar-title{font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.005em}
+.topbar-title .divider{color:var(--muted-2);margin:0 8px;font-weight:400}
+.topbar-actions{display:flex;align-items:center;gap:10px}
+.tb-btn{padding:8px 14px;border:1px solid var(--line-2);border-radius:9px;font-size:13px;font-weight:600;color:var(--ink-3);background:#fff;transition:all .15s;display:inline-flex;align-items:center;gap:7px}
+.tb-btn:hover{border-color:var(--ink-3);color:var(--ink)}
+.tb-btn.signout{color:var(--red-dark);border-color:var(--red-soft);background:var(--red-soft)}
+.tb-btn.signout:hover{background:#fff;border-color:var(--red)}
+.tb-btn svg{width:13px;height:13px}
+@media (max-width:640px){.topbar{padding:12px 16px;flex-wrap:wrap}.topbar-title{font-size:14px}.topbar-brand img{height:32px}}
+
+.main{padding:28px 24px 60px;max-width:1600px;margin:0 auto}
+@media (max-width:640px){.main{padding:20px 16px 40px}}
+
+/* --- Stats strip --- */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:24px}
+@media (max-width:1024px){.stats{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:520px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;transition:all .18s;cursor:pointer}
+.stat:hover{border-color:var(--ink-3);transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(15,25,50,.12)}
+.stat.on{border-color:var(--red);background:var(--red-soft)}
+.stat.on .stat-n{color:var(--red-dark)}
+.stat-n{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.02em;line-height:1;margin-bottom:6px}
+.stat-l{font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:600;letter-spacing:.06em}
+
+/* --- Table --- */
+.table-card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 4px 16px -8px rgba(15,25,50,.05)}
+.table-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);gap:16px;flex-wrap:wrap}
+.table-title{font-size:15px;font-weight:700;color:var(--ink)}
+.table-title span{color:var(--muted);font-weight:500;margin-left:8px}
+.table-refresh{padding:7px 12px;font-size:12px;font-weight:600;color:var(--slate);border:1px solid var(--line-2);border-radius:8px;background:#fff;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.table-refresh:hover{border-color:var(--ink-3);color:var(--ink)}
+.table-refresh svg{width:12px;height:12px}
+.table-refresh.spin svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.table-wrap{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;min-width:900px}
+.tbl th{text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding:12px 14px;border-bottom:1px solid var(--line);background:var(--bg-warm);white-space:nowrap}
+.tbl td{padding:16px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tr:hover{background:var(--bg-warm)}
+
+.c-id{font-family:var(--mono);color:var(--muted);font-size:12px;font-weight:600;width:1%;white-space:nowrap}
+.c-when{color:var(--slate);font-size:12.5px;width:1%;white-space:nowrap}
+.c-when b{color:var(--ink);font-weight:600;display:block;font-size:13px}
+.c-who{min-width:180px}
+.c-who .name{font-weight:700;color:var(--ink);margin-bottom:2px}
+.c-who .co{font-size:12.5px;color:var(--slate)}
+.c-contact{min-width:180px;font-size:12.5px}
+.c-contact a{color:var(--ink-2);text-decoration:none;display:block;margin-bottom:3px}
+.c-contact a:hover{color:var(--red)}
+.c-contact .ph{color:var(--muted)}
+.c-int{width:1%;white-space:nowrap}
+.chip{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:var(--bg);color:var(--slate)}
+.chip.demo{background:#EFF6FF;color:#1D4ED8}
+.chip.snapshot{background:#F0FDF4;color:#166534}
+.chip.both{background:#FEF3C7;color:#92400E}
+.c-msg{max-width:340px;min-width:220px;font-size:13px;color:var(--slate);line-height:1.5}
+.c-msg .m{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.c-msg.expanded .m{-webkit-line-clamp:unset}
+.c-msg-toggle{color:var(--red);font-size:11.5px;font-weight:600;margin-top:4px;padding:0}
+.c-msg-toggle:hover{text-decoration:underline}
+.c-status{width:1%;white-space:nowrap}
+.status-sel{padding:6px 26px 6px 10px;border:1px solid var(--line-2);border-radius:8px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:#fff url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5l3 3 3-3' fill='none' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 8px center/9px;appearance:none;-webkit-appearance:none;transition:all .15s;cursor:pointer;min-width:120px}
+.status-sel.new{color:#1D4ED8;border-color:#BFDBFE;background-color:#EFF6FF}
+.status-sel.contacted{color:#92400E;border-color:#FDE68A;background-color:#FEF3C7}
+.status-sel.qualified{color:#6D28D9;border-color:#DDD6FE;background-color:#F5F3FF}
+.status-sel.won{color:#166534;border-color:#BBF7D0;background-color:#F0FDF4}
+.status-sel.lost{color:#991B1B;border-color:#FECACA;background-color:#FEF2F2}
+.status-sel:focus{outline:0;box-shadow:0 0 0 3px rgba(218,31,38,.12)}
+.c-notes{min-width:200px;max-width:280px}
+.notes-in{width:100%;padding:8px 10px;border:1px solid transparent;border-radius:7px;background:transparent;font-size:12.5px;color:var(--ink-2);resize:vertical;min-height:34px;line-height:1.45;transition:all .15s;font-family:inherit}
+.notes-in:hover:not(:focus){border-color:var(--line)}
+.notes-in:focus{outline:0;border-color:var(--red);background:#fff;box-shadow:0 0 0 3px rgba(218,31,38,.1)}
+.notes-in::placeholder{color:var(--muted-2)}
+.saving{position:absolute;top:8px;right:10px;font-size:10px;color:var(--pos);font-weight:600;text-transform:uppercase;letter-spacing:.05em;opacity:0;transition:opacity .2s}
+.saving.on{opacity:1}
+.row{position:relative}
+.row-saved{animation:flash 1s}
+@keyframes flash{0%{background:rgba(14,159,110,.08)}100%{background:transparent}}
+
+.empty{padding:60px 20px;text-align:center;color:var(--muted)}
+.empty svg{width:48px;height:48px;margin:0 auto 16px;opacity:.5}
+.empty h3{font-size:16px;color:var(--ink);margin-bottom:6px;font-weight:700}
+.empty p{font-size:13.5px}
+
+.loading{padding:60px 20px;text-align:center;color:var(--muted)}
+.spinner{width:24px;height:24px;border:2.5px solid var(--line);border-top-color:var(--red);border-radius:50%;margin:0 auto 14px;animation:spin 0.7s linear infinite}
+
+.footer{padding:20px 24px;color:var(--muted-2);font-size:11.5px;text-align:center;font-family:var(--mono)}
+.footer a{color:var(--muted);text-decoration:none}
+.footer a:hover{color:var(--red)}
+</style>
+</head>
+<body>
+
+<!-- Login gate -->
+<div id="gate" class="gate">
+  <div class="gate-card">
+    <img class="gate-logo" src="/logo.png" alt="MediaClip">
+    <h1 class="gate-title">Admin console</h1>
+    <p class="gate-sub">Enter the admin key to view demo requests.</p>
+    <form id="gate-form" autocomplete="off">
+      <label for="k">Admin key</label>
+      <input id="k" type="password" placeholder="•••••••••••••••" autocomplete="off" autofocus required>
+      <button class="gate-btn" id="gate-btn" type="submit">Sign in</button>
+      <div id="gate-err" class="gate-err" style="display:none"></div>
+    </form>
+    <p class="gate-note">Key is stored in this browser only. Not sent anywhere except <span style="font-family:var(--mono)">mediaclip-backend.onrender.com</span>.</p>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app" class="app">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <img src="/logo.png" alt="MediaClip">
+      <div class="topbar-title">Admin<span class="divider">/</span>Demo requests</div>
+    </div>
+    <div class="topbar-actions">
+      <a href="/" class="tb-btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l6-6 6 6M4 6.5V13a1 1 0 001 1h6a1 1 0 001-1V6.5"/></svg>Public site</a>
+      <button class="tb-btn signout" id="signout-btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14H3a1 1 0 01-1-1V3a1 1 0 011-1h3M10 11l3-3-3-3M13 8H6"/></svg>Sign out</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="stats" id="stats"></div>
+
+    <div class="table-card">
+      <div class="table-head">
+        <h2 class="table-title">Leads<span id="lead-count"></span></h2>
+        <button class="table-refresh" id="refresh"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 8a6 6 0 11-1.76-4.24"/><path d="M14 2v3.5H10.5"/></svg>Refresh</button>
+      </div>
+      <div class="table-wrap" id="table-wrap">
+        <div class="loading"><div class="spinner"></div>Loading leads…</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      MediaClip Admin · Botswana time · <a href="mailto:dumela@mediaclip.net">dumela@mediaclip.net</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var API = 'https://mediaclip-backend.onrender.com/api/admin';
+  var LS_KEY = 'mc_admin_key_v1';
+  var LS_FILTER = 'mc_admin_filter_v1';
+  var STATUS_LABELS = {
+    all: 'All',
+    new: 'New',
+    contacted: 'Contacted',
+    qualified: 'Qualified',
+    won: 'Won',
+    lost: 'Lost'
+  };
+  var STATUS_ORDER = ['all','new','contacted','qualified','won','lost'];
+
+  var gate = document.getElementById('gate');
+  var app = document.getElementById('app');
+  var gateForm = document.getElementById('gate-form');
+  var gateInput = document.getElementById('k');
+  var gateBtn = document.getElementById('gate-btn');
+  var gateErr = document.getElementById('gate-err');
+  var statsBox = document.getElementById('stats');
+  var tableWrap = document.getElementById('table-wrap');
+  var refreshBtn = document.getElementById('refresh');
+  var signoutBtn = document.getElementById('signout-btn');
+  var leadCount = document.getElementById('lead-count');
+
+  var state = {
+    key: getStoredKey(),
+    filter: getStoredFilter(),
+    leads: [],
+    stats: [],
+    total: 0
+  };
+
+  function getStoredKey(){ try{return localStorage.getItem(LS_KEY)||''}catch(_){return ''} }
+  function setStoredKey(v){ try{localStorage.setItem(LS_KEY,v)}catch(_){} }
+  function clearStoredKey(){ try{localStorage.removeItem(LS_KEY)}catch(_){} }
+  function getStoredFilter(){ try{return localStorage.getItem(LS_FILTER)||'all'}catch(_){return 'all'} }
+  function setStoredFilter(v){ try{localStorage.setItem(LS_FILTER,v)}catch(_){} }
+
+  function showGate(msg){
+    app.classList.remove('on');
+    gate.style.display = 'flex';
+    if (msg) { gateErr.textContent = msg; gateErr.style.display = 'block'; }
+    else { gateErr.style.display = 'none'; }
+    gateInput.value = '';
+    setTimeout(function(){gateInput.focus()}, 50);
+  }
+  function showApp(){
+    gate.style.display = 'none';
+    app.classList.add('on');
+  }
+
+  async function fetchLeads(){
+    var url = API + '/leads';
+    if (state.filter && state.filter !== 'all') {
+      url += '?status=' + encodeURIComponent(state.filter);
+    }
+    var r = await fetch(url, {
+      headers: { 'Authorization': 'Bearer ' + state.key }
+    });
+    if (r.status === 401) {
+      throw new Error('unauthorized');
+    }
+    if (!r.ok) {
+      var body = await r.text().catch(function(){return ''});
+      throw new Error('HTTP ' + r.status + (body ? ': ' + body.slice(0,120) : ''));
+    }
+    return r.json();
+  }
+
+  async function patchLead(id, fields){
+    var r = await fetch(API + '/leads/' + id, {
+      method: 'PATCH',
+      headers: { 'Authorization': 'Bearer ' + state.key, 'Content-Type': 'application/json' },
+      body: JSON.stringify(fields)
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }
+
+  function renderStats(){
+    var counts = { all: state.total, new:0, contacted:0, qualified:0, won:0, lost:0 };
+    (state.stats || []).forEach(function(s){ counts[s.status] = s.count; });
+    statsBox.innerHTML = STATUS_ORDER.map(function(k){
+      return '<button class="stat ' + (state.filter === k ? 'on' : '') + '" data-filter="' + k + '">' +
+        '<div class="stat-n">' + counts[k] + '</div>' +
+        '<div class="stat-l">' + STATUS_LABELS[k] + '</div>' +
+      '</button>';
+    }).join('');
+    [].forEach.call(statsBox.querySelectorAll('.stat'), function(el){
+      el.addEventListener('click', function(){
+        state.filter = el.getAttribute('data-filter');
+        setStoredFilter(state.filter);
+        renderStats();
+        load(false);
+      });
+    });
+  }
+
+  function fmtWhen(iso){
+    if (!iso) return '—';
+    var d = new Date(iso);
+    var now = new Date();
+    var diffMs = now - d;
+    var diffMin = Math.floor(diffMs/60000);
+    var diffHr = Math.floor(diffMs/3600000);
+    var diffDay = Math.floor(diffMs/86400000);
+    var rel;
+    if (diffMin < 1) rel = 'just now';
+    else if (diffMin < 60) rel = diffMin + 'm ago';
+    else if (diffHr < 24) rel = diffHr + 'h ago';
+    else if (diffDay < 7) rel = diffDay + 'd ago';
+    else rel = d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' });
+    var t = d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone:'Africa/Gaborone' });
+    return { rel: rel, t: t };
+  }
+
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}); }
+
+  function renderTable(){
+    if (!state.leads.length) {
+      tableWrap.innerHTML = '<div class="empty">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>' +
+        '<h3>No leads yet</h3>' +
+        '<p>' + (state.filter !== 'all' ? 'No leads with status "' + STATUS_LABELS[state.filter] + '".' : 'Nothing has come through the demo form.') + '</p>' +
+      '</div>';
+      leadCount.textContent = '';
+      return;
+    }
+
+    var rows = state.leads.map(function(l){
+      var when = fmtWhen(l.created_at);
+      var intClass = l.interest === 'both' ? 'both' : (l.interest === 'snapshot' ? 'snapshot' : 'demo');
+      return '<tr class="row" data-id="' + l.id + '">' +
+        '<td class="c-id">#' + l.id + '</td>' +
+        '<td class="c-when"><b>' + when.rel + '</b>' + when.t + '</td>' +
+        '<td class="c-who">' +
+          '<div class="name">' + esc(l.name) + '</div>' +
+          '<div class="co">' + esc(l.company) + '</div>' +
+        '</td>' +
+        '<td class="c-contact">' +
+          '<a href="mailto:' + esc(l.email) + '">' + esc(l.email) + '</a>' +
+          (l.phone ? '<a class="ph" href="tel:' + esc(l.phone) + '">' + esc(l.phone) + '</a>' : '') +
+        '</td>' +
+        '<td class="c-int"><span class="chip ' + intClass + '">' + esc(l.interest || 'demo') + '</span></td>' +
+        '<td class="c-msg">' +
+          '<div class="m">' + esc(l.message || '—') + '</div>' +
+          (l.message && l.message.length > 180 ? '<button class="c-msg-toggle" data-toggle="msg">Expand</button>' : '') +
+        '</td>' +
+        '<td class="c-status">' +
+          '<select class="status-sel ' + (l.status || 'new') + '" data-field="status">' +
+            ['new','contacted','qualified','won','lost'].map(function(s){
+              return '<option value="' + s + '"' + (l.status === s ? ' selected' : '') + '>' + STATUS_LABELS[s] + '</option>';
+            }).join('') +
+          '</select>' +
+          '<span class="saving">saved</span>' +
+        '</td>' +
+        '<td class="c-notes"><textarea class="notes-in" data-field="notes" placeholder="Notes…" rows="1">' + esc(l.notes || '') + '</textarea></td>' +
+      '</tr>';
+    }).join('');
+
+    tableWrap.innerHTML = '<table class="tbl">' +
+      '<thead><tr>' +
+        '<th>ID</th>' +
+        '<th>When</th>' +
+        '<th>Who</th>' +
+        '<th>Contact</th>' +
+        '<th>Interest</th>' +
+        '<th>Message</th>' +
+        '<th>Status</th>' +
+        '<th>Notes</th>' +
+      '</tr></thead>' +
+      '<tbody>' + rows + '</tbody>' +
+    '</table>';
+
+    leadCount.textContent = ' · ' + state.leads.length + (state.filter !== 'all' ? ' ' + STATUS_LABELS[state.filter].toLowerCase() : '') + ' of ' + state.total;
+
+    // Wire up interactions
+    [].forEach.call(tableWrap.querySelectorAll('.status-sel'), function(sel){
+      sel.addEventListener('change', async function(){
+        var row = sel.closest('.row');
+        var id = row.getAttribute('data-id');
+        var newStatus = sel.value;
+        sel.className = 'status-sel ' + newStatus;
+        try {
+          await patchLead(id, { status: newStatus });
+          showSaved(row);
+          // update local model + refresh stats without full reload
+          var lead = state.leads.find(function(l){return String(l.id) === String(id)});
+          if (lead) lead.status = newStatus;
+          // stats need refresh
+          load(false);
+        } catch(e) {
+          alert('Failed to update status: ' + e.message);
+        }
+      });
+    });
+
+    var notesTimers = {};
+    [].forEach.call(tableWrap.querySelectorAll('.notes-in'), function(ta){
+      // Auto-resize
+      var resize = function(){ ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 200) + 'px'; };
+      resize();
+      ta.addEventListener('input', function(){
+        resize();
+        var row = ta.closest('.row');
+        var id = row.getAttribute('data-id');
+        clearTimeout(notesTimers[id]);
+        notesTimers[id] = setTimeout(async function(){
+          try {
+            await patchLead(id, { notes: ta.value });
+            showSaved(row);
+            var lead = state.leads.find(function(l){return String(l.id) === String(id)});
+            if (lead) lead.notes = ta.value;
+          } catch(e) {
+            console.error('notes save failed', e);
+          }
+        }, 700);
+      });
+    });
+
+    [].forEach.call(tableWrap.querySelectorAll('.c-msg-toggle'), function(btn){
+      btn.addEventListener('click', function(){
+        var cell = btn.closest('.c-msg');
+        cell.classList.toggle('expanded');
+        btn.textContent = cell.classList.contains('expanded') ? 'Collapse' : 'Expand';
+      });
+    });
+  }
+
+  function showSaved(row){
+    var saving = row.querySelector('.saving');
+    if (!saving) return;
+    saving.classList.add('on');
+    setTimeout(function(){ saving.classList.remove('on'); }, 1200);
+  }
+
+  async function load(showSpinner){
+    if (showSpinner) {
+      tableWrap.innerHTML = '<div class="loading"><div class="spinner"></div>Loading leads…</div>';
+    }
+    refreshBtn.classList.add('spin');
+    try {
+      var data = await fetchLeads();
+      state.leads = data.leads || [];
+      state.stats = data.stats || [];
+      state.total = data.total || 0;
+      renderStats();
+      renderTable();
+    } catch(e) {
+      if (e.message === 'unauthorized') {
+        clearStoredKey();
+        state.key = '';
+        showGate('That key was rejected. Try again.');
+      } else {
+        tableWrap.innerHTML = '<div class="empty" style="color:var(--red-dark)"><h3>Could not load leads</h3><p>' + esc(e.message) + '</p></div>';
+      }
+    } finally {
+      refreshBtn.classList.remove('spin');
+    }
+  }
+
+  gateForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var v = gateInput.value.trim();
+    if (!v) return;
+    gateBtn.disabled = true;
+    gateBtn.textContent = 'Signing in…';
+    state.key = v;
+    setStoredKey(v);
+    showApp();
+    load(true).finally(function(){
+      gateBtn.disabled = false;
+      gateBtn.textContent = 'Sign in';
+    });
+  });
+
+  signoutBtn.addEventListener('click', function(){
+    clearStoredKey();
+    state.key = '';
+    state.leads = [];
+    state.stats = [];
+    state.total = 0;
+    showGate();
+  });
+
+  refreshBtn.addEventListener('click', function(){ load(false); });
+
+  // Boot
+  if (state.key) {
+    showApp();
+    load(true);
+  } else {
+    showGate();
+  }
+
+  // Keyboard shortcut: R to refresh (when app visible)
+  document.addEventListener('keydown', function(e){
+    if (app.classList.contains('on') && !e.target.matches('input,textarea,select') &&
+        (e.key === 'r' || e.key === 'R') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      load(false);
+    }
+  });
+})();
+</script>
+</body>
+</html>

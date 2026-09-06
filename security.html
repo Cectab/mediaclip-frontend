@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security | MediaClip</title>
+<meta name="description" content="How MediaClip protects client data — architecture, access controls, monitoring and incident response.">
+<meta name="theme-color" content="#DA1F26">
+<link rel="canonical" href="https://mediaclip.net/security">
+<link rel="icon" type="image/png" href="/logo.png">
+<style>
+:root{color-scheme:light only;--red:#DA1F26;--red-dark:#B4141B;--red-soft:#FDF3F3;--ink:#0A0C10;--ink-2:#16181D;--ink-3:#2A2E36;--slate:#4B5563;--muted:#6B7280;--line:#EBEDF0;--bg-warm:#FAFAF7;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:#fff;color:var(--ink-2);line-height:1.65;font-size:16px}
+a{color:var(--red);text-decoration:none}a:hover{text-decoration:underline}
+.nav{border-bottom:1px solid var(--line);background:#fff;padding:20px 0}
+.wrap{max-width:800px;margin:0 auto;padding:0 24px}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.nav img{height:40px;width:auto;display:block}
+.nav-back{font-size:14px;font-weight:500;color:var(--ink-3)}
+.doc{padding:56px 0 80px}
+.doc-eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--red);letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px}
+.doc h1{font-size:clamp(2rem,4vw,2.6rem);font-weight:800;line-height:1.1;letter-spacing:-.025em;color:var(--ink);margin-bottom:12px}
+.doc-meta{font-size:14px;color:var(--muted);margin-bottom:40px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.doc h2{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.01em;margin:36px 0 12px}
+.doc p{margin-bottom:14px;color:var(--ink-3)}
+.doc ul{margin:0 0 14px 24px;color:var(--ink-3)}
+.doc ul li{margin-bottom:6px}
+.doc strong{color:var(--ink);font-weight:600}
+.notice{background:var(--bg-warm);border-left:3px solid var(--red);padding:14px 18px;border-radius:0 8px 8px 0;font-size:14px;margin:20px 0}
+.footer{border-top:1px solid var(--line);padding:28px 0;background:var(--bg-warm);color:var(--muted);font-size:13px;text-align:center}
+.footer a{color:var(--muted)}.footer a:hover{color:var(--red)}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner">
+<a href="/" aria-label="MediaClip home"><img src="/logo.png" alt="MediaClip"></a>
+<a href="/" class="nav-back">← Back to home</a>
+</div></header>
+
+<main class="doc"><div class="wrap">
+<div class="doc-eyebrow">TRUST</div>
+<h1>Security</h1>
+<div class="doc-meta">Effective 24 August 2026 · MediaClip, Gaborone, Botswana</div>
+
+<p>MediaClip is used by communications, marketing and executive teams in Botswana who care about the confidentiality of the coverage we monitor for them. This page summarises the controls we operate. A more detailed enterprise security briefing is available on request under NDA.</p>
+
+<h2>Network and application security</h2>
+<ul>
+<li>All web and API traffic is served over HTTPS with TLS 1.2 or higher.</li>
+<li>The public website enforces standard security headers including <span style="font-family:var(--mono);font-size:.9em">X-Content-Type-Options</span>, <span style="font-family:var(--mono);font-size:.9em">X-Frame-Options</span>, <span style="font-family:var(--mono);font-size:.9em">Referrer-Policy</span> and a restrictive <span style="font-family:var(--mono);font-size:.9em">Permissions-Policy</span>.</li>
+<li>The demo-request endpoint is protected by rate limiting and a bot honeypot.</li>
+<li>Admin endpoints require a bearer key with constant-time comparison and are CORS-restricted to mediaclip.net origins.</li>
+</ul>
+
+<h2>Data storage</h2>
+<ul>
+<li>Client data is stored in a managed PostgreSQL database with TLS-encrypted connections.</li>
+<li>Backups are managed by the database provider on a rolling schedule.</li>
+<li>Application services run on isolated cloud environments with least-privilege configuration.</li>
+</ul>
+
+<h2>Access control</h2>
+<ul>
+<li>Access to production systems is limited to authorised MediaClip personnel on a need-to-know basis.</li>
+<li>Administrative credentials are stored in a secrets manager, never in source control.</li>
+<li>All administrative actions on client data are logged.</li>
+</ul>
+
+<h2>Monitoring and incident response</h2>
+<ul>
+<li>Application and infrastructure metrics are continuously monitored.</li>
+<li>Anomalies and failures trigger alerts to the on-call engineer.</li>
+<li>In the event of a personal-data breach, MediaClip notifies affected parties in line with Botswana's Data Protection Act 2024.</li>
+</ul>
+
+<h2>Third-party sub-processors</h2>
+<p>MediaClip uses a small number of established cloud sub-processors for hosting, database, transactional email and monitoring. A current list is provided to enterprise clients under NDA and updated when it changes materially. Each sub-processor is selected for its published security controls and DPA compliance.</p>
+
+<h2>Client responsibilities</h2>
+<ul>
+<li>Protect account credentials and share them only with staff who need access.</li>
+<li>Notify us promptly at <a href="mailto:dumela@mediaclip.net?subject=Security">dumela@mediaclip.net</a> if you suspect account compromise.</li>
+<li>Comply with your own organisation's information-security policies when using MediaClip dashboards and reports.</li>
+</ul>
+
+<div class="notice"><strong>Responsible disclosure:</strong> if you believe you have found a security issue in a MediaClip system, please email <a href="mailto:dumela@mediaclip.net?subject=Security%20disclosure">dumela@mediaclip.net</a> with details. We investigate every report and will not pursue action against good-faith researchers.</div>
+
+<h2>Contact</h2>
+<p><strong>MediaClip</strong><br>Gaborone, Botswana<br><a href="mailto:dumela@mediaclip.net">dumela@mediaclip.net</a></p>
+
+</div></main>
+
+<footer class="footer">© 2026 MediaClip · Gaborone, Botswana · <a href="/">Home</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/dpa-statement">DPA 2024</a></footer>
+</body>
+</html>
