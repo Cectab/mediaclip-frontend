@@ -189,7 +189,10 @@ button{font-family:inherit;cursor:pointer}
 .foot-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;margin-bottom:44px}
 @media (max-width:900px){.foot-top{grid-template-columns:1fr 1fr;gap:36px}}
 @media (max-width:520px){.foot-top{grid-template-columns:1fr;gap:32px}}
-.foot-brand p{font-size:13px;color:var(--slate);line-height:1.6;max-width:320px;margin-top:16px}
+.foot-brand p{font-size:13px;color:var(--slate);line-height:1.65;max-width:360px;margin-top:16px}
+.foot-brand p + p{margin-top:12px}
+.foot-brand .foot-punch{color:var(--ink);font-weight:600;margin-top:14px}
+.foot-brand .foot-punch span{color:var(--red)}
 .foot-wordmark{font-size:32px;font-weight:800;letter-spacing:-.025em;line-height:1;font-family:var(--sans)}
 .foot-wordmark .fw-a{color:var(--ink)}
 .foot-wordmark .fw-b{color:var(--red)}
@@ -368,9 +371,9 @@ button{font-family:inherit;cursor:pointer}
 
 <footer class="footer"><div class="wrap">
 <div class="foot-top">
-<div class="foot-brand"><div class="foot-wordmark"><span class="fw-a">Media</span><span class="fw-b">Clip</span></div><p>Turning media coverage into decision-ready intelligence for communications, marketing and executive teams. We monitor print, radio, television, digital news and public social conversations, classify every mention by sentiment, intent and urgency, and deliver the signal your team needs — through dashboards, alerts and executive briefs — so you know sooner, understand why, and act with confidence.</p></div>
+<div class="foot-brand"><div class="foot-wordmark"><span class="fw-a">Media</span><span class="fw-b">Clip</span></div><p>Turn media coverage into intelligence you can act on. MediaClip monitors print, radio, television, digital news and public social conversations to uncover the stories, signals and sentiment shaping your brand and reputation.</p><p>Every relevant mention is classified by sentiment, intent, urgency and potential impact, then transformed into clear, decision-ready intelligence through real-time dashboards, alerts and executive briefs.</p><p class="foot-punch">Know sooner. Understand what matters. <span>Act with confidence.</span></p></div>
 <div class="foot-col"><h4>Product</h4><a href="#outcomes">Platform</a><a href="#signal">How it works</a><a href="#coverage">Coverage</a><a href="#faq">FAQ</a></div>
-<div class="foot-col"><h4>Company</h4><a href="mailto:dumela@mediaclip.net">Contact</a><button onclick="openDemo()">Request a demo</button></div>
+<div class="foot-col"><h4>Company</h4><a href="mailto:dumela@mediaclip.net">Contact</a><a href="mailto:careers@mediaclip.net">Careers</a><button onclick="openDemo()">Request a demo</button></div>
 <div class="foot-col"><h4>Trust</h4><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/security">Security</a><a href="/dpa-statement">DPA 2024 statement</a></div>
 </div>
 <div class="foot-bottom">
