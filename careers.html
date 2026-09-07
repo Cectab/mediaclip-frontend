@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Careers | MediaClip</title>
+<meta name="description" content="Join MediaClip. We're building the media intelligence team for banks, telcos, parastatals and government in Botswana. Open roles in Gaborone.">
+<meta name="theme-color" content="#DA1F26">
+<link rel="canonical" href="https://mediaclip.net/careers">
+<link rel="icon" type="image/png" href="/logo.png">
+<style>
+:root{color-scheme:light only;--red:#DA1F26;--red-dark:#B4141B;--red-soft:#FDF3F3;--ink:#0A0C10;--ink-2:#16181D;--ink-3:#2A2E36;--slate:#4B5563;--muted:#6B7280;--line:#EBEDF0;--bg-warm:#FAFAF7;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:#fff;color:var(--ink-2);line-height:1.65;font-size:16px}
+a{color:var(--red);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+.nav{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:100;height:72px;display:flex;align-items:center}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo img{height:40px;width:auto;display:block}
+.nav-back{font-size:14px;font-weight:500;color:var(--ink-3)}
+.nav-back:hover{color:var(--red);text-decoration:none}
+@media (max-width:640px){.nav{height:60px}.nav-logo img{height:32px}}
+
+/* HERO */
+.hero{padding:72px 0 64px;background:linear-gradient(180deg,#fff 0%,var(--bg-warm) 100%);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(ellipse 700px 400px at 90% 20%,rgba(218,31,38,.05) 0%,transparent 60%);pointer-events:none}
+.hero-inner{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+@media (max-width:860px){.hero-inner{grid-template-columns:1fr;gap:40px}.hero{padding:56px 0 48px}}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--red);letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-size:clamp(2.2rem,4.5vw,3.2rem);font-weight:800;line-height:1.08;letter-spacing:-.025em;color:var(--ink);margin-bottom:20px;max-width:560px}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p.lede{font-size:17px;line-height:1.6;color:var(--ink-3);max-width:500px;margin-bottom:28px}
+.hero .facts{display:flex;gap:32px;flex-wrap:wrap;padding-top:24px;border-top:1px solid var(--line);max-width:520px}
+.hero .facts strong{display:block;font-size:22px;color:var(--ink);font-weight:800;letter-spacing:-.01em;margin-bottom:2px}
+.hero .facts span{font-size:12.5px;color:var(--muted)}
+.hero-visual{position:relative;aspect-ratio:5/3;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px -20px rgba(15,25,50,.12);padding:28px;overflow:hidden}
+.hero-visual svg{width:100%;height:100%}
+
+/* WHY */
+.why{padding:72px 0;background:#fff}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px;margin-bottom:36px}
+.section-head h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.section-head span{font-size:13.5px;color:var(--muted)}
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+@media (max-width:760px){.why-grid{grid-template-columns:1fr}}
+.why-card{padding:28px;border:1px solid var(--line);border-radius:14px;background:#fff;transition:border-color .18s,transform .18s}
+.why-card:hover{border-color:var(--red)}
+.why-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--red);letter-spacing:.1em;margin-bottom:12px}
+.why-card h3{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+.why-card p{font-size:14.5px;color:var(--slate);line-height:1.6}
+
+/* ROLES */
+.roles{padding:80px 0;background:var(--bg-warm);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.role{background:#fff;border:1px solid var(--line);border-radius:16px;margin-bottom:20px;overflow:hidden;transition:box-shadow .2s}
+.role:hover{box-shadow:0 12px 32px -18px rgba(15,25,50,.15)}
+.role-summary{display:grid;grid-template-columns:1fr auto;gap:20px;padding:28px;align-items:start;cursor:pointer;list-style:none}
+.role-summary::-webkit-details-marker{display:none}
+.role-summary::marker{display:none}
+.role-title{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.01em;margin-bottom:8px}
+.role-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.role-tag{font-size:11.5px;font-weight:600;color:var(--ink-3);background:var(--bg-warm);border:1px solid var(--line);padding:4px 10px;border-radius:999px;letter-spacing:.02em}
+.role-tag.type{color:var(--red);border-color:rgba(218,31,38,.2);background:var(--red-soft)}
+.role-pitch{font-size:14.5px;color:var(--slate);line-height:1.6;max-width:640px}
+.role-toggle{display:flex;flex-direction:column;align-items:flex-end;gap:10px;align-self:center}
+.role-toggle .chev{width:36px;height:36px;border-radius:50%;background:var(--bg-warm);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .25s,background .18s,border-color .18s;color:var(--ink-3)}
+.role[open] .role-toggle .chev{transform:rotate(180deg);background:var(--red);border-color:var(--red);color:#fff}
+.role-toggle small{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.role[open] .role-toggle small{color:var(--red)}
+.role-body{padding:0 28px 28px;border-top:1px solid var(--line);margin-top:0}
+.role[open] .role-body{padding-top:24px}
+.role-body h4{font-size:12px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.1em;margin:20px 0 10px}
+.role-body h4:first-child{margin-top:0}
+.role-body p{font-size:14.5px;color:var(--ink-3);line-height:1.65;margin-bottom:10px}
+.role-body ul{margin:0 0 4px 20px}
+.role-body ul li{font-size:14.5px;color:var(--ink-3);line-height:1.65;margin-bottom:6px}
+.role-body .apply-cta{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn-apply{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;font-size:14px;font-weight:600;padding:12px 22px;border-radius:8px;transition:background .18s;letter-spacing:.01em}
+.btn-apply:hover{background:var(--red);text-decoration:none}
+.apply-hint{font-size:13px;color:var(--muted)}
+@media (max-width:640px){.role-summary{grid-template-columns:1fr;padding:22px}.role-body{padding:0 22px 22px}.role[open] .role-body{padding-top:20px}.role-toggle{flex-direction:row-reverse;justify-content:flex-start;align-items:center;align-self:flex-start}}
+
+/* GENERAL APPLY */
+.general{padding:72px 0;background:var(--ink);color:#fff}
+.general-inner{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:center}
+@media (max-width:760px){.general-inner{grid-template-columns:1fr}}
+.general h2{font-size:clamp(1.4rem,2.6vw,1.8rem);font-weight:800;letter-spacing:-.02em;margin-bottom:12px;color:#fff}
+.general p{font-size:15px;color:rgba(255,255,255,.72);line-height:1.6;max-width:480px}
+.general .btn-outline{display:inline-flex;align-items:center;gap:10px;border:1.5px solid #fff;color:#fff;font-size:14px;font-weight:600;padding:14px 24px;border-radius:8px;transition:background .18s,color .18s;justify-self:end}
+.general .btn-outline:hover{background:#fff;color:var(--ink);text-decoration:none}
+@media (max-width:760px){.general .btn-outline{justify-self:start}}
+
+/* TRUST STRIP */
+.trust-strip{padding:32px 0;background:var(--bg-warm);border-top:1px solid var(--line)}
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media (max-width:720px){.trust-grid{grid-template-columns:1fr}}
+.trust-item{font-size:13px;color:var(--slate);line-height:1.6}
+.trust-item strong{color:var(--ink);font-weight:700;display:block;margin-bottom:2px}
+
+/* FOOTER (matches main site) */
+.footer{background:#fff;padding:64px 0 32px;border-top:1px solid var(--line)}
+.foot-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;margin-bottom:44px}
+@media (max-width:900px){.foot-top{grid-template-columns:1fr 1fr;gap:36px}}
+@media (max-width:520px){.foot-top{grid-template-columns:1fr;gap:32px}}
+.foot-brand p{font-size:13px;color:var(--slate);line-height:1.65;max-width:340px;margin-top:16px}
+.foot-wordmark{font-size:28px;font-weight:800;letter-spacing:-.025em;line-height:1;font-family:var(--sans)}
+.foot-wordmark .fw-a{color:var(--ink)}
+.foot-wordmark .fw-b{color:var(--red)}
+.foot-col h4{font-size:11.5px;font-weight:700;color:var(--ink);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.foot-col a{display:block;font-size:13.5px;color:var(--slate);margin-bottom:10px;transition:color .18s}
+.foot-col a:hover{color:var(--red);text-decoration:none}
+.foot-bottom{padding-top:28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);flex-wrap:wrap;gap:16px;align-items:center}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav"><div class="wrap nav-inner">
+<a href="/" class="nav-logo" aria-label="MediaClip home"><img src="/logo.png" alt="MediaClip"></a>
+<a href="/" class="nav-back">← Back to home</a>
+</div></header>
+
+<!-- HERO -->
+<section class="hero"><div class="wrap hero-inner">
+<div>
+<div class="eyebrow">CAREERS · GABORONE</div>
+<h1>Botswana talks. We're building the team that <em>listens</em>.</h1>
+<p class="lede">MediaClip tracks print, radio, television, digital news and public social conversations across Botswana, in Setswana and English, for institutions that need to know what's being said before it becomes a headline. We're building the first team — every hire shapes what this company becomes.</p>
+<div class="facts">
+<div><strong>4</strong><span>Roles open</span></div>
+<div><strong>Gaborone</strong><span>Home base</span></div>
+<div><strong>Setswana-first</strong><span>By design</span></div>
+</div>
+</div>
+<div class="hero-visual">
+<svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs><linearGradient id="g1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#DA1F26" stop-opacity=".12"/><stop offset="1" stop-color="#DA1F26" stop-opacity="0"/></linearGradient></defs>
+<path d="M0,180 L40,180 L55,120 L70,210 L85,60 L100,220 L115,150 L150,150 L165,110 L180,180 L195,140 L220,155 L260,135 L300,150 L340,120 L380,140 L420,130 L420,260 L0,260 Z" fill="url(#g1)"/>
+<polyline points="0,180 40,180 55,120 70,210 85,60 100,220 115,150 150,150 165,110 180,180 195,140 220,155 260,135 300,150 340,120 380,140 420,130" fill="none" stroke="#DA1F26" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="0,215 60,215 72,195 84,225 96,180 108,215 200,215 220,205 260,220 300,200 340,215 380,205 420,210" fill="none" stroke="#0A0C10" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" opacity=".28"/>
+<circle cx="85" cy="60" r="4.5" fill="#DA1F26"/>
+<circle cx="70" cy="210" r="4.5" fill="#DA1F26"/>
+<circle cx="100" cy="220" r="4.5" fill="#DA1F26"/>
+</svg>
+</div>
+</div></section>
+
+<!-- WHY -->
+<section class="why"><div class="wrap">
+<div class="section-head"><h2>Why join now</h2><span>Founder-led · Pre-scale · Real clients</span></div>
+<div class="why-grid">
+<div class="why-card"><div class="why-num">01</div><h3>Build from the first bricks</h3><p>We're pre-scale, not pre-product. You'll shape how the analyst desk, client success and sales functions actually work — not inherit a playbook.</p></div>
+<div class="why-card"><div class="why-num">02</div><h3>Setswana-first, not an afterthought</h3><p>Our sentiment and monitoring work in Setswana by design. If you care about local language and local ownership doing real work, this is that.</p></div>
+<div class="why-card"><div class="why-num">03</div><h3>Institutional clients from day one</h3><p>You're not cold-building a market. Our pilot clients are banks, telcos and insurers who already need this — and are already paying for it.</p></div>
+<div class="why-card"><div class="why-num">04</div><h3>Your work reaches the decisions</h3><p>Small team, short lines. The report you write, the fix you ship, the pitch you close — it lands in front of someone who acts on it that week.</p></div>
+</div>
+</div></section>
+
+<!-- ROLES -->
+<section class="roles" id="roles"><div class="wrap">
+<div class="section-head"><h2>Open roles</h2><span>Gaborone, Botswana</span></div>
+
+<!-- ROLE 1 -->
+<details class="role">
+<summary class="role-summary">
+<div>
+<div class="role-title">Media &amp; Data Analyst</div>
+<div class="role-meta"><span class="role-tag type">Full-time</span><span class="role-tag">Gaborone</span></div>
+<p class="role-pitch">The quality layer sitting between our automated data engine and our clients — QA the automated media feed, capture radio and TV mentions our providers miss, and compile the reports clients rely on daily.</p>
+</div>
+<div class="role-toggle"><div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div><small>Details</small></div>
+</summary>
+<div class="role-body">
+<h4>About the role</h4>
+<p>MediaClip tracks print, radio, TV, online and social media across Botswana, with Setswana-language sentiment built into the pipeline. You'll be the quality layer sitting between the automated data engine and our clients, making sure every report that goes out is accurate, complete and genuinely useful.</p>
+<h4>What you'll do</h4>
+<ul>
+<li>QA the automated media feed daily, catching gaps, mis-tags and sentiment errors before clients see them</li>
+<li>Capture and log radio and TV mentions not covered by our automated data providers, using station recordings and monitoring schedules</li>
+<li>Compile and quality-check client reports and alerts on a daily, weekly and monthly cadence</li>
+<li>Correct false positives and duplicate mentions, and apply consistent classification rules across clients</li>
+<li>Maintain each client's keyword list, competitor set and the master source list as Botswana's media landscape shifts</li>
+<li>Escalate critical or reputationally sensitive mentions within agreed response times</li>
+<li>Document recurring corrections to help improve the automated classification engine over time</li>
+</ul>
+<h4>Minimum qualification</h4>
+<p>Diploma or degree in Journalism, Media Studies, Communications, PR, Research, Data Analytics or a related field, or equivalent demonstrable experience.</p>
+<h4>Minimum experience</h4>
+<p>2 to 3 years in media monitoring, journalism, research, PR reporting or communications analysis.</p>
+<h4>Essential competencies</h4>
+<ul>
+<li>Fluent in Setswana and English, written and spoken</li>
+<li>Strong report-writing, proofreading and summarising ability</li>
+<li>Proficiency in Excel or Google Sheets</li>
+<li>Comfortable interpreting dashboards, trends and basic data visualisations</li>
+<li>Able to distinguish fact, opinion, sentiment and reputational risk in coverage</li>
+</ul>
+<h4>Desirable</h4>
+<ul>
+<li>Prior use of media monitoring or social listening software</li>
+<li>Broadcast (radio/TV) monitoring experience</li>
+</ul>
+<h4>What to submit</h4>
+<ul>
+<li>A short writing or analysis sample</li>
+<li>An example report, article, media summary or research output</li>
+<li>Two contactable professional references</li>
+</ul>
+<h4>Employment terms</h4>
+<ul>
+<li>Based in Gaborone; standard office hours, with occasional early or weekend monitoring</li>
+<li>3-month probation period</li>
+<li>Must be eligible to work in Botswana</li>
+<li>Shortlisted candidates complete a practical assessment: classify a small set of media mentions, identify errors, and prepare a one-page executive summary</li>
+</ul>
+<div class="apply-cta">
+<a class="btn-apply" href="mailto:careers@mediaclip.net?subject=Media%20%26%20Data%20Analyst%20application">Apply for this role →</a>
+<span class="apply-hint">Send CV + one relevant achievement + the items above to careers@mediaclip.net</span>
+</div>
+</div>
+</details>
+
+<!-- ROLE 2 -->
+<details class="role">
+<summary class="role-summary">
+<div>
+<div class="role-title">Platform Engineer <span style="color:var(--muted);font-weight:500;font-size:15px;">(Contract / Retainer)</span></div>
+<div class="role-meta"><span class="role-tag type">Contract</span><span class="role-tag">Gaborone · remote-friendly</span></div>
+<p class="role-pitch">Own our Node/Express + PostgreSQL backend, the Datastreamer ingestion pipeline and the client dashboard. Uptime, security and shipping features clients ask for — all yours.</p>
+</div>
+<div class="role-toggle"><div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div><small>Details</small></div>
+</summary>
+<div class="role-body">
+<h4>About the role</h4>
+<p>MediaClip's platform runs on a Node/Express backend with PostgreSQL, ingesting data from our Datastreamer pipeline into a multi-tenant client dashboard. You'll keep it running, keep it secure, and ship the features clients ask for.</p>
+<h4>What you'll do</h4>
+<ul>
+<li>Maintain and monitor the production backend, database and hosting environment</li>
+<li>Manage the Datastreamer ingestion pipeline and troubleshoot data issues</li>
+<li>Ship incremental features and fixes to the client dashboard and login system</li>
+<li>Own uptime, backups and basic security hygiene for a platform holding client data</li>
+<li>Advise on technical decisions as MediaClip scales its client base</li>
+</ul>
+<h4>Minimum qualification</h4>
+<p>Degree in Computer Science, Software Engineering, IT or a related field, or equivalent demonstrable production experience.</p>
+<h4>Minimum experience</h4>
+<p>4+ years in production software development, including at least 2 years supporting a live production system.</p>
+<h4>Essential competencies</h4>
+<ul>
+<li>Strong Node.js, Express and PostgreSQL capability</li>
+<li>REST APIs and third-party data integrations</li>
+<li>Git and structured deployment workflows</li>
+<li>Cloud hosting and Linux server administration</li>
+<li>Database backups, restoration and migrations</li>
+<li>Authentication, permissions and multi-tenant systems</li>
+<li>Monitoring, logging and incident response</li>
+<li>Basic application security practices</li>
+</ul>
+<h4>Desirable</h4>
+<ul>
+<li>Experience diagnosing production data-pipeline failures</li>
+<li>Front-end experience for dashboard-level feature work</li>
+</ul>
+<h4>What to submit</h4>
+<ul>
+<li>GitHub, portfolio, or examples of live systems maintained</li>
+<li>Two contactable professional references</li>
+</ul>
+<h4>Employment terms</h4>
+<ul>
+<li>Same-business-day response expected for critical faults; 48-hour response for standard requests</li>
+<li>Core maintenance versus new development scoped and tracked separately; work outside the retainer is billed separately</li>
+<li>Code ownership, documentation and handover requirements agreed at contract signing</li>
+<li>Confidentiality and data-security obligations apply given access to client data</li>
+<li>Must be eligible to work in or contract from Botswana</li>
+</ul>
+<div class="apply-cta">
+<a class="btn-apply" href="mailto:careers@mediaclip.net?subject=Platform%20Engineer%20application">Apply for this role →</a>
+<span class="apply-hint">Send CV + one relevant achievement + the items above to careers@mediaclip.net</span>
+</div>
+</div>
+</details>
+
+<!-- ROLE 3 -->
+<details class="role">
+<summary class="role-summary">
+<div>
+<div class="role-title">Account &amp; Client Success Executive</div>
+<div class="role-meta"><span class="role-tag type">Part-time to full-time</span><span class="role-tag">Gaborone · hybrid</span></div>
+<p class="role-pitch">Own every MediaClip client relationship from onboarding through renewal. Make sure they get real value out of their monitoring — and make sure MediaClip understands what institutional clients need next.</p>
+</div>
+<div class="role-toggle"><div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div><small>Details</small></div>
+</summary>
+<div class="role-body">
+<h4>About the role</h4>
+<p>You'll own the relationship with every MediaClip client from onboarding through renewal, making sure they get real value out of their monitoring and that MediaClip understands what institutional clients need next.</p>
+<h4>What you'll do</h4>
+<ul>
+<li>Onboard new clients: set up logins, walk through the dashboard, agree reporting cadence</li>
+<li>Run regular check-ins with clients and turn feedback into product and service improvements</li>
+<li>Own renewals and identify upsell opportunities across MediaClip's tiers</li>
+<li>Coordinate with the analyst on report quality and turnaround for each account</li>
+<li>Represent MediaClip in client meetings</li>
+</ul>
+<h4>Minimum qualification</h4>
+<p>Diploma or degree in Marketing, Business, Communications, PR or a related field, or equivalent demonstrable experience.</p>
+<h4>Minimum experience</h4>
+<p>2 to 3 years in account management or client-service roles, ideally supporting corporate or institutional accounts.</p>
+<h4>Essential competencies</h4>
+<ul>
+<li>Demonstrated ability to run client presentations and check-in meetings</li>
+<li>Experience coordinating reports, deadlines and multiple stakeholders</li>
+<li>Working knowledge of CRM or account-management tools</li>
+<li>Comfortable managing several accounts at once</li>
+</ul>
+<h4>Desirable</h4>
+<ul>
+<li>Experience in a media, PR, marketing or professional-services agency</li>
+</ul>
+<h4>What to submit</h4>
+<ul>
+<li>CV and one relevant achievement showing client-relationship impact</li>
+<li>Two contactable professional references</li>
+</ul>
+<h4>Employment terms</h4>
+<ul>
+<li>Based in Gaborone; hybrid arrangement possible during the part-time phase</li>
+<li>Initial part-time engagement (approx. 20 hours/week), reviewed for full-time conversion once the portfolio reaches 5+ active accounts</li>
+<li>3-month probation period</li>
+<li>Must be eligible to work in Botswana</li>
+<li>Performance commission covers retention, renewals, expanded revenue, client satisfaction and timely onboarding — not only new revenue</li>
+</ul>
+<div class="apply-cta">
+<a class="btn-apply" href="mailto:careers@mediaclip.net?subject=Account%20%26%20Client%20Success%20Executive%20application">Apply for this role →</a>
+<span class="apply-hint">Send CV + one relevant achievement + the items above to careers@mediaclip.net</span>
+</div>
+</div>
+</details>
+
+<!-- ROLE 4 -->
+<details class="role">
+<summary class="role-summary">
+<div>
+<div class="role-title">Sales &amp; Business Development Executive</div>
+<div class="role-meta"><span class="role-tag type">Full-time</span><span class="role-tag">Gaborone</span></div>
+<p class="role-pitch">Build the pipeline that takes MediaClip from four clients to forty — across banks, telcos, parastatals and government. First conversations, proposals, procurement, close.</p>
+</div>
+<div class="role-toggle"><div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div><small>Details</small></div>
+</summary>
+<div class="role-body">
+<h4>About the role</h4>
+<p>MediaClip sells into banks, telcos, parastatals and government. You'll build and run the pipeline that gets us from first conversation to signed client, across both private-sector tiers and the public-sector opportunity.</p>
+<h4>What you'll do</h4>
+<ul>
+<li>Build and manage a pipeline of institutional and public-sector prospects</li>
+<li>Run the sales process from first meeting through proposal to close</li>
+<li>Represent MediaClip at pitches, demos and procurement processes</li>
+<li>Work on positioning for government ministries, parastatals, regulators and other public-sector institutions</li>
+<li>Feed market and competitor intelligence back into MediaClip's pricing and packaging</li>
+</ul>
+<h4>Minimum qualification</h4>
+<p>Diploma or degree in Business, Marketing, Sales, Communications or a related field, or equivalent demonstrable experience.</p>
+<h4>Minimum experience</h4>
+<p>2 to 3 years in B2B sales or business development, ideally including some corporate or institutional selling.</p>
+<h4>Essential competencies</h4>
+<ul>
+<li>Comfortable building and maintaining a documented pipeline from a standing start</li>
+<li>Experience with proposals, demonstrations and procurement processes</li>
+<li>Confident presenting to senior decision-makers</li>
+<li>Familiarity with CRM and sales-forecasting tools</li>
+</ul>
+<h4>Desirable</h4>
+<ul>
+<li>Experience selling into government or regulated industries</li>
+<li>Existing relationships in the Botswana corporate or public sector</li>
+</ul>
+<h4>What to submit</h4>
+<ul>
+<li>Targets previously carried and results achieved</li>
+<li>Types of clients managed and examples of deals closed</li>
+<li>A brief 90-day pipeline-development plan</li>
+</ul>
+<h4>Employment terms</h4>
+<ul>
+<li>Based in Gaborone; travel for client meetings as required</li>
+<li>3-month probation, with target expectations confirmed at contract signing</li>
+<li>Must be eligible to work in Botswana</li>
+<li>Performance commission on new business closed; commission formula, payment trigger (signed, invoiced or collected revenue), renewal treatment and cancelled-contract handling confirmed at offer stage</li>
+</ul>
+<div class="apply-cta">
+<a class="btn-apply" href="mailto:careers@mediaclip.net?subject=Sales%20%26%20Business%20Development%20Executive%20application">Apply for this role →</a>
+<span class="apply-hint">Send CV + one relevant achievement + the items above to careers@mediaclip.net</span>
+</div>
+</div>
+</details>
+
+</div></section>
+
+<!-- GENERAL APPLY -->
+<section class="general"><div class="wrap general-inner">
+<div>
+<h2>Don't see the right role yet?</h2>
+<p>We're hiring our first team, one seat at a time. Send your CV and tell us where you'd fit — analyst, engineering, commercial or operations. If it's a match for what we're building next, we'll be in touch.</p>
+</div>
+<a class="btn-outline" href="mailto:careers@mediaclip.net?subject=General%20interest">Get in touch →</a>
+</div></section>
+
+<!-- TRUST STRIP -->
+<section class="trust-strip"><div class="wrap trust-grid">
+<div class="trust-item"><strong>Data handled in Botswana.</strong>Client and candidate data stays local.</div>
+<div class="trust-item"><strong>DPA 2024 aligned.</strong>Personal information is used for recruitment only.</div>
+<div class="trust-item"><strong>Equal opportunity.</strong>Open to all suitably qualified candidates.</div>
+</div></section>
+
+<!-- FOOTER -->
+<footer class="footer"><div class="wrap">
+<div class="foot-top">
+<div class="foot-brand"><div class="foot-wordmark"><span class="fw-a">Media</span><span class="fw-b">Clip</span></div><p>Turn media coverage into intelligence you can act on. MediaClip monitors print, radio, television, digital news and public social conversations to uncover the stories, signals and sentiment shaping your brand and reputation.</p></div>
+<div class="foot-col"><h4>Product</h4><a href="/#outcomes">Platform</a><a href="/#signal">How it works</a><a href="/#coverage">Coverage</a><a href="/#faq">FAQ</a></div>
+<div class="foot-col"><h4>Company</h4><a href="mailto:dumela@mediaclip.net">Contact</a><a href="/careers">Careers</a><a href="/">Request a demo</a></div>
+<div class="foot-col"><h4>Trust</h4><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/security">Security</a><a href="/dpa-statement">DPA 2024 statement</a></div>
+</div>
+<div class="foot-bottom">
+<div>© 2026 MediaClip · Gaborone, Botswana</div>
+<div>Made in Botswana</div>
+</div>
+</div></footer>
+
+</body>
+</html>
