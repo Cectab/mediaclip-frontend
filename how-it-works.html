@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How MediaClip works | Botswana Media Intelligence</title>
+<meta name="description" content="How MediaClip monitors Botswana print, radio, TV, digital news and social — from ingestion to Setswana sentiment classification to executive-ready alerts. Media monitoring Botswana, PR reporting Gaborone.">
+<meta name="theme-color" content="#DA1F26">
+<link rel="canonical" href="https://mediaclip.net/how-it-works">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/logo.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mediaclip.net/how-it-works">
+<meta property="og:title" content="How MediaClip works">
+<meta property="og:description" content="From ingestion to Setswana sentiment classification to executive-ready alerts — how MediaClip turns Botswana media coverage into decision-ready intelligence.">
+<meta property="og:image" content="https://mediaclip.net/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="MediaClip">
+<meta property="og:locale" content="en_BW">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How MediaClip works">
+<meta name="twitter:description" content="From ingestion to Setswana sentiment classification to executive-ready alerts.">
+<meta name="twitter:image" content="https://mediaclip.net/og-image.png">
+<script defer data-domain="mediaclip.net" src="https://plausible.io/js/script.js"></script>
+<style>
+:root{color-scheme:light only;--red:#DA1F26;--red-dark:#B4141B;--red-soft:#FDF3F3;--ink:#0A0C10;--ink-2:#16181D;--ink-3:#2A2E36;--slate:#4B5563;--muted:#6B7280;--line:#EBEDF0;--bg-warm:#FAFAF7;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:#fff;color:var(--ink-2);line-height:1.65;font-size:16px}
+a{color:var(--red);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.nav{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:100;height:72px;display:flex;align-items:center}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%}
+.nav-logo img{height:40px;width:auto;display:block}
+.nav-back{font-size:14px;font-weight:500;color:var(--ink-3)}
+@media (max-width:640px){.nav{height:60px}.nav-logo img{height:32px}}
+.hero{padding:80px 0 56px;background:linear-gradient(180deg,#fff,var(--bg-warm));border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--red);letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px}
+h1{font-size:clamp(2.2rem,4.5vw,3.2rem);font-weight:800;line-height:1.08;letter-spacing:-.025em;color:var(--ink);margin-bottom:18px;max-width:820px}
+h1 em{font-style:normal;color:var(--red)}
+.hero p{font-size:18px;color:var(--ink-3);max-width:720px;line-height:1.6}
+section.section{padding:72px 0;border-bottom:1px solid var(--line)}
+section.section:last-of-type{border-bottom:0}
+h2{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;color:var(--ink);letter-spacing:-.02em;margin-bottom:14px}
+.lead{font-size:16.5px;color:var(--ink-3);margin-bottom:32px;max-width:720px;line-height:1.65}
+.stage{display:grid;grid-template-columns:80px 1fr;gap:32px;padding:32px 0;border-top:1px solid var(--line);align-items:start}
+.stage:first-of-type{border-top:0;padding-top:0}
+.stage-num{font-family:var(--mono);font-size:22px;font-weight:800;color:var(--red);letter-spacing:.02em}
+.stage h3{font-size:20px;font-weight:800;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+.stage p{font-size:15px;color:var(--ink-3);line-height:1.65;margin-bottom:12px;max-width:720px}
+.stage ul{margin:0 0 0 20px}
+.stage ul li{font-size:14.5px;color:var(--ink-3);line-height:1.6;margin-bottom:6px}
+.example{background:var(--bg-warm);border:1px solid var(--line);border-radius:12px;padding:24px;margin:56px 0}
+.example-label{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--red);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+.example h3{font-size:19px;font-weight:800;color:var(--ink);margin-bottom:14px}
+.example-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:center;margin-top:20px}
+@media (max-width:820px){.example-flow{grid-template-columns:1fr;gap:14px}.example-flow .arrow{display:none}}
+.flow-box{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;font-size:13px;line-height:1.5}
+.flow-box .lbl{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--red);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;display:block}
+.flow-box strong{color:var(--ink);display:block;margin-bottom:4px;font-size:13.5px}
+.arrow{color:var(--muted);font-size:20px;text-align:center;font-weight:700}
+.differentiators{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:20px}
+@media (max-width:800px){.differentiators{grid-template-columns:1fr}}
+.diff-card{padding:24px;background:#fff;border:1px solid var(--line);border-radius:14px}
+.diff-card h4{font-size:14.5px;font-weight:800;color:var(--ink);margin-bottom:10px}
+.diff-card p{font-size:14px;color:var(--slate);line-height:1.6}
+.cta-band{background:var(--ink);color:#fff;padding:56px 0;text-align:center}
+.cta-band h2{color:#fff;margin-bottom:14px}
+.cta-band p{color:rgba(255,255,255,.72);font-size:16px;max-width:520px;margin:0 auto 28px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:8px;font-size:14.5px;font-weight:600;transition:all .18s}
+.btn-primary{background:var(--red);color:#fff}
+.btn-primary:hover{background:var(--red-dark);text-decoration:none}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4);margin-left:8px}
+.btn-outline:hover{background:#fff;color:var(--ink);text-decoration:none}
+.footer{background:#fff;padding:48px 0 32px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:13px}
+.foot-wordmark{font-size:22px;font-weight:800;letter-spacing:-.025em;line-height:1;margin-bottom:12px}
+.foot-wordmark .fw-a{color:var(--ink)}
+.foot-wordmark .fw-b{color:var(--red)}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner">
+<a href="/" class="nav-logo" aria-label="MediaClip home"><img src="/logo.png" alt="MediaClip"></a>
+<a href="/" class="nav-back">← Back to home</a>
+</div></header>
+
+<section class="hero"><div class="wrap">
+<div class="eyebrow">HOW IT WORKS · BOTSWANA MEDIA INTELLIGENCE</div>
+<h1>From every mention across Botswana to <em>one alert on your phone</em>.</h1>
+<p>MediaClip captures print, radio, television, digital news and public social conversations across Botswana — in English, Setswana and the way people actually mix them — and turns raw coverage into intelligence your team can act on before the meeting starts.</p>
+</div></section>
+
+<section class="section"><div class="wrap">
+<h2>The four stages</h2>
+<p class="lead">Every mention that matters passes through the same pipeline. Nothing gets to your team without being seen, classified and prioritised.</p>
+
+<div class="stage">
+<div class="stage-num">01</div>
+<div>
+<h3>Capture</h3>
+<p>We ingest coverage from every relevant Botswana source — Mmegi, The Voice, Weekend Post, Sunday Standard, Business Weekly, The Patriot; Duma FM, Yarona, Now TV, Btv; and the open social conversations happening on X, Facebook, TikTok and public LinkedIn.</p>
+<ul>
+<li>Automated ingestion via our data pipeline for print and online sources</li>
+<li>Manual capture of radio and TV mentions our automated providers can't reach</li>
+<li>Coverage backfill on request — historic reporting from your day-one setup</li>
+</ul>
+</div>
+</div>
+
+<div class="stage">
+<div class="stage-num">02</div>
+<div>
+<h3>Classify</h3>
+<p>Every mention is tagged by sentiment (positive, negative, neutral), intent (reputational, purchase, informational), urgency (routine, priority, critical), and potential impact. Setswana and code-switched language is classified natively — not translated first, then classified.</p>
+<ul>
+<li>English, Setswana and code-switched sentiment out of the box</li>
+<li>Reputational vs commercial vs informational intent separation</li>
+<li>Priority scoring so your team sees the right mentions in the right order</li>
+</ul>
+</div>
+</div>
+
+<div class="stage">
+<div class="stage-num">03</div>
+<div>
+<h3>Alert</h3>
+<p>Threshold alerts fire the moment something crosses the line you set. Critical mentions reach the executive team within minutes; routine coverage waits for the daily digest. You control who gets which alert and how.</p>
+<ul>
+<li>Configurable thresholds per keyword, competitor set, or campaign</li>
+<li>Alerts by email, dashboard, and — coming soon — WhatsApp</li>
+<li>Escalation paths for reputationally sensitive mentions</li>
+</ul>
+</div>
+</div>
+
+<div class="stage">
+<div class="stage-num">04</div>
+<div>
+<h3>Report</h3>
+<p>Daily, weekly and monthly reports built for the meeting they're going into. Executive-ready weekly briefs. Data-rich weekly reports for the comms team. Custom cadences for boards and shareholders.</p>
+<ul>
+<li>Executive-ready weekly briefs — for the MD's Monday morning</li>
+<li>Comms team dashboards — with drill-down to individual mentions</li>
+<li>Monthly board packs and quarterly campaign reviews</li>
+</ul>
+</div>
+</div>
+</div></section>
+
+<section class="section"><div class="wrap">
+<h2>An example, from source to signal</h2>
+<p class="lead">Suppose an insurance client is monitoring their brand and a competitor announces a new product. Here's what happens.</p>
+
+<div class="example">
+<div class="example-label">SAMPLE FLOW</div>
+<h3>Competitor product launch, 06:42 Monday morning</h3>
+<div class="example-flow">
+<div class="flow-box">
+<span class="lbl">Source</span>
+<strong>Business Weekly online</strong>
+"Competitor X launches new savings-linked funeral cover product at P150/month"
+</div>
+<div class="arrow">→</div>
+<div class="flow-box">
+<span class="lbl">Classified</span>
+<strong>Competitor · Purchase · Priority</strong>
+Reputational: neutral · Impact: high · Category: funeral cover
+</div>
+<div class="arrow">→</div>
+<div class="flow-box">
+<span class="lbl">Delivered</span>
+<strong>Alert at 06:44</strong>
+Comms lead + product marketing head. Included in Monday brief with three related mentions.
+</div>
+</div>
+</div>
+</div></section>
+
+<section class="section" style="background:var(--bg-warm)"><div class="wrap">
+<h2>What makes MediaClip different</h2>
+<p class="lead">Global monitoring tools are excellent — for markets they were built for. MediaClip is built for Botswana specifically, and it shows in three ways.</p>
+
+<div class="differentiators">
+<div class="diff-card">
+<h4>Setswana-first, not translated</h4>
+<p>Our sentiment engine works in Setswana natively. Code-switched mentions — the way most Batswana actually communicate on social — are classified accurately, not lost in translation.</p>
+</div>
+<div class="diff-card">
+<h4>Broadcast captured, not skipped</h4>
+<p>Global providers miss most Botswana radio and TV mentions because they can't reach the sources. We capture them manually and log them into the same pipeline.</p>
+</div>
+<div class="diff-card">
+<h4>Local data residency</h4>
+<p>Your data stays in Botswana infrastructure. DPA 2024 alignment isn't a checkbox — it's the default. Your compliance team can review our <a href="/dpa-statement">DPA statement</a> and <a href="/security">security posture</a> directly.</p>
+</div>
+</div>
+</div></section>
+
+<section class="cta-band"><div class="wrap">
+<h2>Want to see it running on your brand?</h2>
+<p>Book a 30-minute demo with real Botswana coverage on the brand or competitor set you care about. We'll walk you through the dashboard, the alert flow and the reporting output.</p>
+<a href="/contact" class="btn btn-primary">Book a demo →</a>
+<a href="/" class="btn btn-outline">See the platform</a>
+</div></section>
+
+<footer class="footer">
+<div class="foot-wordmark"><span class="fw-a">Media</span><span class="fw-b">Clip</span></div>
+<div>© 2026 MediaClip · Gaborone, Botswana · <a href="/" style="color:var(--muted)">Home</a> · <a href="/careers" style="color:var(--muted)">Careers</a> · <a href="/contact" style="color:var(--muted)">Contact</a> · <a href="/privacy" style="color:var(--muted)">Privacy</a></div>
+</footer>
+</body>
+</html>
