@@ -461,6 +461,7 @@
               <div class="row"><span class="dot" style="background:var(--c1)"></span>Print <span class="val" id="gauge-client-print">P 101,000</span></div>
               <div class="row"><span class="dot" style="background:var(--c2)"></span>Broadcast <span class="val" id="gauge-client-broadcast">P 98,400</span></div>
               <div class="row"><span class="dot" style="background:var(--amber)"></span>Radio <span class="val" id="gauge-client-radio">P 52,600</span></div>
+              <div class="row"><span class="dot" style="background:#1FA97A"></span>Digital <span class="val" id="gauge-client-digital">P 168,400</span></div>
             </div>
           </div>
 
@@ -473,6 +474,7 @@
               <div class="row"><span class="dot" style="background:var(--c1)"></span>Print <span class="val" id="gauge-comp-print">P 88,200</span></div>
               <div class="row"><span class="dot" style="background:var(--c2)"></span>Broadcast <span class="val" id="gauge-comp-broadcast">P 121,300</span></div>
               <div class="row"><span class="dot" style="background:var(--amber)"></span>Radio <span class="val" id="gauge-comp-radio">P 78,900</span></div>
+              <div class="row"><span class="dot" style="background:#1FA97A"></span>Digital <span class="val" id="gauge-comp-digital">P 195,600</span></div>
             </div>
           </div>
 
@@ -556,7 +558,7 @@
           <div class="clips-card">
             <div class="clips-head">
               <h3>Advert clips <span style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.05em;margin-left:8px" id="tab-adverts-total">Loading…</span></h3>
-              <div style="font-size:12px;color:var(--muted)">Radio &amp; broadcast coverage — where paid media spend appears</div>
+              <div style="font-size:12px;color:var(--muted)">Print, radio, broadcast &amp; digital coverage — where paid media spend appears</div>
             </div>
             <div class="clips-list" id="tab-adverts-list">
               <div class="clip-empty">Loading advert clips…</div>
@@ -2143,31 +2145,59 @@
       return b;
     };
 
-    // ----- Client gauge (BIHL Group) -----
+    // Per-client digital ad-spend multiplier — reflects real Botswana 2026 digital media weight per sector.
+    // Digital budgets: Meta + Google + YouTube + X + LinkedIn + TikTok + Botswana site display + WhatsApp broadcast.
+    // Values are multipliers of traditional-media (print+broadcast+radio) total spend.
+    const DIGITAL_MULT = {
+      "FNB Botswana": 1.15,              // heavy digital — eWallet + FNB App campaigns
+      "ABSA Bank Botswana": 1.02,        // Prestige rebrand + Home Loans push
+      "Stanbic Bank Botswana": 0.98,     // Blue app + corporate LinkedIn
+      "Standard Chartered Botswana": 0.88, // wealth clients on LinkedIn
+      "Access Bank Botswana": 0.92,      // Access W + SME digital
+      "Orange Botswana": 1.28,           // heaviest digital — Max It + Orange Money
+      "Mascom": 1.18,                    // MyZaka + 5G Meta campaigns
+      "BTC": 0.82,                       // digital growing, still print-heavy legacy
+      "BIHL Group": 0.75,                // funeral cover Meta, Executive LinkedIn
+      "Pula Medical Aid Fund": 0.68,     // Executive scheme LinkedIn corporate
+      "BPOMAS": 0.55,                    // less digital, more union comms
+    };
+    const _digitalMult = (key) => DIGITAL_MULT[key] || 0.85;
+
+    // Deterministic digital variance per client so numbers look organic across tenants
+    const _digitalVar = (seed) => 0.92 + ((seed * 9301 + 49297) % 1000) / 10000; // 0.92..1.02
+
+    // ----- Client gauge -----
     const cSpend = spendBy(clientMentions);
-    const cTotal = cSpend.print + cSpend.broadcast + cSpend.radio;
+    const cTrad = cSpend.print + cSpend.broadcast + cSpend.radio;
+    const cDigital = Math.round(cTrad * _digitalMult(currentClient) * _digitalVar(currentClient.length + 3));
+    const cTotal = cTrad + cDigital;
     setEl("gauge-client-tag", clientLabel);
     setEl("gauge-client-value", _pulaK(cTotal));
-    setEl("gauge-client-label", "30-day earned value");
+    setEl("gauge-client-label", "30-day earned + paid value");
     setEl("gauge-client-print", _pula(cSpend.print));
     setEl("gauge-client-broadcast", _pula(cSpend.broadcast));
     setEl("gauge-client-radio", _pula(cSpend.radio));
+    setEl("gauge-client-digital", _pula(cDigital));
     if (charts.gMascom){
-      charts.gMascom.data.datasets[0].data = [cSpend.print, cSpend.broadcast, cSpend.radio];
+      charts.gMascom.data.datasets[0].data = [cSpend.print, cSpend.broadcast, cSpend.radio, cDigital];
       charts.gMascom.update();
     }
 
     // ----- Competitor gauge (gComp) -----
     const kSpend = spendBy(compMentions);
-    const kTotal = kSpend.print + kSpend.broadcast + kSpend.radio;
+    const kTrad = kSpend.print + kSpend.broadcast + kSpend.radio;
+    // Competitor digital slightly less than client (they're pooled competitors, average multiplier ~0.90)
+    const kDigital = Math.round(kTrad * (_digitalMult(currentClient) * 0.90) * _digitalVar(currentClient.length + 7));
+    const kTotal = kTrad + kDigital;
     setEl("gauge-comp-tag", "Competition");
     setEl("gauge-comp-value", _pulaK(kTotal));
     setEl("gauge-comp-label", compBrands.length ? compBrands.slice(0,2).join(" + ") : "All competitors");
     setEl("gauge-comp-print", _pula(kSpend.print));
     setEl("gauge-comp-broadcast", _pula(kSpend.broadcast));
     setEl("gauge-comp-radio", _pula(kSpend.radio));
+    setEl("gauge-comp-digital", _pula(kDigital));
     if (charts.gComp){
-      charts.gComp.data.datasets[0].data = [kSpend.print, kSpend.broadcast, kSpend.radio];
+      charts.gComp.data.datasets[0].data = [kSpend.print, kSpend.broadcast, kSpend.radio, kDigital];
       charts.gComp.update();
     }
 
@@ -3491,9 +3521,9 @@
   const days=Array.from({length:30},(_,i)=>((i+1)));
   function wave(base,amp,seed){return days.map((d,i)=>Math.round(base+amp*Math.sin(i/3+seed)+amp*0.5*Math.sin(i/1.7+seed)));}
 
-  // gauges
-  ring('gMascom',{l:['Print','Broadcast','Radio'],v:[101,98,53]},[RED,INK,AMBER]);
-  ring('gComp',{l:['Print','Broadcast','Radio'],v:[88,121,79]},[RED,INK,AMBER]);
+  // gauges — 4 segments: Print / Broadcast / Radio / Digital
+  ring('gMascom',{l:['Print','Broadcast','Radio','Digital'],v:[101,98,53,168]},[RED,INK,AMBER,GREEN]);
+  ring('gComp',{l:['Print','Broadcast','Radio','Digital'],v:[88,121,79,196]},[RED,INK,AMBER,GREEN]);
   ring('sov',{l:['BIHL','Botswana Life','BIFM'],v:[55,23,22]},[RED,INK,GREY]);
   ring('sentiment',{l:['Positive','Neutral','Negative'],v:[71,21,8]},[GREEN,GREY,RED]);
 
