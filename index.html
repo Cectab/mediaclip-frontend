@@ -56,8 +56,12 @@ button{font-family:inherit;cursor:pointer}
 .nav-right{display:flex;align-items:center;gap:20px;flex-shrink:0}
 .nav-signin{font-size:15px;font-weight:500;color:var(--ink-3);cursor:pointer;background:none;border:0}
 .nav-signin:hover{color:var(--red)}
+.nav-signin{font-size:14px;font-weight:600;color:var(--ink-3);padding:10px 6px;transition:color .18s;text-decoration:none}
+.nav-signin:hover{color:var(--red)}
+.nav-right{display:flex;align-items:center;gap:14px}
 .nav-cta{background:var(--ink);color:#fff;padding:13px 22px;border-radius:11px;font-size:14.5px;font-weight:600;transition:all .18s;display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font-family:inherit}
 .nav-cta:hover{background:var(--red);transform:translateY(-1px)}
+@media (max-width:900px){.nav-signin{display:none}}
 .nav-cta svg{width:13px;height:13px}
 .nav-toggle{display:none;background:transparent;border:0;padding:8px;cursor:pointer;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:40px;height:40px}
 .nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:transform .2s,opacity .2s}
@@ -171,6 +175,36 @@ button{font-family:inherit;cursor:pointer}
 .cov-tile:hover .cov-icon{background:var(--red);color:#fff}
 .cov-tile h3{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:4px;letter-spacing:-.015em}
 .cov-tile p{font-size:12.5px;color:var(--slate);line-height:1.5}
+/* PACKAGES */
+.packages{padding:96px 0;background:#fff;border-bottom:1px solid var(--line)}
+@media (max-width:900px){.packages{padding:64px 0}}
+.packages .section-head{max-width:760px;margin-bottom:56px}
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:36px}
+@media (max-width:960px){.pkg-grid{grid-template-columns:1fr;gap:20px}}
+.pkg-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;padding:32px 28px;display:flex;flex-direction:column;transition:border-color .18s,box-shadow .2s,transform .2s}
+.pkg-card:hover{border-color:var(--red);box-shadow:0 20px 50px -25px rgba(15,25,50,.18);transform:translateY(-2px)}
+.pkg-card.featured{border:2px solid var(--red);background:linear-gradient(180deg,#fff,var(--red-soft) 100%);box-shadow:0 20px 50px -25px rgba(218,31,38,.25)}
+.pkg-card.featured:hover{transform:translateY(-3px)}
+.pkg-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 14px;border-radius:999px;white-space:nowrap}
+.pkg-eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--red);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.pkg-name{font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.02em;margin-bottom:8px}
+.pkg-tag{font-size:13.5px;color:var(--slate);line-height:1.55;margin-bottom:22px;min-height:44px}
+.pkg-price{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.pkg-price-sub{font-size:12.5px;color:var(--muted);margin-bottom:24px}
+.pkg-divider{height:1px;background:var(--line);margin-bottom:20px}
+.pkg-includes{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+.pkg-list{list-style:none;padding:0;margin:0 0 28px 0;flex-grow:1}
+.pkg-list li{font-size:14px;color:var(--ink-3);line-height:1.55;padding:8px 0 8px 26px;position:relative;border-bottom:1px solid var(--line)}
+.pkg-list li:last-child{border-bottom:0}
+.pkg-list li::before{content:'';position:absolute;left:0;top:14px;width:14px;height:14px;border-radius:50%;background:var(--red-soft);border:1px solid rgba(218,31,38,.25);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2.5 6l2.5 2.5L9.5 3.5' fill='none' stroke='%23DA1F26' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");background-repeat:no-repeat;background-position:center}
+.pkg-cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--ink);color:#fff;padding:13px 20px;border-radius:10px;font-size:14px;font-weight:600;border:0;cursor:pointer;font-family:inherit;transition:background .18s,transform .18s;width:100%;text-align:center;text-decoration:none}
+.pkg-cta:hover{background:var(--red);transform:translateY(-1px);text-decoration:none}
+.pkg-card.featured .pkg-cta{background:var(--red)}
+.pkg-card.featured .pkg-cta:hover{background:var(--red-dark)}
+.pkg-note{max-width:720px;margin:0 auto;text-align:center;font-size:14px;color:var(--slate);line-height:1.6;padding:20px 20px 0;border-top:1px solid var(--line)}
+.pkg-note strong{color:var(--ink);font-weight:600}
+.pkg-agency{text-align:center;margin-top:14px;font-size:13.5px;color:var(--muted)}
+.pkg-agency strong{color:var(--ink);font-weight:600}
 .faq{padding:96px 0;background:var(--bg-warm);border-bottom:1px solid var(--line)}
 @media (max-width:900px){.faq{padding:64px 0}}
 .faq-list{max-width:840px;margin:0 auto}
@@ -246,14 +280,16 @@ button{font-family:inherit;cursor:pointer}
 
 <header class="nav"><div class="wrap nav-inner">
 <a href="/" class="nav-logo" aria-label="MediaClip home"><img class="mc-logo" src="/logo.png" alt="MediaClip" width="2314" height="560"></a>
-<nav class="nav-links" aria-label="Primary"><a href="#outcomes">Platform</a><a href="#signal">How it works</a><a href="#coverage">Coverage</a><a href="#faq">FAQ</a></nav>
-<div class="nav-right"><button class="nav-cta" onclick="openDemo()">Request a demo <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button><button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button></div>
+<nav class="nav-links" aria-label="Primary"><a href="#outcomes">Platform</a><a href="#signal">How it works</a><a href="#coverage">Coverage</a><a href="#packages">Packages</a><a href="#faq">FAQ</a></nav>
+<div class="nav-right"><a href="/admin" class="nav-signin">Sign in</a><button class="nav-cta" onclick="openDemo()">Request a demo <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button><button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button></div>
 </div></header>
 <div class="mobile-menu" id="mobileMenu" hidden>
 <a href="#outcomes" onclick="closeMobileMenu()">Platform</a>
 <a href="#signal" onclick="closeMobileMenu()">How it works</a>
 <a href="#coverage" onclick="closeMobileMenu()">Coverage</a>
+<a href="#packages" onclick="closeMobileMenu()">Packages</a>
 <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+<a href="/admin" onclick="closeMobileMenu()">Sign in</a>
 <button class="mm-cta" onclick="closeMobileMenu();openDemo()">Request a demo</button>
 </div>
 
@@ -270,7 +306,7 @@ button{font-family:inherit;cursor:pointer}
 <div class="hero-visual">
 <div class="dpv-card dpv-back">
 <div class="dpv-head"><div class="dpv-t">Alerts · Today</div><span class="dpv-b r">3 open</span></div>
-<div class="dpv-alert"><div class="dpv-ai">!</div><div><div class="dpv-at">Negative sentiment spike</div><div class="dpv-ad">Twitter · +14 mentions in 2h</div></div></div>
+<div class="dpv-alert"><div class="dpv-ai">!</div><div><div class="dpv-at">Negative sentiment spike</div><div class="dpv-ad">X · +14 mentions in 2h</div></div></div>
 <div class="dpv-alert"><div class="dpv-ai up">↗</div><div><div class="dpv-at">Coverage up 42% wk-on-wk</div><div class="dpv-ad">Product launch mentions</div></div></div>
 <div class="dpv-mark">Illustrative UI</div>
 </div>
@@ -331,7 +367,7 @@ button{font-family:inherit;cursor:pointer}
 <div class="sig-arr"></div>
 <div class="sig-step"><div class="sig-num">03</div><div class="sig-icon">◉</div><h3>Prioritise</h3><p>Risk, Purchase, Cancel or Service — with operational vs reputational sentiment split so the right desk gets the right signal.</p></div>
 <div class="sig-arr"></div>
-<div class="sig-step"><div class="sig-num">04</div><div class="sig-icon">→</div><h3>Act</h3><p>Delivered where your team works — dashboards, alerts, scheduled reports, plus a MediaClip analyst in your Slack.</p></div>
+<div class="sig-step"><div class="sig-num">04</div><div class="sig-icon">→</div><h3>Act</h3><p>Delivered where your team works — real-time dashboards, email alerts and scheduled executive briefs, with dedicated analyst support on higher tiers.</p></div>
 </div>
 </div></section>
 
@@ -352,6 +388,98 @@ button{font-family:inherit;cursor:pointer}
 <p class="cov-note">Coverage varies by public availability, licensing and platform API policies. Specific outlets and update frequencies are confirmed during onboarding.</p>
 </div></section>
 
+<!-- PACKAGES -->
+<section class="packages" id="packages"><div class="wrap">
+<div class="section-head">
+<div class="eyebrow"><span class="eyebrow-dot"></span>PACKAGES</div>
+<h2>Choose the right level of intelligence.</h2>
+<p>Every MediaClip package includes Botswana-focused media monitoring, English and Setswana analysis, dashboard access and professional onboarding. Packages scale according to monitoring scope, reporting depth, competitive intelligence and support requirements.</p>
+</div>
+
+<div class="pkg-grid">
+
+<!-- ESSENTIAL -->
+<div class="pkg-card">
+<div class="pkg-eyebrow">ESSENTIAL</div>
+<div class="pkg-name">Essential</div>
+<div class="pkg-tag">Reliable media visibility for a focused organisation or brand.</div>
+<div class="pkg-price">Custom pricing</div>
+<div class="pkg-price-sub">Tailored to your monitoring scope</div>
+<div class="pkg-divider"></div>
+<div class="pkg-includes">Includes</div>
+<ul class="pkg-list">
+<li>One monitored brand or organisation</li>
+<li>Print, radio, television, digital news and supported public social coverage</li>
+<li>English, Setswana and code-switched analysis</li>
+<li>Sentiment, intent and urgency classification</li>
+<li>Live monitoring dashboard</li>
+<li>Email and dashboard alerts</li>
+<li>Monthly executive report</li>
+<li>Two dashboard users</li>
+<li>Standard business-hours support</li>
+</ul>
+<button class="pkg-cta" onclick="openDemo('essential')">Discuss Essential</button>
+</div>
+
+<!-- PROFESSIONAL - FEATURED -->
+<div class="pkg-card featured">
+<div class="pkg-badge">Most Popular</div>
+<div class="pkg-eyebrow">PROFESSIONAL</div>
+<div class="pkg-name">Professional</div>
+<div class="pkg-tag">Deeper reputation and competitive intelligence for communications and marketing teams.</div>
+<div class="pkg-price">Custom pricing</div>
+<div class="pkg-price-sub">Tailored to your monitoring scope</div>
+<div class="pkg-divider"></div>
+<div class="pkg-includes">Everything in Essential, plus</div>
+<ul class="pkg-list">
+<li>Primary brand and up to three agreed competitors</li>
+<li>Five dashboard users</li>
+<li>Competitor benchmarking and share of voice</li>
+<li>Campaign and issue tracking</li>
+<li>Advertising intelligence, where supported</li>
+<li>Priority and threshold alerts</li>
+<li>Customised dashboards</li>
+<li>Weekly executive brief</li>
+<li>Monthly intelligence deep dive</li>
+<li>Quarterly intelligence review</li>
+<li>Priority support</li>
+</ul>
+<button class="pkg-cta" onclick="openDemo('professional')">Request a demonstration</button>
+</div>
+
+<!-- ENTERPRISE -->
+<div class="pkg-card">
+<div class="pkg-eyebrow">ENTERPRISE</div>
+<div class="pkg-name">Enterprise</div>
+<div class="pkg-tag">Advanced intelligence for multi-brand, regulated and reputation-sensitive organisations.</div>
+<div class="pkg-price">Custom pricing</div>
+<div class="pkg-price-sub">Tailored to your monitoring scope</div>
+<div class="pkg-divider"></div>
+<div class="pkg-includes">Everything in Professional, plus</div>
+<ul class="pkg-list">
+<li>Multiple brands, subsidiaries and competitors</li>
+<li>Ten or more dashboard users</li>
+<li>Separate business-unit workspaces</li>
+<li>Role-based access and permissions</li>
+<li>Crisis monitoring and escalation workflows</li>
+<li>Custom executive and board reporting</li>
+<li>Historical analysis, subject to data availability</li>
+<li>Dedicated account and analyst support</li>
+<li>Custom onboarding and team training</li>
+<li>Integrations and API access, where available</li>
+<li>Agreed service levels</li>
+<li>Strategic intelligence reviews</li>
+</ul>
+<button class="pkg-cta" onclick="openDemo('enterprise')">Speak to MediaClip</button>
+</div>
+
+</div>
+
+<p class="pkg-note"><strong>Every MediaClip solution is tailored.</strong> Final pricing is based on monitoring scope, brands and competitors, reporting requirements, user access, integrations and level of analyst support.</p>
+<p class="pkg-agency"><strong>Are you an agency?</strong> Ask about multi-client monitoring, dedicated client workspaces and customised reporting.</p>
+
+</div></section>
+
 <section class="faq" id="faq"><div class="wrap">
 <div class="section-head">
 <div class="eyebrow"><span class="eyebrow-dot"></span>FREQUENTLY ASKED</div>
@@ -360,7 +488,7 @@ button{font-family:inherit;cursor:pointer}
 <div class="faq-list">
 <div class="faq-item"><button class="faq-q">What exactly does MediaClip monitor? <span class="faq-plus">+</span></button><div class="faq-a"><div class="faq-a-in">Relevant print, radio, broadcast television, digital news portals, and public social conversations across supported networks. The specific source list is confirmed during onboarding and depends on outlet availability, licensing terms and platform API policies. Update frequency and coverage windows are disclosed per source in your service documentation.</div></div></div>
 <div class="faq-item"><button class="faq-q">How does the intent classification work? <span class="faq-plus">+</span></button><div class="faq-a"><div class="faq-a-in">Every mention is auto-classified by our Signal Engine against a four-way intent taxonomy — Risk, Purchase, Cancel, Service (RPCS) — plus sentiment (positive / negative / neutral) and sentiment type (operational vs reputational). Threshold alerts route each signal to the right desk.</div></div></div>
-<div class="faq-item"><button class="faq-q">How are alerts delivered? <span class="faq-plus">+</span></button><div class="faq-a"><div class="faq-a-in">Set thresholds on volume, sentiment, source, or intent. When those thresholds are crossed, MediaClip notifies your team via email or Slack — routed by severity and by team. Each alert carries the source clip and the classification reason. Microsoft Teams and WhatsApp delivery are on the roadmap.</div></div></div>
+<div class="faq-item"><button class="faq-q">How are alerts delivered? <span class="faq-plus">+</span></button><div class="faq-a"><div class="faq-a-in">Set thresholds on volume, sentiment, source, or intent. When those thresholds are crossed, MediaClip notifies your team via email and the dashboard — routed by severity and by team. Each alert carries the source clip and the classification reason. WhatsApp and Microsoft Teams delivery are planned for a future release.</div></div></div>
 <div class="faq-item"><button class="faq-q">Where is our data stored? How is data protection handled? <span class="faq-plus">+</span></button><div class="faq-a"><div class="faq-a-in">Client data is handled in line with Botswana's Data Protection Act 2024 (Act 18 of 2024). Access is role-based, transmission is encrypted, and every enterprise engagement is covered by a Data Processing Agreement specifying retention, subcontractors, incident response and account deletion. Data residency options are configurable per client. Full security documentation is available on request.</div></div></div>
 <div class="faq-item"><button class="faq-q">How long does onboarding take? <span class="faq-plus">+</span></button><div class="faq-a"><div class="faq-a-in">Most clients see their first mentions in the dashboard within 48 hours of the onboarding call. A full working dashboard — with alerts routed and the first weekly report scheduled — is typically live within the first week. Historic backfill on request.</div></div></div>
 <div class="faq-item"><button class="faq-q">Is there a free trial? <span class="faq-plus">+</span></button><div class="faq-a"><div class="faq-a-in">We offer a free five-day brand snapshot instead of a generic software trial: we run monitoring on your brand across supported channels for five days, then share the findings with an analyst walk-through. It's a better test of value than a self-service trial, and it costs you nothing to try.</div></div></div>
@@ -409,7 +537,7 @@ button{font-family:inherit;cursor:pointer}
 <label>Phone (optional)<input type="tel" name="phone" autocomplete="tel" placeholder="+267 …"/></label>
 </div>
 <label>What would you like MediaClip to do for you?<textarea name="message" placeholder="e.g. Monitor our brand across print, radio and social; weekly board brief; alert on negative spikes."></textarea></label>
-<label>Interest<select name="interest"><option value="demo">Full product demo</option><option value="snapshot">Free 5-day brand snapshot</option><option value="both">Both</option></select></label>
+<label>Interest<select name="interest"><option value="demo">Full product demo</option><option value="snapshot">Free 5-day brand snapshot</option><option value="essential">Essential package</option><option value="professional">Professional package</option><option value="enterprise">Enterprise package</option><option value="both">Both</option></select></label>
 <p class="form-consent">By submitting this form, you acknowledge MediaClip's <a href="/privacy">Privacy Policy</a> and consent to being contacted about your request. We respond within one business day.</p>
 <div class="form-error" id="demoError" hidden></div>
 <div class="form-success" id="demoSuccess" hidden></div>
