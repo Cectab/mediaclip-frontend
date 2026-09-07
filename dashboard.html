@@ -569,7 +569,7 @@
           <div class="grid g2" style="margin-top:0">
             <div class="card">
               <h3>Audience by age <span class="tag">Last 30 days</span></h3>
-              <div class="bars" style="margin-top:14px">
+              <div class="bars" id="dem-age" style="margin-top:14px">
                 <div class="b"><div class="top"><span class="name">18–24</span><span class="pct">11%</span></div><div class="track"><i style="width:11%;background:var(--c1)"></i></div></div>
                 <div class="b"><div class="top"><span class="name">25–34</span><span class="pct">28%</span></div><div class="track"><i style="width:28%;background:var(--c1)"></i></div></div>
                 <div class="b"><div class="top"><span class="name">35–44</span><span class="pct">31%</span></div><div class="track"><i style="width:31%;background:var(--c1)"></i></div></div>
@@ -580,7 +580,7 @@
             </div>
             <div class="card">
               <h3>Audience by region <span class="tag">Last 30 days</span></h3>
-              <div class="bars" style="margin-top:14px">
+              <div class="bars" id="dem-region" style="margin-top:14px">
                 <div class="b"><div class="top"><span class="name">Gaborone &amp; South East</span><span class="pct">48%</span></div><div class="track"><i style="width:48%;background:var(--c1)"></i></div></div>
                 <div class="b"><div class="top"><span class="name">Francistown &amp; North East</span><span class="pct">19%</span></div><div class="track"><i style="width:19%;background:var(--c1)"></i></div></div>
                 <div class="b"><div class="top"><span class="name">Central District</span><span class="pct">14%</span></div><div class="track"><i style="width:14%;background:var(--c1)"></i></div></div>
@@ -593,7 +593,7 @@
           <div class="grid g2" style="margin-top:18px">
             <div class="card">
               <h3>Language mix <span class="tag">Last 30 days</span></h3>
-              <div class="bars" style="margin-top:14px">
+              <div class="bars" id="dem-language" style="margin-top:14px">
                 <div class="b"><div class="top"><span class="name">English</span><span class="pct">54%</span></div><div class="track"><i style="width:54%;background:var(--c1)"></i></div></div>
                 <div class="b"><div class="top"><span class="name">Setswana</span><span class="pct">33%</span></div><div class="track"><i style="width:33%;background:var(--c1)"></i></div></div>
                 <div class="b"><div class="top"><span class="name">Code-switched</span><span class="pct">13%</span></div><div class="track"><i style="width:13%;background:var(--c1)"></i></div></div>
@@ -602,7 +602,7 @@
             </div>
             <div class="card">
               <h3>Platform &amp; channel <span class="tag">Last 30 days</span></h3>
-              <div class="bars" style="margin-top:14px">
+              <div class="bars" id="dem-platform" style="margin-top:14px">
                 <div class="b"><div class="top"><span class="name">Radio stations</span><span class="pct">30%</span></div><div class="track"><i style="width:30%;background:var(--c1)"></i></div></div>
                 <div class="b"><div class="top"><span class="name">Print titles</span><span class="pct">26%</span></div><div class="track"><i style="width:26%;background:var(--c1)"></i></div></div>
                 <div class="b"><div class="top"><span class="name">Broadcast/TV</span><span class="pct">18%</span></div><div class="track"><i style="width:18%;background:var(--c1)"></i></div></div>
@@ -1461,6 +1461,23 @@
       // Frontend-only demo mode: pull from MC_CLIENTS instead of backend
       const clientKey = (window.mcFilters && mcFilters.client) || "BIHL Group";
       const clientData = MC_CLIENTS[clientKey] || MC_CLIENTS["BIHL Group"];
+      // Build share-of-voice — client's top brands + top competitors
+      const seed = mcSeed(clientKey);
+      const clientBrandCounts = (clientData.brands || []).slice(0, 3).map(function(b){
+        return { brand: b, mentions: Math.round(clientData.kpi.impressions / 8000 * (0.7 + seed()*0.6)) };
+      });
+      const compCounts = (clientData.competitors || []).slice(0, 3).map(function(c){
+        return { brand: c, mentions: Math.round(clientData.kpi.impressions / 12000 * (0.6 + seed()*0.7)) };
+      });
+      const shareOfVoice = clientBrandCounts.concat(compCounts).sort((a,b) => b.mentions - a.mentions);
+      // Sentiment split
+      const posPct = clientData.kpi.positive_pct || 55;
+      const totalMent = clientData.mentions.length + 15;
+      const sentiment = [
+        { sentiment: 'positive', n: Math.round(totalMent * posPct / 100) },
+        { sentiment: 'neutral', n: Math.round(totalMent * (100 - posPct - 15) / 100) },
+        { sentiment: 'negative', n: Math.round(totalMent * 15 / 100) },
+      ];
       const d = {
         footprint: {
           impressions: clientData.kpi.impressions,
@@ -1470,6 +1487,8 @@
         },
         client_brands: clientData.brands,
         competitors: clientData.competitors,
+        shareOfVoice: shareOfVoice,
+        sentiment: sentiment,
       };
       let mentions = clientData.mentions.slice();
       // Include competitor mentions for share-of-voice: seed each competitor with a few generic negatives/neutrals
@@ -1541,6 +1560,32 @@
   }
   const isClientBrand = (b) => getCurrentClientBrands().some(g => (b||"").toLowerCase() === (g||"").toLowerCase());
 
+  // Seed function — deterministic pseudo-random from client name
+  function mcSeed(key){
+    let h = 0;
+    for (let i = 0; i < (key||"").length; i++){ h = ((h << 5) - h + key.charCodeAt(i)) | 0; }
+    return function(){ h = (h * 9301 + 49297) % 233280; return (h / 233280); };
+  }
+  // Vary a base value by ±spread using seed
+  function mcVary(base, spread, seed){ return Math.max(1, Math.round(base + (seed() * 2 - 1) * spread)); }
+  // Balance an array of numbers to sum to 100
+  function mcNormalize(arr){
+    const s = arr.reduce((a,b)=>a+b,0);
+    if (!s) return arr;
+    const scaled = arr.map(v => Math.round(v * 100 / s));
+    const diff = 100 - scaled.reduce((a,b)=>a+b,0);
+    scaled[0] += diff;
+    return scaled;
+  }
+  // Build bar HTML from labels + percentages
+  function mcBarHTML(labels, pcts, colors){
+    const cls = colors || ['var(--c1)','var(--c1)','var(--c1)','var(--c1)','var(--c1)','var(--c1)'];
+    return labels.map((l, i) => (
+      '<div class="b"><div class="top"><span class="name">' + l + '</span><span class="pct">' + pcts[i] + '%</span></div>' +
+      '<div class="track"><i style="width:' + pcts[i] + '%;background:' + (cls[i] || 'var(--c1)') + '"></i></div></div>'
+    )).join('');
+  }
+
   // ---- Apply client-specific branding across all UI elements ----
   // Runs on every client switch. Walks all [data-mc-tpl] elements,
   // rebuilds reports table, updates trend chart label, refreshes gauges.
@@ -1571,10 +1616,21 @@
       }).join('');
     }
 
-    // 3. Update trend chart label to show current client
+    // 3. Update trend chart label AND vary its data per client
     try {
       if (window.charts && charts.trend && charts.trend.data && charts.trend.data.datasets && charts.trend.data.datasets[0]){
         charts.trend.data.datasets[0].label = NAME;
+        const s = mcSeed(clientKey + '-trend');
+        const base = clientKey.length * 4 + 100;
+        charts.trend.data.datasets[0].data = Array.from({length:12}, function(_, i){
+          return Math.round(base + i * 8 + (s() * 40 - 20));
+        });
+        if (charts.trend.data.datasets[1]){
+          const s2 = mcSeed(clientKey + '-comp-trend');
+          charts.trend.data.datasets[1].data = Array.from({length:12}, function(_, i){
+            return Math.round((base * 0.9) + i * 6 + (s2() * 30 - 15));
+          });
+        }
         charts.trend.update();
       }
     } catch(e){}
@@ -1642,6 +1698,55 @@
       document.querySelectorAll('[data-mc-client-short]').forEach(function(el){
         el.textContent = topBrands[0] || cd.display;
       });
+    } catch(e){}
+
+    // 8. Rebuild demographics bars with per-client variance
+    try {
+      const seed = mcSeed(clientKey);
+      // Age
+      const ageEl = document.getElementById('dem-age');
+      if (ageEl){
+        const ages = mcNormalize([mcVary(11,4,seed), mcVary(28,5,seed), mcVary(31,5,seed), mcVary(19,4,seed), mcVary(11,3,seed)]);
+        ageEl.innerHTML = mcBarHTML(['18–24','25–34','35–44','45–54','55+'], ages);
+      }
+      // Region
+      const regEl = document.getElementById('dem-region');
+      if (regEl){
+        const regs = mcNormalize([mcVary(48,6,seed), mcVary(19,4,seed), mcVary(14,3,seed), mcVary(11,3,seed), mcVary(8,3,seed)]);
+        regEl.innerHTML = mcBarHTML(['Gaborone & South East','Francistown & North East','Central District','Kweneng & Kgatleng','Ngamiland & North West'], regs);
+      }
+      // Language
+      const langEl = document.getElementById('dem-language');
+      if (langEl){
+        const langs = mcNormalize([mcVary(54,6,seed), mcVary(33,5,seed), mcVary(13,4,seed)]);
+        langEl.innerHTML = mcBarHTML(['English','Setswana','Code-switched'], langs);
+      }
+      // Platform
+      const platEl = document.getElementById('dem-platform');
+      if (platEl){
+        const plats = mcNormalize([mcVary(30,4,seed), mcVary(26,4,seed), mcVary(18,4,seed), mcVary(17,4,seed), mcVary(9,3,seed)]);
+        platEl.innerHTML = mcBarHTML(['Radio stations','Print titles','Broadcast/TV','Online news','Social platforms'], plats);
+      }
+    } catch(e){}
+
+    // 9. Update Top mentioned bar percentages (already renamed labels via .mc-topbrand)
+    try {
+      const seed = mcSeed(clientKey + '-tm');
+      const topMentEl = document.getElementById('top-mentioned-bars');
+      if (topMentEl){
+        const bars = topMentEl.querySelectorAll('.b');
+        const pcts = mcNormalize([mcVary(55,8,seed), mcVary(23,6,seed), mcVary(13,4,seed), mcVary(9,3,seed)]);
+        const brandNames = (cd.brands || ['','','']).slice(0,3);
+        bars.forEach(function(bar, i){
+          const nameEl = bar.querySelector('.name');
+          const pctEl = bar.querySelector('.pct');
+          const trackEl = bar.querySelector('.track i');
+          if (i < 3 && nameEl && brandNames[i]) nameEl.textContent = brandNames[i];
+          if (i === 3 && nameEl) nameEl.textContent = 'Other';
+          if (pctEl) pctEl.textContent = pcts[i] + '%';
+          if (trackEl) trackEl.style.width = pcts[i] + '%';
+        });
+      }
     } catch(e){}
   }
 
