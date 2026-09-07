@@ -435,7 +435,7 @@
       <!-- ===================== DASHBOARD ===================== -->
       <section class="view active" id="dashboard">
         <div class="page-title">Dashboard <span class="filter-chip" id="chip-dashboard">Last 30 days</span></div>
-        <div class="page-sub">Overview of BIHL Group brand coverage, sentiment, and share of voice.</div>
+        <div class="page-sub" data-mc-tpl="Overview of {CLIENT} brand coverage, sentiment, and share of voice.">Overview of BIHL Group brand coverage, sentiment, and share of voice.</div>
         <div class="pagehead">
           <div class="dd" data-dd="client"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">BIHL Group</span> <span class="caret">&#9662;</span></button><div class="dd-menu" id="dd-client-menu"></div></div>
           <div class="spacer"></div>
@@ -576,7 +576,7 @@
                 <div class="b"><div class="top"><span class="name">45–54</span><span class="pct">19%</span></div><div class="track"><i style="width:19%;background:var(--c1)"></i></div></div>
                 <div class="b"><div class="top"><span class="name">55+</span><span class="pct">11%</span></div><div class="track"><i style="width:11%;background:var(--c1)"></i></div></div>
               </div>
-              <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5">The audience your coverage is reaching skews 25–44 — the primary buying window for BIHL Group's life, health and asset-management products.</div>
+              <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5"><span data-mc-tpl="The audience your coverage is reaching skews 25–44 — the primary buying window for {CLIENT}'s brand, product and service portfolio.">The audience your coverage is reaching skews 25–44 — the primary buying window for BIHL Group's life, health and asset-management products.</span></div>
             </div>
             <div class="card">
               <h3>Audience by region <span class="tag">Last 30 days</span></h3>
@@ -609,7 +609,7 @@
                 <div class="b"><div class="top"><span class="name">Online news</span><span class="pct">17%</span></div><div class="track"><i style="width:17%;background:var(--c1)"></i></div></div>
                 <div class="b"><div class="top"><span class="name">Social platforms</span><span class="pct">9%</span></div><div class="track"><i style="width:9%;background:var(--c1)"></i></div></div>
               </div>
-              <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5">Radio + print together are more than half of BIHL Group's reach — a channel mix that most global monitoring tools under-index. Social will grow as brand-owned handles are added to the pipeline.</div>
+              <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5"><span data-mc-tpl="Radio + print together are more than half of {CLIENT}'s reach — a channel mix that most global monitoring tools under-index. Social will grow as brand-owned handles are added to the pipeline.">Radio + print together are more than half of BIHL Group's reach — a channel mix that most global monitoring tools under-index. Social will grow as brand-owned handles are added to the pipeline.</span></div>
             </div>
           </div>
         </div>
@@ -618,7 +618,7 @@
       <!-- ===================== LISTENING ===================== -->
       <section class="view" id="listening">
         <div class="page-title">Listening</div>
-        <div class="page-sub">Track mentions of BIHL Group brands, topics, and keywords across all monitored media.</div>
+        <div class="page-sub" data-mc-tpl="Track mentions of {CLIENT} brands, topics, and keywords across all monitored media.">Track mentions of BIHL Group brands, topics, and keywords across all monitored media.</div>
         <div class="pagehead">
           <div class="dd" data-dd="client"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">BIHL Group</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
           <div class="spacer"></div>
@@ -627,7 +627,7 @@
         </div>
 
         <div class="topicbar">
-          <div><div class="t">Topic summary</div><div class="v">BIHL Group brands</div></div>
+          <div><div class="t">Topic summary</div><div class="v" data-mc-tpl="{CLIENT} brands">BIHL Group brands</div></div>
           <div class="stat"><div class="t">Total volume</div><div class="n">200.4K</div></div>
           <div class="stat"><div class="t">Potential impressions</div><div class="n">124.4K</div></div>
           <div class="stat"><div class="t">Unique authors</div><div class="n">8,240</div></div>
@@ -641,10 +641,10 @@
           </div>
           <div class="card">
             <h3>Top mentioned</h3>
-            <div class="bars">
-              <div class="b"><div class="top"><span class="name">BIHL</span><span class="pct">55%</span></div><div class="track"><i style="width:55%;background:var(--c1)"></i></div></div>
-              <div class="b"><div class="top"><span class="name">Botswana Life</span><span class="pct">23%</span></div><div class="track"><i style="width:23%;background:var(--c2)"></i></div></div>
-              <div class="b"><div class="top"><span class="name">BIFM</span><span class="pct">13%</span></div><div class="track"><i style="width:13%;background:var(--amber)"></i></div></div>
+            <div class="bars" id="top-mentioned-bars">
+              <div class="b"><div class="top"><span class="name mc-topbrand" data-idx="0">BIHL</span><span class="pct">55%</span></div><div class="track"><i style="width:55%;background:var(--c1)"></i></div></div>
+              <div class="b"><div class="top"><span class="name mc-topbrand" data-idx="1">Botswana Life</span><span class="pct">23%</span></div><div class="track"><i style="width:23%;background:var(--c2)"></i></div></div>
+              <div class="b"><div class="top"><span class="name mc-topbrand" data-idx="2">BIFM</span><span class="pct">13%</span></div><div class="track"><i style="width:13%;background:var(--amber)"></i></div></div>
               <div class="b"><div class="top"><span class="name">Other</span><span class="pct">9%</span></div><div class="track"><i style="width:9%;background:var(--c3)"></i></div></div>
             </div>
           </div>
@@ -725,7 +725,7 @@
             <div class="chartbox sm"><canvas id="tvReach"></canvas></div>
           </div>
           <div class="card">
-            <h3>Reach by channel <span class="tag">BIHL Group</span></h3>
+            <h3>Reach by channel <span class="tag" data-mc-tpl="{CLIENT}">BIHL Group</span></h3>
             <div class="chartbox sm"><canvas id="channelMix"></canvas></div>
           </div>
         </div>
@@ -755,7 +755,7 @@
       <!-- ===================== REPORTS ===================== -->
       <section class="view" id="reports">
         <div class="page-title">Reports</div>
-        <div class="page-sub">Scheduled and on-demand PR reports for BIHL Group and its subsidiaries.</div>
+        <div class="page-sub" data-mc-tpl="Scheduled and on-demand PR reports for {CLIENT} and its subsidiaries.">Scheduled and on-demand PR reports for BIHL Group and its subsidiaries.</div>
         <div class="pagehead">
           <div class="dd" data-dd="client"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">BIHL Group</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
           <div class="spacer"></div>
@@ -799,7 +799,7 @@
         <!-- v5.7: By intent (RPCS) — reflects the priority tags from the Datastreamer classification pass -->
         <div style="margin-top:22px">
           <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:2px">By intent · last 30 days</div>
-          <div style="font-size:13px;color:var(--muted);line-height:1.5">Every mention is scored for the four intents that move the needle for BIHL Group — reputational risk, purchase interest, cancellation signals, and service requests. Click any tile to filter the feed.</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.5"><span data-mc-tpl="Every mention is scored for the four intents that move the needle for {CLIENT} — reputational risk, purchase interest, cancellation signals, and service requests. Click any tile to filter the feed.">Every mention is scored for the four intents that move the needle for BIHL Group — reputational risk, purchase interest, cancellation signals, and service requests. Click any tile to filter the feed.</span></div>
           <div class="intent-grid">
             <div class="intent-tile risk" onclick="mcFilterByIntent('risk')" style="cursor:pointer">
               <div class="intent-label">Risk</div>
@@ -890,8 +890,8 @@
                   <span>·</span>
                   <span>Competitor move</span>
                 </div>
-                <div class="alert-title">Sanlam Life radio campaign detected across three stations</div>
-                <div class="alert-desc">Sanlam Life ran ad-slots on Yarona FM, Duma FM, and Gabz FM this week — estimated spend P 380,000. First campaign detected this quarter. Worth benchmarking against BIHL's current radio share.</div>
+                <div class="alert-title"><span data-mc-competitor>Sanlam Life</span> radio campaign detected across three stations</div>
+                <div class="alert-desc"><span data-mc-competitor>Sanlam Life</span> ran ad-slots on Yarona FM, Duma FM, and Gabz FM this week — estimated spend P 380,000. First campaign detected this quarter. Worth benchmarking against <span data-mc-client-short>BIHL</span>'s current radio share.</div>
                 <div class="alert-actions">
                   <button class="alert-btn primary" onclick="mcAlertAction('view-competitor')">View competitor page</button>
                   <button class="alert-btn" onclick="mcAlertAction('reviewed')">Mark reviewed</button>
@@ -961,14 +961,14 @@
                 <td><button class="alert-btn" onclick="mcEditRecipient(this)">Edit</button></td>
               </tr>
               <tr>
-                <td>BIHL Group Comms Lead</td>
+                <td data-mc-tpl="{CLIENT} Comms Lead">BIHL Group Comms Lead</td>
                 <td><span class="role-pill">Client</span></td>
                 <td>Critical + warnings</td>
                 <td><span class="ch-pill">Email</span><span class="ch-pill">In-app</span></td>
                 <td><button class="alert-btn" onclick="mcEditRecipient(this)">Edit</button></td>
               </tr>
               <tr>
-                <td>BIHL Group CEO</td>
+                <td data-mc-tpl="{CLIENT} CEO">BIHL Group CEO</td>
                 <td><span class="role-pill">Client</span></td>
                 <td>Critical only</td>
                 <td><span class="ch-pill">Email</span></td>
@@ -1415,6 +1415,7 @@
     try { localStorage.setItem("mc_user", JSON.stringify({ email: DEMO_EMAIL, name: "MediaClip Demo", role: "demo" })); } catch(e){}
     document.getElementById("mc-login").style.display = "none";
     setTimeout(function(){ try{ Object.values(charts).forEach(function(c){ try{c.resize()}catch(e){} }); }catch(e){} }, 60);
+    mcApplyClientBranding();
     loadDashboard();
     btn.disabled = false; btn.textContent = "Sign in";
   }
@@ -1540,13 +1541,117 @@
   }
   const isClientBrand = (b) => getCurrentClientBrands().some(g => (b||"").toLowerCase() === (g||"").toLowerCase());
 
+  // ---- Apply client-specific branding across all UI elements ----
+  // Runs on every client switch. Walks all [data-mc-tpl] elements,
+  // rebuilds reports table, updates trend chart label, refreshes gauges.
+  function mcApplyClientBranding(){
+    const clientKey = (window.mcFilters && mcFilters.client) || "BIHL Group";
+    const cd = MC_CLIENTS[clientKey];
+    if (!cd) return;
+    const NAME = cd.display;
+
+    // 1. Update every [data-mc-tpl] element with the current client name
+    document.querySelectorAll("[data-mc-tpl]").forEach(function(el){
+      const tpl = el.getAttribute("data-mc-tpl");
+      if (!tpl) return;
+      el.textContent = tpl.replace(/\{CLIENT\}/g, NAME);
+    });
+
+    // 2. Rebuild reports table
+    const tbody = document.getElementById("reports-tbody");
+    if (tbody && cd.reports && cd.reports.length){
+      const catLabel = {internal:'Internal', print:'Print', radio:'Radio', broadcast:'Broadcast', sensitive:'Sensitive', competitive:'Competitive'};
+      tbody.innerHTML = cd.reports.map(function(r){
+        const cat = r.cat || 'internal';
+        return '<tr data-rcat="' + cat + '"><td>' + r.name + '</td>' +
+               '<td><span class="rtag ' + cat + '">' + (catLabel[cat] || 'Internal') + '</span></td>' +
+               '<td>' + (r.month || 'Sep 2026') + '</td>' +
+               '<td><span class="status"><span class="d"></span>' + (r.status === 'ready' ? 'Ready' : 'Pending') + '</span></td>' +
+               '<td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>';
+      }).join('');
+    }
+
+    // 3. Update trend chart label to show current client
+    try {
+      if (window.charts && charts.trend && charts.trend.data && charts.trend.data.datasets && charts.trend.data.datasets[0]){
+        charts.trend.data.datasets[0].label = NAME;
+        charts.trend.update();
+      }
+    } catch(e){}
+
+    // 4. Update "Sanlam Life" hardcoded competitor references in modal notes
+    try {
+      const noteEls = document.querySelectorAll('[data-mc-comp1]');
+      noteEls.forEach(function(el){ el.textContent = (cd.competitors && cd.competitors[0]) || 'Competitor'; });
+    } catch(e){}
+
+    // 5. Update settings section client value
+    const setClientEl = document.getElementById('set-client');
+    if (setClientEl) setClientEl.textContent = NAME;
+
+    // 6. Update all charts that had hardcoded BIHL sub-brand labels
+    try {
+      const topBrands = (cd.brands || ["BIHL","Botswana Life","BIFM"]).slice(0, 3);
+      const chartsToRelabel = ['sov','sovPie','print','waves','brandActivity','brandMix','shares'];
+      Object.keys(window.charts || {}).forEach(function(chartKey){
+        const c = charts[chartKey];
+        if (!c || !c.data) return;
+        // Line/bar charts with datasets that mirror sub-brand names
+        if (c.data.datasets && c.data.datasets.length > 0){
+          for (let i = 0; i < Math.min(c.data.datasets.length, topBrands.length); i++){
+            const currentLabel = c.data.datasets[i].label || '';
+            // Only replace if it looks like a BIHL brand (avoid replacing 'Competition', 'Total mentions' etc)
+            if (['BIHL','Botswana Life','BIFM','BIC'].includes(currentLabel) || currentLabel === 'BIHL Group'){
+              c.data.datasets[i].label = topBrands[i] || topBrands[0];
+            }
+          }
+        }
+        // Pie/ring charts with labels array
+        if (c.data.labels && Array.isArray(c.data.labels) && c.data.labels.length > 0){
+          const oldLabels = c.data.labels.slice();
+          for (let i = 0; i < oldLabels.length; i++){
+            if (['BIHL','Botswana Life','BIFM','BIC'].includes(oldLabels[i])){
+              c.data.labels[i] = topBrands[i % topBrands.length] || oldLabels[i];
+            }
+          }
+        }
+        try { c.update(); } catch(e){}
+      });
+
+      // Text elements showing sub-brand names in bars/labels
+      const brandBars = document.querySelectorAll('.mc-brand-bar-name');
+      // (Optional future hook - not required for demo)
+    } catch(e){}
+
+    // 7. Update alert cards that hardcoded BIHL/BIFM brand chips
+    try {
+      const topBrands = (cd.brands || []).slice(0, 3);
+      document.querySelectorAll('.alert-brand').forEach(function(el, i){
+        el.textContent = topBrands[i % (topBrands.length || 1)] || cd.display;
+      });
+      // Update alert competitor reference (Sanlam Life radio campaign)
+      document.querySelectorAll('[data-mc-competitor]').forEach(function(el){
+        el.textContent = (cd.competitors && cd.competitors[0]) || 'Competitor';
+      });
+      // Update .mc-topbrand bars with brand names
+      document.querySelectorAll('.mc-topbrand').forEach(function(el){
+        const idx = parseInt(el.getAttribute('data-idx') || '0', 10);
+        el.textContent = topBrands[idx] || el.textContent;
+      });
+      // Update short client references
+      document.querySelectorAll('[data-mc-client-short]').forEach(function(el){
+        el.textContent = topBrands[0] || cd.display;
+      });
+    } catch(e){}
+  }
+
   // ---- Update all Dashboard-view charts + labels from real backend data ----
   function updateDashboardCharts(d, mentions){
     if (!d) return;
 
     // Identify client (BIHL Group) vs everyone else
     const sov = Array.isArray(d.shareOfVoice) ? d.shareOfVoice.slice() : [];
-    const clientLabel = "BIHL Group";
+    const clientLabel = (window.mcFilters && mcFilters.client) || "BIHL Group";
     const compBrands = sov.map(x => x.brand).filter(b => b && !isClientBrand(b) && b !== "Unattributed");
 
     // Split mentions client-side
@@ -1821,7 +1926,7 @@
           const b = document.createElement('button');
           b.textContent = o.label; b.dataset.v = o.value;
           if (o.value === mcFilters.client) b.classList.add('active');
-          b.onclick = () => { mcFilters.client = o.value; mcSaveFilters(); mcUpdateAllDropdownLabels(); mcCloseAllDD(); loadDashboard(); };
+          b.onclick = () => { mcFilters.client = o.value; mcSaveFilters(); mcUpdateAllDropdownLabels(); mcCloseAllDD(); mcApplyClientBranding(); loadDashboard(); };
           menu.appendChild(b);
         });
       } else if (kind === "date"){
