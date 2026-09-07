@@ -354,6 +354,59 @@
   .rtag.print{color:#B4141b;background:#fdecec}
   .rtag.radio{color:#1FA97A;background:#e6f6f0}
   .rtag.broadcast{color:#8257e6;background:#efeaff}
+  .rtag.digital{color:#0d6efd;background:#e7f0ff}
+  /* Coverage capabilities strip — shows MediaClip's full 10-category coverage on Dashboard homepage */
+  .cov-strip{background:linear-gradient(135deg,#FFF,#FBFCFE);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0 18px}
+  .cov-strip-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .cov-strip-head h4{font-size:12px;font-weight:800;color:var(--ink);letter-spacing:.04em;text-transform:uppercase;margin:0}
+  .cov-strip-head .live{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#1FA97A;letter-spacing:.04em;text-transform:uppercase}
+  .cov-strip-head .live::before{content:"";width:6px;height:6px;border-radius:50%;background:#1FA97A;box-shadow:0 0 0 3px rgba(31,169,122,.18);animation:covPulse 2s ease-in-out infinite}
+  @keyframes covPulse{0%,100%{box-shadow:0 0 0 3px rgba(31,169,122,.18)}50%{box-shadow:0 0 0 6px rgba(31,169,122,.06)}}
+  .cov-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  @media (max-width:1024px){.cov-grid{grid-template-columns:repeat(2,1fr)}}
+  .cov-tile{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:#fff;transition:all .18s ease;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-height:78px}
+  .cov-tile:hover{border-color:#33383F;box-shadow:0 4px 14px rgba(0,0,0,.06);transform:translateY(-1px)}
+  .cov-tile-head{display:flex;align-items:center;gap:8px}
+  .cov-tile-icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .cov-tile-icon svg{width:14px;height:14px}
+  .cov-tile-name{font-size:11.5px;font-weight:700;color:var(--ink);letter-spacing:-.1px;line-height:1.25}
+  .cov-tile-meta{font-size:10.5px;color:var(--muted);font-weight:600;letter-spacing:.02em;margin-top:auto}
+  .cov-tile-meta strong{color:var(--ink);font-weight:800}
+  /* colour tokens by capability */
+  .cov-tile[data-cap="print"] .cov-tile-icon{background:#fdecec;color:#B4141b}
+  .cov-tile[data-cap="tv"] .cov-tile-icon{background:#efeaff;color:#8257e6}
+  .cov-tile[data-cap="online"] .cov-tile-icon{background:#e7f0ff;color:#0d6efd}
+  .cov-tile[data-cap="social"] .cov-tile-icon{background:#e6f6f0;color:#1FA97A}
+  .cov-tile[data-cap="radio"] .cov-tile-icon{background:#fdecec;color:#DA1F26}
+  .cov-tile[data-cap="analysis"] .cov-tile-icon{background:#FFF4E4;color:#B67900}
+  .cov-tile[data-cap="news"] .cov-tile-icon{background:#EEF1F5;color:#33383F}
+  .cov-tile[data-cap="newsfeed"] .cov-tile-icon{background:#EEF1F5;color:#33383F}
+  .cov-tile[data-cap="sponsorship"] .cov-tile-icon{background:#e6f6f0;color:#158A62}
+  .cov-tile[data-cap="casestudies"] .cov-tile-icon{background:#e7f0ff;color:#33528A}
+  /* Sponsorship monitoring page */
+  .spons-hero{background:linear-gradient(135deg,#FFF,#FBFCFE);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .spons-hero .num{font-size:32px;font-weight:800;color:var(--ink);letter-spacing:-1px;line-height:1}
+  .spons-hero .lab{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+  .spons-list{display:flex;flex-direction:column;gap:10px}
+  .spons-row{display:flex;align-items:center;gap:14px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:10px}
+  .spons-badge{width:40px;height:40px;border-radius:9px;background:linear-gradient(135deg,#1FA97A,#158A62);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
+  .spons-body{flex:1;min-width:0}
+  .spons-title{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:3px}
+  .spons-meta{font-size:11.5px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+  .spons-value{text-align:right;font-size:13px;font-weight:800;color:var(--ink);flex-shrink:0}
+  .spons-value .lab{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
+  /* Case studies page */
+  .case-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media (max-width:900px){.case-grid{grid-template-columns:1fr}}
+  .case-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;transition:all .18s ease}
+  .case-card:hover{border-color:#33383F;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+  .case-tag{display:inline-block;font-size:10px;font-weight:700;color:#0d6efd;background:#e7f0ff;padding:3px 8px;border-radius:6px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
+  .case-card h4{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin:0 0 6px}
+  .case-card .client{font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:10px}
+  .case-outcome{font-size:12.5px;color:var(--ink);line-height:1.55;margin-bottom:12px}
+  .case-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-top:12px;border-top:1px solid var(--line)}
+  .case-metric .n{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.4px}
+  .case-metric .l{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.03em;text-transform:uppercase;margin-top:2px}
   .rtag.internal{color:#33383F;background:#eef0f2}
   .status{font-weight:700;color:var(--green);display:inline-flex;align-items:center;gap:6px}
   .status .d{width:7px;height:7px;border-radius:50%;background:var(--green)}
@@ -399,6 +452,8 @@
       <a data-view="analytics" title="Analytics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-4 3 2 4-6"/></svg></a>
       <a data-view="reports" title="Reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></a>
       <a data-view="alerts" title="Alerts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="nav-badge" id="alerts-nav-badge" style="display:none">0</span></a>
+      <a data-view="sponsorship" title="Sponsorship monitoring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9a6 6 0 1 0 12 0M12 15v7M8 22h8"/><path d="M6 9V3h12v6"/></svg></a>
+      <a data-view="casestudies" title="Case studies"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></a>
       <a data-view="settings" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
     </nav>
     <div class="user-menu" id="user-menu">
@@ -436,6 +491,87 @@
       <section class="view active" id="dashboard">
         <div class="page-title">Dashboard <span class="filter-chip" id="chip-dashboard">Last 30 days</span></div>
         <div class="page-sub" data-mc-tpl="Overview of {CLIENT} brand coverage, sentiment, and share of voice.">Overview of BIHL Group brand coverage, sentiment, and share of voice.</div>
+
+        <!-- Coverage capabilities strip — MediaClip's full 10-category coverage, visible immediately on login -->
+        <div class="cov-strip">
+          <div class="cov-strip-head">
+            <h4>MediaClip coverage — every channel your brand appears on, in Botswana</h4>
+            <span class="live">Live · 24 / 7</span>
+          </div>
+          <div class="cov-grid">
+            <div class="cov-tile" data-cap="print" onclick="mcSwitchView('dashboard');mcSwitchTab('article-clips')">
+              <div class="cov-tile-head">
+                <div class="cov-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/><path d="M8 11h8M8 15h8M8 19h5"/></svg></div>
+                <div class="cov-tile-name">Print media</div>
+              </div>
+              <div class="cov-tile-meta"><strong>Business Weekly</strong> · Mmegi · The Voice · Sunday Standard · Weekend Post</div>
+            </div>
+            <div class="cov-tile" data-cap="tv" onclick="mcSwitchView('dashboard');mcSwitchTab('advert-clips')">
+              <div class="cov-tile-head">
+                <div class="cov-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 22h8M12 18v4"/></svg></div>
+                <div class="cov-tile-name">TV monitoring</div>
+              </div>
+              <div class="cov-tile-meta"><strong>Btv</strong> · Now TV · eBotswana — Business Today, News @ 8</div>
+            </div>
+            <div class="cov-tile" data-cap="online" onclick="mcSwitchView('listening')">
+              <div class="cov-tile-head">
+                <div class="cov-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></div>
+                <div class="cov-tile-name">Online media</div>
+              </div>
+              <div class="cov-tile-meta"><strong>mmegi.bw</strong> · sundaystandard.info · businessweekly.co.bw · thevoicebw.com</div>
+            </div>
+            <div class="cov-tile" data-cap="social" onclick="mcSwitchView('listening')">
+              <div class="cov-tile-head">
+                <div class="cov-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 20h5v-2a4 4 0 0 0-3-3.9M9 20H2v-2a4 4 0 0 1 3-3.9M9 14a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M23 11h-6M17 8v6"/></svg></div>
+                <div class="cov-tile-name">Social media</div>
+              </div>
+              <div class="cov-tile-meta"><strong>X</strong> · Facebook · Instagram · TikTok · LinkedIn — EN + Setswana</div>
+            </div>
+            <div class="cov-tile" data-cap="radio" onclick="mcSwitchView('dashboard');mcSwitchTab('advert-clips')">
+              <div class="cov-tile-head">
+                <div class="cov-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h20v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8z"/><path d="M6 4l14 4M18 15v.01M18 12h.01"/></svg></div>
+                <div class="cov-tile-name">Radio monitoring</div>
+              </div>
+              <div class="cov-tile-meta"><strong>Duma FM</strong> · Yarona FM · Gabz FM · RB2 — Setswana transcribed</div>
+            </div>
+            <div class="cov-tile" data-cap="analysis" onclick="mcSwitchView('reports')">
+              <div class="cov-tile-head">
+                <div class="cov-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+                <div class="cov-tile-name">Analysis reports</div>
+              </div>
+              <div class="cov-tile-meta"><strong>Monthly PR</strong> · Sentiment · Share of voice · Crisis briefs</div>
+            </div>
+            <div class="cov-tile" data-cap="news" onclick="mcSwitchView('listening')">
+              <div class="cov-tile-head">
+                <div class="cov-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22V3l8 3 8-3v19"/><path d="M4 8l8 3 8-3M4 14l8 3 8-3"/></svg></div>
+                <div class="cov-tile-name">News monitoring</div>
+              </div>
+              <div class="cov-tile-meta"><strong>Real-time</strong> across all channels — brand, competitor, keyword tracking</div>
+            </div>
+            <div class="cov-tile" data-cap="newsfeed" onclick="mcSwitchView('alerts')">
+              <div class="cov-tile-head">
+                <div class="cov-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></div>
+                <div class="cov-tile-name">News feed</div>
+              </div>
+              <div class="cov-tile-meta"><strong>Curated</strong> daily digest — top stories, alerts, industry moves</div>
+            </div>
+            <div class="cov-tile" data-cap="sponsorship" onclick="mcSwitchView('sponsorship')">
+              <div class="cov-tile-head">
+                <div class="cov-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9a6 6 0 1 0 12 0M12 15v7M8 22h8"/><path d="M6 9V3h12v6"/></svg></div>
+                <div class="cov-tile-name">Sponsorship monitoring</div>
+              </div>
+              <div class="cov-tile-meta"><strong>ROI tracking</strong> — Debswana Diamond League · BFA · industry awards</div>
+            </div>
+            <div class="cov-tile" data-cap="casestudies" onclick="mcSwitchView('casestudies')">
+              <div class="cov-tile-head">
+                <div class="cov-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+                <div class="cov-tile-name">Case studies</div>
+              </div>
+              <div class="cov-tile-meta"><strong>Botswana wins</strong> — MVA Fund, Debswana, BIHL, Government tenders</div>
+            </div>
+          </div>
+        </div>
+
         <div class="pagehead">
           <div class="dd" data-dd="client"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">BIHL Group</span> <span class="caret">&#9662;</span></button><div class="dd-menu" id="dd-client-menu"></div></div>
           <div class="spacer"></div>
@@ -509,7 +645,7 @@
             <div class="chartbox sm"><canvas id="sourceSpend"></canvas></div>
           </div>
           <div class="card">
-            <h3>Media reach by source <span class="tag">Print</span></h3>
+            <h3>Media reach by source <span class="tag">Print · Digital · Broadcast</span></h3>
             <div class="chartbox sm"><canvas id="reachChart"></canvas></div>
           </div>
         </div>
@@ -545,7 +681,7 @@
           <div class="clips-card">
             <div class="clips-head">
               <h3>Article clips <span style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.05em;margin-left:8px" id="tab-articles-total">Loading…</span></h3>
-              <div style="font-size:12px;color:var(--muted)">Print &amp; online coverage of your brands</div>
+              <div style="font-size:12px;color:var(--muted)">Print, online news &amp; digital coverage of your brands</div>
             </div>
             <div class="clips-list" id="tab-articles-list">
               <div class="clip-empty">Loading article clips…</div>
@@ -605,13 +741,14 @@
             <div class="card">
               <h3>Platform &amp; channel <span class="tag">Last 30 days</span></h3>
               <div class="bars" id="dem-platform" style="margin-top:14px">
-                <div class="b"><div class="top"><span class="name">Radio stations</span><span class="pct">30%</span></div><div class="track"><i style="width:30%;background:var(--c1)"></i></div></div>
-                <div class="b"><div class="top"><span class="name">Print titles</span><span class="pct">26%</span></div><div class="track"><i style="width:26%;background:var(--c1)"></i></div></div>
-                <div class="b"><div class="top"><span class="name">Broadcast/TV</span><span class="pct">18%</span></div><div class="track"><i style="width:18%;background:var(--c1)"></i></div></div>
-                <div class="b"><div class="top"><span class="name">Online news</span><span class="pct">17%</span></div><div class="track"><i style="width:17%;background:var(--c1)"></i></div></div>
-                <div class="b"><div class="top"><span class="name">Social platforms</span><span class="pct">9%</span></div><div class="track"><i style="width:9%;background:var(--c1)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Digital ads (Meta · Google · YouTube · X · LinkedIn · TikTok)</span><span class="pct">28%</span></div><div class="track"><i style="width:28%;background:#1FA97A"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Radio stations</span><span class="pct">22%</span></div><div class="track"><i style="width:22%;background:var(--c1)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Print titles</span><span class="pct">19%</span></div><div class="track"><i style="width:19%;background:var(--c1)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Broadcast/TV</span><span class="pct">14%</span></div><div class="track"><i style="width:14%;background:var(--c1)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Online news</span><span class="pct">10%</span></div><div class="track"><i style="width:10%;background:var(--c1)"></i></div></div>
+                <div class="b"><div class="top"><span class="name">Social platforms (organic)</span><span class="pct">7%</span></div><div class="track"><i style="width:7%;background:var(--c1)"></i></div></div>
               </div>
-              <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5"><span data-mc-tpl="Radio + print together are more than half of {CLIENT}'s reach — a channel mix that most global monitoring tools under-index. Social will grow as brand-owned handles are added to the pipeline.">Radio + print together are more than half of BIHL Group's reach — a channel mix that most global monitoring tools under-index. Social will grow as brand-owned handles are added to the pipeline.</span></div>
+              <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5"><span data-mc-tpl="Digital ads + radio together are more than half of {CLIENT}'s reach — a mix that global monitoring tools under-index on both ends: they miss Setswana radio, and they miss Botswana-specific digital targeting on Meta and Google. MediaClip tracks both.">Digital ads + radio together are more than half of BIHL Group's reach — a mix that global monitoring tools under-index on both ends: they miss Setswana radio, and they miss Botswana-specific digital targeting on Meta and Google. MediaClip tracks both.</span></div>
             </div>
           </div>
         </div>
@@ -704,7 +841,7 @@
       <!-- ===================== MEDIA REACH ===================== -->
       <section class="view" id="reach">
         <div class="page-title">Media reach</div>
-        <div class="page-sub">Estimated audience reach across print, radio, TV, online, and social channels.</div>
+        <div class="page-sub">Estimated audience reach across print, radio, TV, digital, and social channels.</div>
         <div class="pagehead">
           <div class="dd" data-dd="client"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">BIHL Group</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
           <div class="spacer"></div>
@@ -727,8 +864,18 @@
             <div class="chartbox sm"><canvas id="tvReach"></canvas></div>
           </div>
           <div class="card">
+            <h3>Digital reach <span class="tag">Meta · Google · YouTube · X · LinkedIn · TikTok</span></h3>
+            <div class="chartbox sm"><canvas id="digitalReach"></canvas></div>
+          </div>
+        </div>
+        <div class="grid g2" style="margin-top:18px">
+          <div class="card">
             <h3>Reach by channel <span class="tag" data-mc-tpl="{CLIENT}">BIHL Group</span></h3>
             <div class="chartbox sm"><canvas id="channelMix"></canvas></div>
+          </div>
+          <div class="card">
+            <h3>Digital ad-spend detected <span class="tag">Competitive intel</span></h3>
+            <div class="chartbox sm"><canvas id="digitalCompetitive"></canvas></div>
           </div>
         </div>
       </section>
@@ -769,6 +916,7 @@
           <div class="cat" data-cat="print">Print</div>
           <div class="cat" data-cat="radio">Radio</div>
           <div class="cat" data-cat="broadcast">Broadcast</div>
+          <div class="cat" data-cat="digital">Digital</div>
         </div>
         <div class="card">
           <table class="rep">
@@ -778,6 +926,8 @@
               <tr data-rcat="print"><td>Print coverage digest</td><td><span class="rtag print">Print</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>
               <tr data-rcat="radio"><td>Radio mentions summary</td><td><span class="rtag radio">Radio</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>
               <tr data-rcat="broadcast"><td>Broadcast monitoring report</td><td><span class="rtag broadcast">Broadcast</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>
+              <tr data-rcat="digital"><td>Digital ads competitive brief (Meta · Google · YouTube · X · LinkedIn · TikTok)</td><td><span class="rtag digital">Digital</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>
+              <tr data-rcat="digital"><td>Paid social share-of-voice round-up</td><td><span class="rtag digital">Digital</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>
               <tr data-rcat="internal"><td>Summer campaign reach analysis</td><td><span class="rtag internal">Internal</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>
               <tr data-rcat="internal"><td>Competitor share of voice</td><td><span class="rtag internal">Internal</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Download</a></td></tr>
             </tbody>
@@ -901,6 +1051,27 @@
               </div>
               <div class="alert-time">3h ago</div>
             </div>
+
+            <div class="alert-row">
+              <div class="alert-icon info">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+              </div>
+              <div class="alert-body">
+                <div class="alert-meta">
+                  <span class="alert-sev info">Info</span>
+                  <span class="alert-brand">Competitor</span>
+                  <span>·</span>
+                  <span>Digital ad campaign detected</span>
+                </div>
+                <div class="alert-title"><span data-mc-competitor>Sanlam Life</span> digital campaign live across Meta, Google &amp; YouTube</div>
+                <div class="alert-desc"><span data-mc-competitor>Sanlam Life</span> has 24 active ad creatives on Meta Ad Library, 11 Google Ads campaigns and 6 YouTube pre-roll placements this week — estimated spend P 520,000. Setswana + English creative variants detected, targeting Gaborone, Francistown and Palapye. Worth benchmarking against <span data-mc-client-short>BIHL</span>'s current digital share and briefing Marketing on creative counter-programming.</div>
+                <div class="alert-actions">
+                  <button class="alert-btn primary" onclick="mcAlertAction('view-competitor')">View competitor page</button>
+                  <button class="alert-btn" onclick="mcAlertAction('reviewed')">Mark reviewed</button>
+                </div>
+              </div>
+              <div class="alert-time">4h ago</div>
+            </div>
           </div>
         </div>
 
@@ -979,6 +1150,225 @@
             </tbody>
           </table>
           <button class="btn" style="margin-top:16px;max-width:180px" onclick="mcAddRecipient()">Add recipient</button>
+        </div>
+      </section>
+
+      <!-- ===================== SPONSORSHIP MONITORING ===================== -->
+      <section class="view" id="sponsorship">
+        <div class="page-title">Sponsorship monitoring</div>
+        <div class="page-sub" data-mc-tpl="Track {CLIENT}'s active sponsorships and competitor sponsorship spend across sports, culture, industry events, and CSR platforms in Botswana.">Track BIHL Group's active sponsorships and competitor sponsorship spend across sports, culture, industry events, and CSR platforms in Botswana.</div>
+        <div class="pagehead">
+          <div class="dd" data-dd="client"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">BIHL Group</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
+          <div class="spacer"></div>
+          <div class="dd" data-dd="date"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">Last 90 days</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
+          <div class="pill primary" onclick="mcExport()" style="cursor:pointer">Export</div>
+        </div>
+
+        <div class="spons-hero">
+          <div>
+            <div class="num" id="spons-total">P 4.8M</div>
+            <div class="lab">Total sponsorship-related media value tracked · 90 days</div>
+          </div>
+          <div>
+            <div class="num" id="spons-count">14</div>
+            <div class="lab">Active sponsorship properties monitored</div>
+          </div>
+          <div>
+            <div class="num" id="spons-roi">3.2×</div>
+            <div class="lab">Blended sponsorship ROI · earned : invested</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:14px">Active sponsorships <span class="tag" data-mc-tpl="{CLIENT}">BIHL Group</span></h3>
+          <div class="spons-list" id="spons-active">
+            <div class="spons-row">
+              <div class="spons-badge">MVA</div>
+              <div class="spons-body">
+                <div class="spons-title">MVA Fund Annual Report — creative &amp; media placement</div>
+                <div class="spons-meta"><span>Award-winning campaign</span> · <span>Print + digital + broadcast</span> · <span>Q3 2026</span></div>
+              </div>
+              <div class="spons-value">P 1.2M<div class="lab">media value</div></div>
+            </div>
+            <div class="spons-row">
+              <div class="spons-badge">FIN</div>
+              <div class="spons-body">
+                <div class="spons-title">Botswana Financial Services Sustainability Award</div>
+                <div class="spons-meta"><span>Category sponsor</span> · <span>Business Weekly · Duma FM</span> · <span>Sep 2026</span></div>
+              </div>
+              <div class="spons-value">P 820K<div class="lab">media value</div></div>
+            </div>
+            <div class="spons-row">
+              <div class="spons-badge">EDU</div>
+              <div class="spons-body">
+                <div class="spons-title">Rural schools financial literacy programme — 40 villages</div>
+                <div class="spons-meta"><span>Ministry of Basic Education partnership</span> · <span>The Voice + Setswana radio</span> · <span>Ongoing</span></div>
+              </div>
+              <div class="spons-value">P 540K<div class="lab">media value</div></div>
+            </div>
+            <div class="spons-row">
+              <div class="spons-badge">UB</div>
+              <div class="spons-body">
+                <div class="spons-title">University of Botswana graduation ceremony</div>
+                <div class="spons-meta"><span>Title sponsor</span> · <span>Sunday Standard + Btv</span> · <span>Aug 2026</span></div>
+              </div>
+              <div class="spons-value">P 380K<div class="lab">media value</div></div>
+            </div>
+            <div class="spons-row">
+              <div class="spons-badge">WBI</div>
+              <div class="spons-body">
+                <div class="spons-title">Women-Led Business Incubator — 55 participants</div>
+                <div class="spons-meta"><span>Programme sponsor</span> · <span>Weekend Post + LinkedIn</span> · <span>Ongoing 2026</span></div>
+              </div>
+              <div class="spons-value">P 310K<div class="lab">media value</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid g2" style="margin-top:18px">
+          <div class="card">
+            <h3>Sports sponsorship landscape <span class="tag">Botswana 2026</span></h3>
+            <div class="spons-list" style="margin-top:12px">
+              <div class="spons-row">
+                <div class="spons-badge" style="background:linear-gradient(135deg,#DA1F26,#B4141b)">DIA</div>
+                <div class="spons-body">
+                  <div class="spons-title">Debswana Diamond League — athletics</div>
+                  <div class="spons-meta"><span>Title: Debswana</span> · <span>Broadcast: Btv</span> · <span>Radio: Duma FM, Yarona FM</span></div>
+                </div>
+                <div class="spons-value">P 2.4M<div class="lab">season value</div></div>
+              </div>
+              <div class="spons-row">
+                <div class="spons-badge" style="background:linear-gradient(135deg,#F2A93B,#B67900)">TOP8</div>
+                <div class="spons-body">
+                  <div class="spons-title">Mascom Top 8 — Botswana Premier League football</div>
+                  <div class="spons-meta"><span>Title: Mascom</span> · <span>Broadcast: Btv</span> · <span>Setswana commentary</span></div>
+                </div>
+                <div class="spons-value">P 1.8M<div class="lab">season value</div></div>
+              </div>
+              <div class="spons-row">
+                <div class="spons-badge" style="background:linear-gradient(135deg,#0d6efd,#0846a0)">BCA</div>
+                <div class="spons-body">
+                  <div class="spons-title">Botswana Cricket Association T20 series</div>
+                  <div class="spons-meta"><span>Category: FNB Botswana</span> · <span>Digital + print</span></div>
+                </div>
+                <div class="spons-value">P 620K<div class="lab">season value</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Competitor sponsorship intel <span class="tag">Last 30 days</span></h3>
+            <div class="spons-list" style="margin-top:12px">
+              <div class="spons-row">
+                <div class="spons-badge" style="background:linear-gradient(135deg,#33383F,#16181D)">SAN</div>
+                <div class="spons-body">
+                  <div class="spons-title" data-mc-tpl="{COMPETITOR} — Botswana Music Awards title sponsor renewal"><span data-mc-competitor>Sanlam Botswana</span> — Botswana Music Awards title sponsor renewal</div>
+                  <div class="spons-meta"><span>3-year deal announced Aug 2026</span> · <span>Estimated P 4.5M value</span></div>
+                </div>
+                <div class="spons-value">NEW<div class="lab">deal</div></div>
+              </div>
+              <div class="spons-row">
+                <div class="spons-badge" style="background:linear-gradient(135deg,#33383F,#16181D)">OM</div>
+                <div class="spons-body">
+                  <div class="spons-title">Old Mutual — Marathon Botswana headline sponsorship</div>
+                  <div class="spons-meta"><span>September 2026 event</span> · <span>Broadcast: Now TV, Setswana on Duma FM</span></div>
+                </div>
+                <div class="spons-value">P 950K<div class="lab">event value</div></div>
+              </div>
+              <div class="spons-row">
+                <div class="spons-badge" style="background:linear-gradient(135deg,#33383F,#16181D)">MET</div>
+                <div class="spons-body">
+                  <div class="spons-title">Metropolitan — Botswana Chess Championships</div>
+                  <div class="spons-meta"><span>Youth outreach angle</span> · <span>Weekend Post feature</span></div>
+                </div>
+                <div class="spons-value">P 240K<div class="lab">event value</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== CASE STUDIES ===================== -->
+      <section class="view" id="casestudies">
+        <div class="page-title">Case studies</div>
+        <div class="page-sub">Real MediaClip client outcomes from the Botswana market — reputation defence, competitive share-of-voice wins, and crisis containment stories you can share with your board.</div>
+        <div class="pagehead">
+          <div class="spacer"></div>
+          <div class="pill primary" onclick="mcExport()" style="cursor:pointer">Export deck</div>
+        </div>
+
+        <div class="case-grid">
+          <div class="case-card">
+            <div class="case-tag">Reputation defence · Insurance</div>
+            <h4>Setswana-language claim-delay narrative contained before regulator escalation</h4>
+            <div class="client">Life insurer · BIHL Group subsidiary · Q2 2026</div>
+            <div class="case-outcome">Duma FM Breakfast call-in from a bereaved policyholder triggered a Setswana narrative loop that would have gone untracked by the client's global monitoring tool. MediaClip flagged the escalation within 48 minutes, translated the Setswana quote, and mapped its spread to X threads plus a supporting caller broadcast the same morning. Head of Claims fast-tracked the case, Comms posted a proactive Setswana statement, and the narrative was contained before NBFIRA received a complaint.</div>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="n">48 min</div><div class="l">detection to alert</div></div>
+              <div class="case-metric"><div class="n">P 2.4M</div><div class="l">estimated reputation loss avoided</div></div>
+              <div class="case-metric"><div class="n">0</div><div class="l">regulator escalations</div></div>
+            </div>
+          </div>
+
+          <div class="case-card">
+            <div class="case-tag">Competitive share of voice · Banking</div>
+            <h4>Product launch achieved 3× share-of-voice gain in six weeks</h4>
+            <div class="client">Tier-1 retail bank · H1 2026</div>
+            <div class="case-outcome">Bank launched a mobile-first SME programme going head-to-head with two peer banks running similar campaigns. MediaClip's daily share-of-voice tracking + Meta Ad Library ingestion showed which creative angles peers were leaning into so the client's team could counter-programme. Result: SME product achieved 3× the share of voice of its nearest competitor by week six, with strongest lift in Setswana radio and X.</div>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="n">3.1×</div><div class="l">SOV vs nearest peer</div></div>
+              <div class="case-metric"><div class="n">P 1.8M</div><div class="l">earned media value</div></div>
+              <div class="case-metric"><div class="n">42%</div><div class="l">Setswana lift</div></div>
+            </div>
+          </div>
+
+          <div class="case-card">
+            <div class="case-tag">Crisis containment · Telco</div>
+            <h4>Mobile money outage narrative shut down inside a single news cycle</h4>
+            <div class="client">Botswana mobile network operator · Q1 2026</div>
+            <div class="case-outcome">Mobile money service failed during a Friday salary-week rush, generating 14 negative mentions across radio, X and Facebook within 90 minutes. MediaClip's news-feed alert reached the CEO and CMO before the first Business Weekly reporter called. Coordinated Setswana radio call-in from the CTO + proactive X statement + waiver of affected-transaction fees closed the narrative in one news cycle, keeping the story out of Monday's print edition.</div>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="n">1</div><div class="l">news cycle to close</div></div>
+              <div class="case-metric"><div class="n">P 3.6M</div><div class="l">avoided churn value</div></div>
+              <div class="case-metric"><div class="n">92%</div><div class="l">sentiment recovery in 72h</div></div>
+            </div>
+          </div>
+
+          <div class="case-card">
+            <div class="case-tag">Sponsorship ROI · Financial services</div>
+            <h4>Annual report campaign turned into an industry-award trophy case</h4>
+            <div class="client">Public-mandate financial institution · 2025 · Voodoo creative</div>
+            <div class="case-outcome">MediaClip tracked coverage of an award-winning annual report campaign across print, broadcast and digital for 12 months post-launch. The report generated 4.2× its production cost in earned media value, plus category wins at three industry awards. Client used MediaClip's sentiment and reach exports as case-study evidence in Board reporting and in the next tender submission.</div>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="n">4.2×</div><div class="l">ROI on production cost</div></div>
+              <div class="case-metric"><div class="n">3</div><div class="l">industry award wins</div></div>
+              <div class="case-metric"><div class="n">P 6.1M</div><div class="l">earned media value</div></div>
+            </div>
+          </div>
+
+          <div class="case-card">
+            <div class="case-tag">Setswana intelligence · Health funder</div>
+            <h4>Union media loop mapped before a public sector pay-cycle escalation</h4>
+            <div class="client">Public officer medical scheme · Q3 2026</div>
+            <div class="case-outcome">Scheme announced a routine actuarial contribution adjustment landing inside a live public sector pay negotiation cycle. MediaClip's Setswana radio + X union-account monitoring picked up BOFEPUSU/BOSETU amplification patterns within 4 hours — narrative would have been untracked by any global tool. Board Chair + Comms briefed union leadership before the story reached Btv evening news; contribution change went ahead on schedule with no coverage escalation.</div>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="n">4h</div><div class="l">detection to Board brief</div></div>
+              <div class="case-metric"><div class="n">0</div><div class="l">Btv News @ 8 mentions</div></div>
+              <div class="case-metric"><div class="n">On</div><div class="l">schedule delivered</div></div>
+            </div>
+          </div>
+
+          <div class="case-card">
+            <div class="case-tag">Digital competitive intel · Telco</div>
+            <h4>Peer 5G digital campaign spotted the same hour it went live</h4>
+            <div class="client">Tier-2 mobile operator · Q3 2026</div>
+            <div class="case-outcome">Client was planning a Francistown 5G launch on an 18-month roadmap. MediaClip's Meta Ad Library + Google Ads Transparency ingestion picked up a competitor's Francistown-targeted 5G digital campaign the same hour it went live, before any broadcast or print pickup. Marketing team pulled forward the launch timing by six weeks with a defensive campaign in Setswana on Duma FM plus counter-programmed Meta creative. First-mover narrative held.</div>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="n">Same hour</div><div class="l">competitor detection</div></div>
+              <div class="case-metric"><div class="n">6 wks</div><div class="l">launch pulled forward</div></div>
+              <div class="case-metric"><div class="n">P 950K</div><div class="l">defended market value</div></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1220,7 +1610,7 @@
       ],
       insights: {
         audience: "The audience your coverage is reaching skews 30–59 — the primary decision-maker window for BIHL Group's life insurance, funeral cover, education savings and BIFM asset management products. BSE analyst and shareholder coverage skews 40–64 with strong Business Weekly, Btv and Now TV pickup.",
-        reach: "Print + broadcast together are 65% of BIHL Group's reach — the BSE-listed group narrative lives in Business Weekly, Btv and Now TV, while Setswana Duma FM callers shape claim service perception faster than any other channel. Your Sanlam parent group positioning + BIFM P32B AUM milestone are your unique differentiators vs Sanlam Botswana (direct competitor subsidiary), Old Mutual (multinational) and Metropolitan (regional). Global monitoring tools miss Setswana radio bereavement-context complaints entirely — the highest reputational risk category — and that's MediaClip's differentiator versus any generic global monitoring the Sanlam Group might already have in place."
+        reach: "Print + broadcast together are 65% of BIHL Group's reach — the BSE-listed group narrative lives in Business Weekly, Btv and Now TV, while Setswana Duma FM callers shape claim service perception faster than any other channel. Your Sanlam parent group positioning + BIFM P32B AUM milestone are your unique differentiators vs Sanlam Botswana (direct competitor subsidiary), Old Mutual (multinational) and Metropolitan (regional). Global monitoring tools miss Setswana radio bereavement-context complaints entirely — the highest reputational risk category — and that's MediaClip's differentiator versus any generic global monitoring the Sanlam Group might already have in place. Digital ads are ~41% of your total media spend — Botswana Life funeral cover Meta creatives and BIFM Executive LinkedIn campaigns dominate, plus targeted Google Ads for the Kids Education Plan launch. MediaClip's Meta Ad Library + Google Ads Transparency ingestion picks up competitor Sanlam Life and Old Mutual creatives you'd otherwise miss."
       }
     },
     "Stanbic Bank Botswana": {
@@ -1269,7 +1659,7 @@
       ],
       insights: {
         audience: "The audience your coverage is reaching skews 30–49 — the primary decision-maker window for Stanbic Bank Botswana's corporate banking, mining sector finance, and Stanbic Business SME products.",
-        reach: "Print + broadcast together are more than 60% of Stanbic Bank Botswana's reach — the corporate deals narrative lives in Business Weekly and Now TV, while Setswana radio on Duma FM shapes retail perception. Business press pickup drives your syndicated deals and structured finance story."
+        reach: "Print + broadcast together are more than 60% of Stanbic Bank Botswana's reach — the corporate deals narrative lives in Business Weekly and Now TV, while Setswana radio on Duma FM shapes retail perception. Business press pickup drives your syndicated deals and structured finance story. Digital ads are ~49% of your total spend — Blue app Meta creatives, corporate LinkedIn, and Sustainable Finance framework YouTube pre-rolls. MediaClip watches FNB and ABSA digital creatives daily so your team sees peer moves the same hour they go live."
       }
     },
     "FNB Botswana": {
@@ -1318,7 +1708,7 @@
       ],
       insights: {
         audience: "The audience your coverage is reaching skews 25–44 — the primary buying window for FNB Botswana's retail, SME lending and mobile money products.",
-        reach: "Radio + print together are more than half of FNB Botswana's reach — a channel mix that most global monitoring tools under-index. Setswana radio in particular drives your eWallet story."
+        reach: "Radio + print together are more than half of FNB Botswana's reach — a channel mix that most global monitoring tools under-index. Setswana radio in particular drives your eWallet story. Digital ads are ~54% of your total spend — the highest digital share of the Tier-1 banks. eWallet Meta campaigns dominate, plus FNB App Google Ads and Home Loans YouTube pre-rolls. MediaClip's Meta Ad Library + Google Ads Transparency ingestion tracks Stanbic Blue, ABSA Prestige and Access W creative daily."
       }
     },
     "ABSA Bank Botswana": {
@@ -1367,7 +1757,7 @@
       ],
       insights: {
         audience: "The audience your coverage is reaching skews 25–44 — the primary buying window for ABSA Bank Botswana's retail, corporate lending, and Prestige premium banking products.",
-        reach: "Radio + print together are more than half of ABSA Bank Botswana's reach — a channel mix that most global monitoring tools under-index. Business press pickup drives your corporate deal narrative."
+        reach: "Radio + print together are more than half of ABSA Bank Botswana's reach — a channel mix that most global monitoring tools under-index. Business press pickup drives your corporate deal narrative. Digital ads are ~50% of your total spend — Prestige rebrand Meta and LinkedIn campaigns, plus Home Loans first-time buyer Google Ads. MediaClip's paid-digital ingestion picks up FNB eWallet and Stanbic Blue creatives the same day they go live."
       }
     },
     "Standard Chartered Botswana": {
@@ -1416,7 +1806,7 @@
       ],
       insights: {
         audience: "The audience your coverage is reaching skews 35–54 — the primary decision-maker window for Standard Chartered Botswana's Priority Private banking, wealth management, and corporate & institutional banking products. This is a wealthier, more international audience than peer bank coverage.",
-        reach: "Business press + broadcast together are 70% of Standard Chartered Botswana's reach — the wealth management and cross-border deal narrative lives in Business Weekly and Now TV, while the 128-year heritage story shapes brand perception on Btv and in The Voice. Your global network positioning is your strongest differentiator vs Stanbic, FNB and ABSA."
+        reach: "Business press + broadcast together are 70% of Standard Chartered Botswana's reach — the wealth management and cross-border deal narrative lives in Business Weekly and Now TV, while the 128-year heritage story shapes brand perception on Btv and in The Voice. Your global network positioning is your strongest differentiator vs Stanbic, FNB and ABSA. Digital ads are ~46% of your total spend — SC Priority Private LinkedIn campaigns dominate the wealth segment, plus targeted Google Ads on 'private banking Botswana'. Meta share is deliberately lower because Priority customers respond better to LinkedIn — a positioning signal."
       }
     },
     "Access Bank Botswana": {
@@ -1465,7 +1855,7 @@
       ],
       insights: {
         audience: "The audience your coverage is reaching skews 28–48 — younger and more entrepreneurial than the Tier-1 banks, reflecting Access Bank Botswana's SME lending focus, Access W women's account, and Home Loans campaign targeting young professionals. Trade finance and corporate coverage skews 35–54.",
-        reach: "Business press + broadcast together are 65% of Access Bank Botswana's reach — the Access Africa network narrative lives in Business Weekly and Now TV, while Setswana Duma FM callers shape retail service perception. Your unique positioning is the 15-country Access Group corridor for cross-border trade — no Tier-1 bank in Botswana has this network. Global monitoring tools capture the Nigerian parent's coverage but miss the Setswana and Botswana-specific business press signals — that's MediaClip's differentiator vs any Access Group HQ tooling already in place."
+        reach: "Business press + broadcast together are 65% of Access Bank Botswana's reach — the Access Africa network narrative lives in Business Weekly and Now TV, while Setswana Duma FM callers shape retail service perception. Your unique positioning is the 15-country Access Group corridor for cross-border trade — no Tier-1 bank in Botswana has this network. Global monitoring tools capture the Nigerian parent's coverage but miss the Setswana and Botswana-specific business press signals — that's MediaClip's differentiator vs any Access Group HQ tooling already in place. Digital ads are ~46% of your total spend — Access W women's account Meta creatives, SME lending Google Ads targeting export businesses, and Access Africa LinkedIn campaigns for corporate treasury clients. MediaClip picks up peer creatives from Meta Ad Library so your team briefs off actual competitor copy."
       }
     },
     "Pula Medical Aid Fund": {
@@ -1514,7 +1904,7 @@
       ],
       insights: {
         audience: "The audience your coverage is reaching skews 30–54 — mapping directly to Pula MAF's private-sector membership: banking, insurance, mining, retail corporates and their executives. Executive scheme coverage skews 40–59. This is a wealthier, more corporate audience than BPOMAS's public officer segment, with proportionally higher business press consumption.",
-        reach: "Business press + broadcast together are 60% of Pula MAF's reach — the private-sector executive narrative lives in Business Weekly, Now TV and Btv, while Setswana Duma FM callers shape service perception on specialist claim timing. Corporate mandate wins (Debswana subsidiary, mining consortium) build the Executive scheme growth story faster than any advertising spend. Your unique positioning is the private-sector executive segment where BPOMAS cannot compete on service flexibility — but the flip side is that when Pula members have a service issue, they compare to South African and global schemes, not to BPOMAS, and MediaClip is the only tool tracking that Setswana + English + business-press three-language coverage in Botswana private-sector media."
+        reach: "Business press + broadcast together are 60% of Pula MAF's reach — the private-sector executive narrative lives in Business Weekly, Now TV and Btv, while Setswana Duma FM callers shape service perception on specialist claim timing. Corporate mandate wins (Debswana subsidiary, mining consortium) build the Executive scheme growth story faster than any advertising spend. Your unique positioning is the private-sector executive segment where BPOMAS cannot compete on service flexibility — but the flip side is that when Pula members have a service issue, they compare to South African and global schemes, not to BPOMAS, and MediaClip is the only tool tracking that Setswana + English + business-press three-language coverage in Botswana private-sector media. Digital ads are ~40% of your total spend — Executive scheme LinkedIn campaigns targeting corporate HR, plus Meta creatives for wellness and Kids-plan products. MediaClip tracks BOMAID and Botsogo digital creatives daily so your team sees benefit-comparison messaging as it appears."
       }
     },
     "BPOMAS": {
@@ -1563,7 +1953,7 @@
       ],
       insights: {
         audience: "The audience your coverage is reaching skews 30–59 — mapping directly to BPOMAS's public officer membership: teachers, uniformed services, civil servants, and their dependants. Executive scheme coverage skews 40–64. Union representatives (BOFEPUSU, BOSETU) amplify coverage disproportionately in the 35–54 window and drive sentiment during pay negotiation cycles.",
-        reach: "Radio + social together are 55% of BPOMAS's reach — Setswana Duma FM callers on Breakfast and Business Hour drive service perception faster than any other channel, and X amplifies union framing when contribution rates and pay negotiations collide. Business press pickup builds the actuarial and NBFIRA compliance narrative for Board and Trustees. The union-media convergence risk is unique to public sector medical aid — no private scheme faces the BOFEPUSU/BOSETU narrative loop that MediaClip is picking up here, and no global monitoring tool tracks Setswana union amplification in Botswana media."
+        reach: "Radio + social together are 55% of BPOMAS's reach — Setswana Duma FM callers on Breakfast and Business Hour drive service perception faster than any other channel, and X amplifies union framing when contribution rates and pay negotiations collide. Business press pickup builds the actuarial and NBFIRA compliance narrative for Board and Trustees. The union-media convergence risk is unique to public sector medical aid — no private scheme faces the BOFEPUSU/BOSETU narrative loop that MediaClip is picking up here, and no global monitoring tool tracks Setswana union amplification in Botswana media. Digital ads are ~34% of your total spend — the lowest digital share across the tenants because BOFEPUSU/BOSETU union communications, Btv public service announcements and Setswana radio still drive public officer reach. Where digital lives it's Meta for Wellness Programme uptake and LinkedIn for Executive scheme. MediaClip picks up private-scheme competitive digital creatives targeting your public officer members."
       }
     },
     "BTC": {
@@ -1612,7 +2002,7 @@
       ],
       insights: {
         audience: "The audience your coverage is reaching skews 25–54 — a broader window than pure-play mobile operators, reflecting BTC's dual role as national carrier serving both retail consumers and government/enterprise clients. BSE investor coverage skews 35–64 with strong Business Weekly and Btv pickup.",
-        reach: "Print + broadcast together are 60% of BTC's reach — the national carrier narrative lives in Business Weekly, Btv and Now TV, while Setswana Duma FM callers shape rural service perception. Your BSE-listed status and Universal Service Obligation delivery are your unique positioning vs Mascom (private) and Orange (multinational subsidiary) — nowhere else in the Botswana telco sector do you tell this dual story. Global monitoring tools miss both the Setswana radio channel and the BSE analyst narrative — MediaClip's differentiator vs any incumbent tooling."
+        reach: "Print + broadcast together are 60% of BTC's reach — the national carrier narrative lives in Business Weekly, Btv and Now TV, while Setswana Duma FM callers shape rural service perception. Your BSE-listed status and Universal Service Obligation delivery are your unique positioning vs Mascom (private) and Orange (multinational subsidiary) — nowhere else in the Botswana telco sector do you tell this dual story. Global monitoring tools miss both the Setswana radio channel and the BSE analyst narrative — MediaClip's differentiator vs any incumbent tooling. Digital ads are ~43% of your total spend — BTC Smart 5G Meta campaigns, Smega merchant Google Ads for rural districts, and BSE investor relations LinkedIn campaigns. Digital is the fastest-growing bucket but you're still print-heavy legacy. MediaClip tracks Mascom and Orange creatives daily so 5G and mobile money competitor moves are visible same-day."
       }
     },
     "Mascom": {
@@ -1661,7 +2051,7 @@
       ],
       insights: {
         audience: "The audience your coverage is reaching skews 18–44 — a broader youth and working-age window than Mascom's peer banks, reflecting the mass-market reach of MyZaka mobile money and prepaid voice. Enterprise coverage skews 30–54.",
-        reach: "Radio + social together are more than 55% of Mascom's reach — Setswana Duma FM callers drive service perception, while X threads shape MyZaka narrative faster than any other channel. Business press pickup on 5G rollout and enterprise wins builds the corporate credibility story. Global monitoring tools under-index Setswana radio — that's your blind spot vs Orange and BTC without MediaClip."
+        reach: "Radio + social together are more than 55% of Mascom's reach — Setswana Duma FM callers drive service perception, while X threads shape MyZaka narrative faster than any other channel. Business press pickup on 5G rollout and enterprise wins builds the corporate credibility story. Global monitoring tools under-index Setswana radio — that's your blind spot vs Orange and BTC without MediaClip. Digital ads are ~52% of your total spend — MyZaka Meta creatives for merchant onboarding, 5G rollout YouTube pre-rolls, and enterprise LinkedIn campaigns. MediaClip's Meta Ad Library ingestion tracks Orange Max It creatives and BTC Smart 5G creatives daily — the sector-wide digital signal you can't get from any global monitoring tool that doesn't index Botswana geo-targeting."
       }
     },
     "Orange Botswana": {
@@ -1710,7 +2100,7 @@
       ],
       insights: {
         audience: "The audience your coverage is reaching skews 18–44 — a young, urban, digitally-active window matching Orange Botswana's Max It super app and Orange Money target demographic. Enterprise fibre coverage skews 30–54 with strong Business Weekly and Now TV pickup.",
-        reach: "Radio + social together are 55% of Orange Botswana's reach — X drives Max It and Orange Money narrative among urban youth, while Setswana Duma FM callers shape service perception. Business press pickup on enterprise wins and 5G Francistown pre-empt builds the corporate credibility story vs Mascom. Global monitoring tools miss the Setswana radio channel — MediaClip's differentiator vs Orange Group's global tooling."
+        reach: "Radio + social together are 55% of Orange Botswana's reach — X drives Max It and Orange Money narrative among urban youth, while Setswana Duma FM callers shape service perception. Business press pickup on enterprise wins and 5G Francistown pre-empt builds the corporate credibility story vs Mascom. Global monitoring tools miss the Setswana radio channel — MediaClip's differentiator vs Orange Group's global tooling. Digital ads are ~56% of your total spend — the highest digital share across all 11 tenants. Max It super app YouTube and TikTok creatives, Orange Money Meta campaigns for merchant onboarding, and Orange Business LinkedIn for enterprise. MediaClip tracks Mascom MyZaka and BTC Smega creatives daily — you'll see peer counter-programming the same hour it goes live."
       }
     },
   };
@@ -1935,7 +2325,7 @@
     // 2. Rebuild reports table
     const tbody = document.getElementById("reports-tbody");
     if (tbody && cd.reports && cd.reports.length){
-      const catLabel = {internal:'Internal', print:'Print', radio:'Radio', broadcast:'Broadcast', sensitive:'Sensitive', competitive:'Competitive'};
+      const catLabel = {internal:'Internal', print:'Print', radio:'Radio', broadcast:'Broadcast', digital:'Digital', sensitive:'Sensitive', competitive:'Competitive'};
       tbody.innerHTML = cd.reports.map(function(r){
         const cat = r.cat || 'internal';
         return '<tr data-rcat="' + cat + '"><td>' + r.name + '</td>' +
@@ -2051,11 +2441,12 @@
         const langs = mcNormalize([mcVary(54,6,seed), mcVary(33,5,seed), mcVary(13,4,seed)]);
         langEl.innerHTML = mcBarHTML(['English','Setswana','Code-switched'], langs);
       }
-      // Platform
+      // Platform — includes Digital ads (Meta, Google, YouTube, X, LinkedIn, TikTok) as separate category, with green bar to visually anchor
       const platEl = document.getElementById('dem-platform');
       if (platEl){
-        const plats = mcNormalize([mcVary(30,4,seed), mcVary(26,4,seed), mcVary(18,4,seed), mcVary(17,4,seed), mcVary(9,3,seed)]);
-        platEl.innerHTML = mcBarHTML(['Radio stations','Print titles','Broadcast/TV','Online news','Social platforms'], plats);
+        const plats = mcNormalize([mcVary(28,4,seed), mcVary(22,4,seed), mcVary(19,4,seed), mcVary(14,3,seed), mcVary(10,3,seed), mcVary(7,3,seed)]);
+        const platColors = ['#1FA97A','var(--c1)','var(--c1)','var(--c1)','var(--c1)','var(--c1)'];
+        platEl.innerHTML = mcBarHTML(['Digital ads (Meta · Google · YouTube · X · LinkedIn · TikTok)','Radio stations','Print titles','Broadcast/TV','Online news','Social platforms (organic)'], plats, platColors);
       }
     } catch(e){}
 
@@ -2094,7 +2485,7 @@
           if (cd.insights.audience && tpl && tpl.indexOf("audience your coverage is reaching") >= 0){
             el.textContent = cd.insights.audience;
           }
-          if (cd.insights.reach && tpl && tpl.indexOf("Radio + print together") >= 0){
+          if (cd.insights.reach && tpl && (tpl.indexOf("Radio + print together") >= 0 || tpl.indexOf("Digital ads + radio together") >= 0)){
             el.textContent = cd.insights.reach;
           }
         });
@@ -2386,6 +2777,26 @@
   document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{
     b.parentNode.querySelectorAll('button').forEach(x=>x.classList.remove('active')); b.classList.add('active');
   }));
+  // Coverage-tile helpers — programmatic view + tab switching from the "Coverage capabilities" strip
+  window.mcSwitchView = function(viewId){
+    const link = document.querySelector('.nav a[data-view="' + viewId + '"]');
+    if (link) { link.click(); }
+    else {
+      // fallback for views without a nav link (shouldn't happen after adding sidebar items)
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      const view = document.getElementById(viewId);
+      if (view) view.classList.add('active');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  window.mcSwitchTab = function(tabId){
+    const btn = document.querySelector('.tabs button[data-tab="' + tabId + '"]');
+    if (btn) { btn.click(); }
+    // Also toggle the tab panels
+    document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+    const panel = document.getElementById('tab-' + tabId);
+    if (panel) panel.style.display = 'block';
+  };
   document.querySelectorAll('.cat').forEach(c=>c.addEventListener('click',()=>{
     document.querySelectorAll('.cat').forEach(x=>x.classList.remove('active')); c.classList.add('active');
   }));
@@ -2810,6 +3221,7 @@
             <option value="print">Print coverage report</option>
             <option value="radio">Radio coverage report</option>
             <option value="broadcast">Broadcast (TV) coverage report</option>
+            <option value="digital">Digital coverage report (Meta · Google · YouTube · X · LinkedIn · TikTok)</option>
             <option value="internal">Crisis report</option>
           </select></div>
         <div><div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Schedule</div>
@@ -2838,7 +3250,7 @@
     }
     const tbody = document.getElementById('reports-tbody');
     if (!tbody){ mcCloseModal(); return; }
-    const typeMap = {internal:'Internal', print:'Print', radio:'Radio', broadcast:'Broadcast'};
+    const typeMap = {internal:'Internal', print:'Print', radio:'Radio', broadcast:'Broadcast', digital:'Digital'};
     const typeLabel = typeMap[type] || 'Internal';
     const period = new Date().toLocaleDateString('en-GB', {month:'short', year:'numeric'});
     const isNow = schedule === 'once';
@@ -3205,7 +3617,7 @@
     const type = row?.querySelector('.rtag')?.textContent?.trim() || "Internal";
     const mentions = window._lastMentions || [];
     // Filter mentions by report type so a Print report exports only print rows
-    const typeMap = { print:['print'], radio:['radio'], broadcast:['broadcast','tv'], internal:[] };
+    const typeMap = { print:['print'], radio:['radio'], broadcast:['broadcast','tv'], digital:['social','online'], internal:[] };
     const wanted = typeMap[type.toLowerCase()] || [];
     const filtered = wanted.length ? mentions.filter(m => wanted.includes((m.media_type||'').toLowerCase())) : mentions;
 
@@ -3388,7 +3800,7 @@
     if (!list) return;
 
     if (!mentions || !mentions.length){
-      list.innerHTML = '<div class="clip-empty">No clippings yet. Once Datastreamer starts feeding coverage in, articles, social posts, and broadcast clips will land here.</div>';
+      list.innerHTML = '<div class="clip-empty">No clippings yet. Once Datastreamer starts feeding coverage in, articles, broadcast clips, social posts, and digital ad creatives will land here.</div>';
       if (total) total.textContent = "0 clips";
       return;
     }
@@ -3565,7 +3977,19 @@
     {label:'Botswana Life',data:[100,70,55],backgroundColor:INK,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
     {label:'BIFM',data:[120,80,60],backgroundColor:GREY,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
   ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:14}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},ticks:{callback:v=>v+'K',maxTicksLimit:5}}}}});
-  ring('channelMix',{l:['Print','Radio','Broadcast','Online'],v:[38,29,21,12]},[RED,AMBER,INK,GREY]);
+  // Digital reach across Meta, Google, YouTube, X, LinkedIn, TikTok
+  charts.digitalReach=new Chart(document.getElementById('digitalReach'),{type:'bar',data:{labels:['Meta','Google','YouTube','X','LinkedIn','TikTok'],datasets:[
+    {label:'BIHL',data:[420,340,260,180,140,110],backgroundColor:GREEN,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
+    {label:'Botswana Life',data:[320,240,190,120,90,80],backgroundColor:INK,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
+    {label:'BIFM',data:[180,160,110,90,140,50],backgroundColor:GREY,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:14}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},ticks:{callback:v=>v+'K',maxTicksLimit:5}}}}});
+  // Digital ad-spend detected across competitors (Meta Ad Library + Google Ads Transparency + X Ad Repository)
+  charts.digitalCompetitive=new Chart(document.getElementById('digitalCompetitive'),{type:'bar',data:{labels:['Meta','Google','YouTube','LinkedIn','TikTok'],datasets:[
+    {label:'Client',data:[168,142,98,74,42],backgroundColor:GREEN,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
+    {label:'Competitor A',data:[195,168,105,86,52],backgroundColor:RED,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
+    {label:'Competitor B',data:[142,118,84,68,38],backgroundColor:INK,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:14}},tooltip:{callbacks:{label:(c)=>c.dataset.label+': P'+c.parsed.y+'K'}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},ticks:{callback:v=>'P'+v+'K',maxTicksLimit:5}}}}});
+  ring('channelMix',{l:['Print','Radio','Broadcast','Digital','Online news','Social'],v:[24,22,16,26,7,5]},[RED,AMBER,INK,GREEN,GREY,'#8257e6']);
 
   // analytics trend
   charts.trend=new Chart(document.getElementById('trend'),{type:'line',data:{labels:Array.from({length:12},(_,i)=>'W'+(i+1)),datasets:[
