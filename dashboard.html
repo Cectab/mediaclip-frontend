@@ -1572,9 +1572,70 @@
   const DEMO_PASSWORD = "MediaClip2026Demo";
 
   // ============================================================
-  // MC_CLIENTS — all 11 demo tenants. On login, dropdown switches
-  // between them. Each has brand hierarchy, competitors, KPIs,
-  // sample mentions, and PR reports. Reference implementation.
+  // Datastreamer live data fetch layer
+  // ============================================================
+  // When MC_DATA_ENDPOINT is set, the dashboard fetches live BIHL coverage
+  // from the backend (which reads Neon Postgres populated by the Datastreamer
+  // Webhook Egress). When empty or fetch fails, the dashboard falls back to
+  // the hardcoded MC_CLIENTS content below — so demos work offline.
+  //
+  // Backend contract (Cecil's Render worker exposes this):
+  //   GET  {endpoint}/api/tenant/BIHL%20Group?days=30
+  //   Header: Authorization: Bearer <MC_DATA_TOKEN>
+  //   Returns: { display, brands, competitors, kpi, mentions[], reports[], alerts[], insights }
+  //   mention shape matches _mkMention output.
+  const MC_DATA_ENDPOINT = "https://mediaclip-backend.onrender.com"; // your Render worker URL
+  const MC_DATA_TOKEN = "22240bea36b2cfc899304b715edac74d88e22b130c4cc08b5c263663b55116ee"; // must match MC_DATA_TOKEN in Render env vars
+
+  async function mcFetchLiveTenant(tenantKey, days){
+    if (!MC_DATA_ENDPOINT) return null;
+    try {
+      const url = MC_DATA_ENDPOINT + "/api/tenant/" + encodeURIComponent(tenantKey) + "?days=" + (days || 30);
+      const headers = MC_DATA_TOKEN ? { "Authorization": "Bearer " + MC_DATA_TOKEN } : {};
+      const r = await fetch(url, { headers });
+      if (!r.ok) { console.warn("MediaClip live fetch failed:", r.status); return null; }
+      const data = await r.json();
+      if (!data || !data.mentions) return null;
+      return data;
+    } catch (e) {
+      console.warn("MediaClip live fetch error:", e.message);
+      return null;
+    }
+  }
+
+  // Merge live tenant data into MC_CLIENTS at runtime. Called after login.
+  async function mcHydrateLiveData(){
+    const days = mcDateWindowDays();
+    const live = await mcFetchLiveTenant("BIHL Group", days);
+    if (!live) return; // fall back to hardcoded MC_CLIENTS content
+    // Preserve display + brands + competitors from hardcoded config;
+    // overwrite volatile fields (kpi, mentions, reports, alerts, insights).
+    const hardcoded = MC_CLIENTS["BIHL Group"] || {};
+    MC_CLIENTS["BIHL Group"] = {
+      display: live.display || hardcoded.display || "BIHL Group",
+      brands: live.brands || hardcoded.brands || [],
+      competitors: live.competitors || hardcoded.competitors || [],
+      kpi: live.kpi || hardcoded.kpi || {},
+      mentions: live.mentions || [],
+      reports: live.reports || hardcoded.reports || [],
+      alerts: live.alerts || hardcoded.alerts || [],
+      insights: live.insights || hardcoded.insights || {},
+    };
+    // Repaint if dashboard already open
+    if (typeof loadDashboard === "function") try { loadDashboard(); } catch(e){}
+    if (typeof mcApplyClientBranding === "function") try { mcApplyClientBranding(); } catch(e){}
+  }
+  function mcDateWindowDays(){
+    const d = (window.mcFilters && mcFilters.date) || "30d";
+    if (d === "7d") return 7; if (d === "90d") return 90; return 30;
+  }
+  // Expose for manual re-fetch after date change
+  window.mcHydrateLiveData = mcHydrateLiveData;
+
+  // ============================================================
+  // MC_CLIENTS — hardcoded fallback content for BIHL Group demo.
+  // Live Datastreamer data (when wired) overwrites this at runtime.
+  // ============================================================
   // ============================================================
   function _iso(daysAgo){
     const d = new Date(); d.setUTCDate(d.getUTCDate() - daysAgo);
@@ -1595,7 +1656,7 @@
   const MC_CLIENTS = {
     "BIHL Group": {
       display: "BIHL Group",
-      brands: ["BIHL Group", "Botswana Life", "BIFM", "BIFM Unit Trusts", "BIHL Trust"],
+      brands: ["BIHL Group", "Botswana Life", "BIFM", "BIFM Unit Trusts", "BIHL Trust", "BIC"],
       competitors: ["Sanlam Botswana", "Old Mutual Botswana", "Metropolitan Botswana"],
       kpi: { impressions: 4_400_000, reach: 3_280_000, engagements: 86_800, positive_pct: 63 },
       mentions: [
@@ -1605,6 +1666,7 @@
         _mkMention("BIFM", "Now TV", "broadcast", "positive", "reputational", "purchase", 4, "BIFM MD unveils P32B AUM milestone on Now TV Business Today", "BIFM Managing Director discussed the P32B AUM milestone on Now TV Business Today — cited pension fund inflows and offshore diversification strategy as growth drivers. First BIFM appearance on Now TV since new MD appointment.", 85000, 170000, 260, 48000, "en"),
         _mkMention("BIHL Group", "Mmegi", "print", "positive", "reputational", "purchase", 5, "BIHL Chairman commits to 15% dividend growth at AGM", "BIHL Group Chairman announced commitment to 15% dividend growth over the medium term at the Annual General Meeting — analysts positive on payout ratio and capital position.", 62000, 124000, 1450, 55000, "en"),
         _mkMention("BIFM Unit Trusts", "Business Weekly", "print", "positive", "reputational", "purchase", 6, "BIFM Unit Trusts Q3 net inflows grow 12% on retail investor demand", "BIFM Unit Trusts reported 12% growth in Q3 net inflows, citing retail investor demand and expanded digital onboarding as key drivers. Money Market Fund and Equity Fund cited as top-performers.", 48000, 96000, 1350, 52000, "en"),
+        _mkMention("BIC", "Mmegi", "print", "positive", "reputational", "purchase", 7, "Botswana Insurance Company H1 short-term premium volume up 9%", "Botswana Insurance Company (BIC) reported 9% growth in short-term premium volume for H1, citing motor and asset lines as key drivers alongside a new digital claims platform rollout.", 62000, 124000, 1200, 48000, "en"),
         _mkMention("BIHL Group", "The Voice", "print", "positive", "reputational", "none", 7, "BIHL Foundation expands financial literacy programme to 40 rural schools", "BIHL Foundation has partnered with the Ministry of Basic Education on a rural schools financial literacy programme reaching 40 villages — mentor sessions and workbook rollout profiled.", 55000, 110000, 900, 40000, "en"),
         _mkMention("BIFM", "Duma FM", "radio", "positive", "reputational", "purchase", 8, "BIFM Chief Economist on Bank of Botswana rate outlook and offshore diversification", "BIFM Chief Economist interviewed on Duma FM Business Hour regarding Bank of Botswana Monetary Policy Committee outlook and BIFM's offshore diversification strategy for pension clients.", 115000, 230000, 0, 30000, "en"),
         _mkMention("BIHL Trust", "X", "social", "positive", "reputational", "purchase", 9, "Setswana X thread praises BIHL Trust wealth advisory service", "Positive Setswana X thread from clients praising BIHL Trust wealth advisory service and dedicated relationship manager approach — cited as differentiator vs peer trust and wealth management providers.", 2400, 4800, 400, 900, "tn"),
@@ -1676,6 +1738,8 @@
     setTimeout(function(){ try{ Object.values(charts).forEach(function(c){ try{c.resize()}catch(e){} }); }catch(e){} }, 60);
     mcApplyClientBranding();
     loadDashboard();
+    // Try to hydrate with live Datastreamer data (silently falls back if endpoint not configured)
+    if (typeof mcHydrateLiveData === "function") { mcHydrateLiveData(); }
     btn.disabled = false; btn.textContent = "Sign in";
   }
 
@@ -2078,18 +2142,10 @@
     // Per-client digital ad-spend multiplier — reflects real Botswana 2026 digital media weight per sector.
     // Digital budgets: Meta + Google + YouTube + X + LinkedIn + TikTok + Botswana site display + WhatsApp broadcast.
     // Values are multipliers of traditional-media (print+broadcast+radio) total spend.
+    // Digital ad-spend multiplier as fraction of traditional-media total spend.
+    // Add an entry per tenant as new clients are onboarded — value calibrated to sector.
     const DIGITAL_MULT = {
-      "FNB Botswana": 1.15,              // heavy digital — eWallet + FNB App campaigns
-      "ABSA Bank Botswana": 1.02,        // Prestige rebrand + Home Loans push
-      "Stanbic Bank Botswana": 0.98,     // Blue app + corporate LinkedIn
-      "Standard Chartered Botswana": 0.88, // wealth clients on LinkedIn
-      "Access Bank Botswana": 0.92,      // Access W + SME digital
-      "Orange Botswana": 1.28,           // heaviest digital — Max It + Orange Money
-      "Mascom": 1.18,                    // MyZaka + 5G Meta campaigns
-      "BTC": 0.82,                       // digital growing, still print-heavy legacy
-      "BIHL Group": 0.75,                // funeral cover Meta, Executive LinkedIn
-      "Pula Medical Aid Fund": 0.68,     // Executive scheme LinkedIn corporate
-      "BPOMAS": 0.55,                    // less digital, more union comms
+      "BIHL Group": 0.75,  // funeral cover Meta creatives, BIFM Executive LinkedIn, Kids Education Plan Google Ads
     };
     const _digitalMult = (key) => DIGITAL_MULT[key] || 0.85;
 
@@ -2389,7 +2445,7 @@
           const b = document.createElement('button');
           b.textContent = o.label; b.dataset.v = o.value;
           if (o.value === mcFilters.date) b.classList.add('active');
-          b.onclick = () => { mcFilters.date = o.value; mcSaveFilters(); mcUpdateAllDropdownLabels(); mcCloseAllDD(); loadDashboard(); };
+          b.onclick = () => { mcFilters.date = o.value; mcSaveFilters(); mcUpdateAllDropdownLabels(); mcCloseAllDD(); loadDashboard(); if (typeof mcHydrateLiveData === "function") mcHydrateLiveData(); };
           menu.appendChild(b);
         });
       }
