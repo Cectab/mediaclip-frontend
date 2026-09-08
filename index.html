@@ -374,22 +374,28 @@ button{font-family:inherit;cursor:pointer}
 <section class="coverage" id="coverage"><div class="wrap">
 <div class="section-head">
 <div class="eyebrow"><span class="eyebrow-dot"></span>COVERAGE</div>
-<h2>What we listen to.</h2>
-<p>Ten intelligence categories, indexed and classified continuously.</p>
+<h2>What we listen to — and what we do with it.</h2>
+<p>Five Botswana media sources indexed continuously, translated into four intelligence capabilities you act on.</p>
 </div>
+
+<div class="cov-subhead" style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--red);letter-spacing:.14em;text-transform:uppercase;margin:6px 0 12px">Media sources</div>
 <div class="cov-grid">
 <div class="cov-tile"><div class="cov-icon" aria-hidden="true">◫</div><h3>Print media</h3><p>Business Weekly, Mmegi, The Voice, Weekend Post, Sunday Standard</p></div>
+<div class="cov-tile"><div class="cov-icon" aria-hidden="true">◉</div><h3>Radio monitoring</h3><p>Duma FM, Yarona FM, Gabz FM, RB2 — Setswana transcribed</p></div>
 <div class="cov-tile"><div class="cov-icon" aria-hidden="true">▤</div><h3>TV monitoring</h3><p>Btv, Now TV, eBotswana — Business Today, News @ 8, current affairs</p></div>
 <div class="cov-tile"><div class="cov-icon" aria-hidden="true">◐</div><h3>Online media</h3><p>mmegi.bw, sundaystandard.info, businessweekly.co.bw and portals</p></div>
-<div class="cov-tile"><div class="cov-icon" aria-hidden="true">◈</div><h3>Social media</h3><p>X, Facebook, Instagram, TikTok, LinkedIn — EN + Setswana</p></div>
-<div class="cov-tile"><div class="cov-icon" aria-hidden="true">◉</div><h3>Radio monitoring</h3><p>Duma FM, Yarona FM, Gabz FM, RB2 — Setswana transcribed</p></div>
-<div class="cov-tile"><div class="cov-icon" aria-hidden="true">✓</div><h3>Analysis reports</h3><p>Monthly PR, sentiment, share of voice, crisis briefs, competitive reviews</p></div>
-<div class="cov-tile"><div class="cov-icon" aria-hidden="true">≈</div><h3>News monitoring</h3><p>Real-time brand, competitor and keyword tracking across every channel</p></div>
-<div class="cov-tile"><div class="cov-icon" aria-hidden="true">▦</div><h3>News feed</h3><p>Curated daily digest — top stories, alerts and industry moves</p></div>
-<div class="cov-tile"><div class="cov-icon" aria-hidden="true">✦</div><h3>Sponsorship monitoring</h3><p>ROI tracking on Debswana Diamond League, BFA, industry awards, CSR properties</p></div>
-<div class="cov-tile"><div class="cov-icon" aria-hidden="true">★</div><h3>Case studies</h3><p>Botswana client outcomes — reputation defence, SOV wins, crisis containment</p></div>
+<div class="cov-tile"><div class="cov-icon" aria-hidden="true">◈</div><h3>Public social media</h3><p>X, Facebook, Instagram, TikTok, LinkedIn — EN + Setswana</p></div>
 </div>
-<p class="cov-note">Coverage varies by public availability, licensing and platform API policies. Specific outlets and update frequencies are confirmed during onboarding.</p>
+
+<div class="cov-subhead" style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--red);letter-spacing:.14em;text-transform:uppercase;margin:32px 0 12px">Intelligence capabilities</div>
+<div class="cov-grid">
+<div class="cov-tile"><div class="cov-icon" aria-hidden="true">✓</div><h3>Analysis reports</h3><p>Monthly PR, sentiment, share of voice, crisis briefs, competitive reviews</p></div>
+<div class="cov-tile"><div class="cov-icon" aria-hidden="true">≈</div><h3>News monitoring</h3><p>Real-time brand, competitor and keyword tracking across every source</p></div>
+<div class="cov-tile"><div class="cov-icon" aria-hidden="true">▦</div><h3>Curated news feed</h3><p>Daily digest — top stories, alerts and industry moves for your team</p></div>
+<div class="cov-tile"><div class="cov-icon" aria-hidden="true">✦</div><h3>Sponsorship &amp; competitive intelligence</h3><p>ROI tracking on Debswana Diamond League, BFA, industry awards — plus competitor sponsorship spend</p></div>
+</div>
+
+<p class="cov-note">Illustrative use cases are shown inside the demonstration platform. Real client references and case studies are available under NDA on request. Coverage varies by public availability, licensing and platform API policies. Specific outlets and update frequencies are confirmed during onboarding.</p>
 </div></section>
 
 <!-- PACKAGES -->
@@ -552,7 +558,10 @@ button{font-family:inherit;cursor:pointer}
 </div>
 
 <script>
-window.openDemo=function(interest){var m=document.getElementById('demoModal');if(!m)return;m.hidden=false;document.body.style.overflow='hidden';var s=m.querySelector('select[name="interest"]');if(s&&interest){s.value=interest;}setTimeout(function(){var f=m.querySelector('input[name="name"]');if(f)f.focus();},60);};
+window.openDemo=function(interest){var m=document.getElementById('demoModal');if(!m)return;m.hidden=false;document.body.style.overflow='hidden';var s=m.querySelector('select[name="interest"]');if(s&&interest){s.value=interest;}// Update modal title + submit button based on interest
+var title=document.getElementById('demoTitle');var btn=document.getElementById('demoSubmit');if(interest==='snapshot'){if(title)title.textContent='Request your free 5-day brand snapshot';if(btn)btn.textContent='Request my free brand snapshot';}else{if(title)title.textContent='Request a demo';if(btn)btn.textContent='Request a demo';}// Live-update when the interest select changes
+if(s){s.onchange=function(){var v=s.value;if(title)title.textContent=v==='snapshot'?'Request your free 5-day brand snapshot':'Request a demo';if(btn)btn.textContent=v==='snapshot'?'Request my free brand snapshot':'Request a demo';};}
+setTimeout(function(){var f=m.querySelector('input[name="name"]');if(f)f.focus();},60);};
 window.closeDemo=function(){var m=document.getElementById('demoModal');if(!m)return;m.hidden=true;document.body.style.overflow='';['demoError','demoSuccess'].forEach(function(id){var e=document.getElementById(id);if(e)e.hidden=true;});};
 window.openMobileMenu=function(){var m=document.getElementById('mobileMenu'),t=document.getElementById('navToggle');m.hidden=false;t.setAttribute('aria-expanded','true');t.setAttribute('aria-label','Close menu');document.body.style.overflow='hidden';};
 window.closeMobileMenu=function(){var m=document.getElementById('mobileMenu'),t=document.getElementById('navToggle');m.hidden=true;t.setAttribute('aria-expanded','false');t.setAttribute('aria-label','Open menu');document.body.style.overflow='';};
