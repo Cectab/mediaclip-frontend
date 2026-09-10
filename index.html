@@ -181,8 +181,9 @@ button{font-family:inherit;cursor:pointer}
 .packages{padding:96px 0;background:#fff;border-bottom:1px solid var(--line)}
 @media (max-width:900px){.packages{padding:64px 0}}
 .packages .section-head{max-width:760px;margin-bottom:56px}
-.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:36px}
-@media (max-width:960px){.pkg-grid{grid-template-columns:1fr;gap:20px}}
+.pkg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:36px}
+@media (max-width:1200px){.pkg-grid{grid-template-columns:repeat(2,1fr);gap:20px}}
+@media (max-width:720px){.pkg-grid{grid-template-columns:1fr;gap:20px}}
 .pkg-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;padding:32px 28px;display:flex;flex-direction:column;transition:border-color .18s,box-shadow .2s,transform .2s}
 .pkg-card:hover{border-color:var(--red);box-shadow:0 20px 50px -25px rgba(15,25,50,.18);transform:translateY(-2px)}
 .pkg-card.featured{border:2px solid var(--red);background:linear-gradient(180deg,#fff,var(--red-soft) 100%);box-shadow:0 20px 50px -25px rgba(218,31,38,.25)}
@@ -424,6 +425,27 @@ button{font-family:inherit;cursor:pointer}
 
 <div class="pkg-grid">
 
+<!-- REPORT CARD - entry level -->
+<div class="pkg-card">
+<div class="pkg-eyebrow">REPORT CARD</div>
+<div class="pkg-name">Report Card</div>
+<div class="pkg-tag">Monthly media intelligence delivered as a report. No dashboard access. Ideal for boards, executive teams and agencies who want intelligence without operating a tool.</div>
+<div class="pkg-price">From BWP 4,500 <span style="font-size:14px;font-weight:600;color:var(--muted)">/ month</span></div>
+<div class="pkg-price-sub">Or BWP 45,000 annual (two months free)</div>
+<div class="pkg-divider"></div>
+<div class="pkg-includes">Includes</div>
+<ul class="pkg-list">
+<li>Monthly intelligence report (PDF, 12–16 pages)</li>
+<li>Coverage summary, sentiment and share of voice</li>
+<li>Top five stories and top three recommendations</li>
+<li>English and Setswana coverage synthesised</li>
+<li>Delivered by the fifth of each month</li>
+<li>One thirty-minute quarterly review call</li>
+<li>No live dashboard, no seat logins, no API</li>
+</ul>
+<button class="pkg-cta" onclick="openDemo('report-card')">Discuss Report Card</button>
+</div>
+
 <!-- ESSENTIAL -->
 <div class="pkg-card">
 <div class="pkg-eyebrow">ESSENTIAL</div>
@@ -576,7 +598,7 @@ button{font-family:inherit;cursor:pointer}
 <label>Phone (optional)<input type="tel" name="phone" autocomplete="tel" placeholder="+267 …"/></label>
 </div>
 <label>What would you like MediaClip to do for you?<textarea name="message" placeholder="e.g. Monitor our brand across print, radio and social; weekly board brief; alert on negative spikes."></textarea></label>
-<label>Interest<select name="interest"><option value="demo">Full product demo</option><option value="snapshot">Free 5-day brand snapshot</option><option value="essential">Essential package</option><option value="professional">Professional package</option><option value="enterprise">Enterprise package</option><option value="both">Both</option></select></label>
+<label>Interest<select name="interest"><option value="demo">Full product demo</option><option value="snapshot">Free 5-day brand snapshot</option><option value="report-card">Report Card (monthly report only)</option><option value="essential">Essential package</option><option value="professional">Professional package</option><option value="enterprise">Enterprise package</option><option value="both">Both</option></select></label>
 <p class="form-consent">By submitting this form, you acknowledge MediaClip's <a href="/privacy">Privacy Policy</a> and consent to being contacted about your request. We respond within one business day.</p>
 <div class="form-error" id="demoError" hidden></div>
 <div class="form-success" id="demoSuccess" hidden></div>
