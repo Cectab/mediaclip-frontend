@@ -595,9 +595,9 @@
         <div id="tab-performance" class="tab-panel">
         <div class="grid g3">
           <div class="card">
-            <h3>Media Spend <span class="tag" id="gauge-client-tag">Client</span></h3>
+            <h3>Ad Value (Earned) <span class="tag" id="gauge-client-tag">Client</span></h3>
             <div class="gauge-wrap"><canvas id="gMascom"></canvas>
-              <div class="gauge-center"><div class="big" id="gauge-client-value">P 420K</div><div class="lab" id="gauge-client-label">30-day earned + paid value</div></div>
+              <div class="gauge-center"><div class="big" id="gauge-client-value">P 420K</div><div class="lab" id="gauge-client-label">30-day estimated ad value</div></div>
             </div>
             <div class="legend">
               <div class="row"><span class="dot" style="background:var(--c1)"></span>Print <span class="val" id="gauge-client-print">P 101,000</span></div>
@@ -608,7 +608,7 @@
           </div>
 
           <div class="card">
-            <h3>Media Spend <span class="tag" id="gauge-comp-tag">Competition</span></h3>
+            <h3>Ad Value (Earned) <span class="tag" id="gauge-comp-tag">Competition</span></h3>
             <div class="gauge-wrap"><canvas id="gComp"></canvas>
               <div class="gauge-center"><div class="big" id="gauge-comp-value">P 484K</div><div class="lab" id="gauge-comp-label">All competitors</div></div>
             </div>
@@ -660,6 +660,10 @@
           <div class="head">
             <h3>Recent mentions</h3>
             <span class="tag" id="mentions-count">Loading…</span>
+            <span class="tag" style="background:#e8f7f0;color:#166b44;border:1px solid #b8e6cd;display:inline-flex;align-items:center;gap:5px" title="Coverage flows in automatically from MediaClip's live media monitoring pipeline">
+              <span style="width:6px;height:6px;border-radius:50%;background:#1FA97A;display:inline-block"></span>
+              Live feed
+            </span>
           </div>
           <div style="max-height:520px;overflow-y:auto">
             <table class="mentions-table" id="mentions-table">
@@ -2215,7 +2219,7 @@
     const cTotal = cTrad + cDigital;
     setEl("gauge-client-tag", clientLabel);
     setEl("gauge-client-value", _pulaK(cTotal));
-    setEl("gauge-client-label", "30-day earned + paid value");
+    setEl("gauge-client-label", "30-day estimated ad value");
     setEl("gauge-client-print", _pula(cSpend.print));
     setEl("gauge-client-broadcast", _pula(cSpend.broadcast));
     setEl("gauge-client-radio", _pula(cSpend.radio));
@@ -2393,11 +2397,16 @@
     };
     const openRow = (mid) => (mid !== undefined && mid !== null) ? `onclick="mcOpenClipDetail('${esc(String(mid))}')"` : "";
 
+    const srcLink = (m) => {
+      if (!m.url) return esc(m.source || '-');
+      const safeUrl = esc(m.url);
+      return `${esc(m.source || 'Source')} <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" title="Open original article" style="color:var(--red);text-decoration:none;font-weight:700;margin-left:4px;font-size:11px;vertical-align:middle">↗</a>`;
+    };
     tbody.innerHTML = sorted.map(m => `
       <tr ${openRow(m.id)}>
         <td class="m-title" title="${esc(m.title||'')}">${esc(m.title || '(untitled)')}</td>
         <td>${esc(m.brand || '-')}</td>
-        <td class="m-source">${esc(m.source || '-')}</td>
+        <td class="m-source">${srcLink(m)}</td>
         <td><span class="m-type">${esc(typeLabel(m.media_type))}</span></td>
         <td><span class="sent-badge ${sentClass(m.sentiment)}">${esc(sentLabel(m.sentiment))}</span></td>
         <td class="m-date">${esc(fmtDate(m.published_at))}</td>
@@ -3155,6 +3164,7 @@
       const isTn = (m.language||"").toLowerCase() === "tn";
       const excerpt = _escapeHtml((m.content||"").slice(0, 220));
       const openDetail = (m.id !== undefined && m.id !== null) ? `onclick="mcOpenClipDetail('${_escapeHtml(String(m.id))}')"` : "";
+      const srcBtn = m.url ? `<a href="${_escapeHtml(m.url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="margin-left:auto;color:var(--red);text-decoration:none;font-weight:700;font-size:12px;padding:4px 10px;border:1px solid var(--red);border-radius:6px;background:white;white-space:nowrap" title="Open the original article in a new tab">Open source ↗</a>` : '';
       return `
         <div class="clip ${isTn?'clip-lang-tn':''}" ${openDetail}>
           <div class="clip-source ${type}">${_escapeHtml(_sourceInitial(m.source))}</div>
@@ -3174,6 +3184,7 @@
               ${_renderSentTypeBadge(m)}
               <span>${_fmtDate(m.published_at)}</span>
               <span class="clip-reach">${_fmt(m.reach)}</span>
+              ${srcBtn}
             </div>
           </div>
         </div>
@@ -3482,6 +3493,7 @@
       const isTn = (m.language||"").toLowerCase() === "tn";
       const excerpt = _escapeHtml((m.content||"").slice(0, 220));
       const openDetail = (m.id !== undefined && m.id !== null) ? `onclick="mcOpenClipDetail('${_escapeHtml(String(m.id))}')"` : "";
+      const srcBtn = m.url ? `<a href="${_escapeHtml(m.url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="margin-left:auto;color:var(--red);text-decoration:none;font-weight:700;font-size:12px;padding:4px 10px;border:1px solid var(--red);border-radius:6px;background:white;white-space:nowrap" title="Open the original article in a new tab">Open source ↗</a>` : '';
       return `
         <div class="clip ${isTn?'clip-lang-tn':''}" ${openDetail}>
           <div class="clip-source ${type}">${_escapeHtml(_sourceInitial(m.source))}</div>
@@ -3501,6 +3513,7 @@
               ${_renderSentTypeBadge(m)}
               <span>${_fmtDate(m.published_at)}</span>
               <span class="clip-reach">${_fmt(m.reach)}</span>
+              ${srcBtn}
             </div>
           </div>
         </div>
