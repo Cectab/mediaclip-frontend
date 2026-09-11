@@ -1170,16 +1170,16 @@
 
         <div class="spons-hero">
           <div>
-            <div class="num" id="spons-total">P 4.8M</div>
-            <div class="lab">Total sponsorship-related media value tracked · 90 days</div>
+            <div class="num" id="spons-total">—</div>
+            <div class="lab">Total sponsorship media value earned · this window</div>
           </div>
           <div>
-            <div class="num" id="spons-count">14</div>
+            <div class="num" id="spons-count">—</div>
             <div class="lab">Active sponsorship properties monitored</div>
           </div>
           <div>
-            <div class="num" id="spons-roi">3.2×</div>
-            <div class="lab">Blended sponsorship ROI · earned : invested</div>
+            <div class="num" id="spons-comp-total">—</div>
+            <div class="lab">Competitor sponsorship value tracked · last 30 days</div>
           </div>
         </div>
 
@@ -1266,10 +1266,10 @@
               <div class="spons-row">
                 <div class="spons-badge" style="background:linear-gradient(135deg,#33383F,#16181D)">SAN</div>
                 <div class="spons-body">
-                  <div class="spons-title" data-mc-tpl="{COMPETITOR} — Botswana Music Awards title sponsor renewal"><span data-mc-competitor>Sanlam Botswana</span> — Botswana Music Awards title sponsor renewal</div>
+                  <div class="spons-title" data-mc-tpl="{COMPETITOR} — Botswana Music Awards title sponsor renewal"><span data-mc-competitor>Sanlam Botswana</span> — Botswana Music Awards title sponsor renewal <span style="display:inline-block;background:var(--red);color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.06em;padding:2px 7px;border-radius:20px;margin-left:6px;vertical-align:1px">NEW DEAL</span></div>
                   <div class="spons-meta"><span>3-year deal announced Aug 2026</span> · <span>Estimated P 4.5M value</span></div>
                 </div>
-                <div class="spons-value">NEW<div class="lab">deal</div></div>
+                <div class="spons-value">P 4.5M<div class="lab">deal value</div></div>
               </div>
               <div class="spons-row">
                 <div class="spons-badge" style="background:linear-gradient(135deg,#33383F,#16181D)">OM</div>
@@ -2000,6 +2000,54 @@
       }
     }
   }
+
+  // ------------------------------------------------------------------
+  // Sponsorship view — compute hero KPIs from the actual rows shown
+  // so the tiles can never drift from what the reader sees below.
+  // ------------------------------------------------------------------
+  function mcHydrateSponsorshipView(){
+    // Parse a "P 1.2M" / "P 820K" / "P 4.5M" spons-value into a raw pula number
+    const parseP = (txt) => {
+      if (!txt) return 0;
+      // Take the first numeric token
+      const m = String(txt).match(/P\s*([\d.,]+)\s*([KM]?)/i);
+      if (!m) return 0;
+      let n = parseFloat((m[1]||'').replace(/,/g,''));
+      if (isNaN(n)) return 0;
+      const suffix = (m[2]||'').toUpperCase();
+      if (suffix === 'K') n *= 1_000;
+      if (suffix === 'M') n *= 1_000_000;
+      return n;
+    };
+    const fmtP = (n) => {
+      if (!n) return '—';
+      if (n >= 1_000_000) return 'P ' + (n / 1_000_000).toFixed(n >= 10_000_000 ? 0 : 1) + 'M';
+      if (n >= 1_000)     return 'P ' + Math.round(n / 1_000) + 'K';
+      return 'P ' + Math.round(n);
+    };
+
+    // Sum active BIHL Group sponsorships
+    const active = document.querySelectorAll('#spons-active .spons-row');
+    let bihlTotal = 0;
+    active.forEach(r => { bihlTotal += parseP(r.querySelector('.spons-value')?.childNodes[0]?.textContent || ''); });
+    const t1 = document.getElementById('spons-total'); if (t1) t1.textContent = fmtP(bihlTotal);
+    const t2 = document.getElementById('spons-count'); if (t2) t2.textContent = active.length;
+
+    // Sum competitor sponsorship intel (the third card in the two-column grid)
+    // Selector: every .spons-row that appears in the same card as the "Competitor sponsorship intel" h3
+    let compTotal = 0;
+    document.querySelectorAll('.card').forEach(card => {
+      const h3 = card.querySelector('h3');
+      if (h3 && /competitor sponsorship/i.test(h3.textContent)){
+        card.querySelectorAll('.spons-row').forEach(r => {
+          compTotal += parseP(r.querySelector('.spons-value')?.childNodes[0]?.textContent || '');
+        });
+      }
+    });
+    const t3 = document.getElementById('spons-comp-total'); if (t3) t3.textContent = fmtP(compTotal);
+  }
+  // Run once the DOM has settled; no live-feed dependency for this view yet.
+  setTimeout(mcHydrateSponsorshipView, 150);
 
   // ------------------------------------------------------------------
   // Analytics view — mentions, AVE, positive-sentiment KPIs
