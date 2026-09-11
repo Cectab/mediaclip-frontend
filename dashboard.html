@@ -2221,6 +2221,15 @@
       row.style.cursor = 'pointer';
       row.setAttribute('tabindex', '0');
       row.setAttribute('role', 'button');
+      // Add a visible "View coverage ↗" affordance so the click is obvious
+      const value = row.querySelector('.spons-value');
+      if (value && !value.querySelector('.spons-open')){
+        const link = document.createElement('div');
+        link.className = 'spons-open';
+        link.style.cssText = 'margin-top:6px;font-size:11px;font-weight:700;color:var(--red);letter-spacing:.02em;white-space:nowrap';
+        link.textContent = 'View coverage ↗';
+        value.appendChild(link);
+      }
       row.addEventListener('click', () => mcSponsorshipDetail(row));
       row.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); mcSponsorshipDetail(row); }});
     });
