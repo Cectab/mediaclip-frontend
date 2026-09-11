@@ -91,6 +91,8 @@ img{max-width:100%;display:block}
 .c-contact .ph{color:var(--muted)}
 .c-int{width:1%;white-space:nowrap}
 .chip{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:var(--bg);color:var(--slate)}
+.quote-link{display:block;margin-top:6px;font-size:11.5px;font-weight:700;color:var(--red);text-decoration:none;letter-spacing:.02em}
+.quote-link:hover{color:var(--red-dark);text-decoration:underline}
 .chip.demo{background:#EFF6FF;color:#1D4ED8}
 .chip.snapshot{background:#F0FDF4;color:#166534}
 .chip.both{background:#FEF3C7;color:#92400E}
@@ -302,6 +304,39 @@ img{max-width:100%;display:block}
 
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}); }
 
+  // Map a lead's interest field to the correct quote-template tier preset
+  function interestToTier(interest){
+    var s = String(interest || '').toLowerCase();
+    if (s.indexOf('essential') >= 0) return 'essential';
+    if (s.indexOf('professional') >= 0) return 'professional';
+    if (s.indexOf('enterprise') >= 0) return 'enterprise';
+    if (s.indexOf('report-card') >= 0 || s.indexOf('report card') >= 0) return 'essential'; // Report Card → Essential preset as a starting point
+    return 'enterprise'; // default lands on the fullest scope; sales can trim down
+  }
+
+  // Build a quote-template URL pre-filled from this lead
+  function quoteHref(l){
+    var tier = interestToTier(l.interest);
+    // Quote number: YEAR-ID with padding for readability
+    var y = new Date().getFullYear();
+    var qnum = 'MC-' + y + '-' + String(l.id || '0').padStart(4, '0');
+    // Issue today, valid for 30 days
+    var d = new Date();
+    var issued = d.toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+    var v = new Date(d.getTime() + 30*86400000);
+    var valid = v.toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+    var params = new URLSearchParams({
+      qnum: qnum,
+      issued: issued,
+      valid: valid,
+      client: l.company || l.name || 'Client',
+      clientContact: 'Attn: ' + (l.name || 'Point of contact'),
+      clientEmail: l.email || '',
+      tier: tier
+    });
+    return '/quote-template?' + params.toString();
+  }
+
   function renderTable(){
     if (!state.leads.length) {
       tableWrap.innerHTML = '<div class="empty">' +
@@ -327,7 +362,10 @@ img{max-width:100%;display:block}
           '<a href="mailto:' + esc(l.email) + '">' + esc(l.email) + '</a>' +
           (l.phone ? '<a class="ph" href="tel:' + esc(l.phone) + '">' + esc(l.phone) + '</a>' : '') +
         '</td>' +
-        '<td class="c-int"><span class="chip ' + intClass + '">' + esc(l.interest || 'demo') + '</span></td>' +
+        '<td class="c-int">' +
+          '<span class="chip ' + intClass + '">' + esc(l.interest || 'demo') + '</span>' +
+          '<a class="quote-link" href="' + quoteHref(l) + '" target="_blank" rel="noopener" title="Open a pre-filled quotation for this lead">→ Quote</a>' +
+        '</td>' +
         '<td class="c-msg">' +
           '<div class="m">' + esc(l.message || '—') + '</div>' +
           (l.message && l.message.length > 180 ? '<button class="c-msg-toggle" data-toggle="msg">Expand</button>' : '') +

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Quotation — MediaClip</title>
+<link rel="icon" type="image/png" href="/logo.png">
+<style>
+:root{color-scheme:light only;--red:#DA1F26;--red-dark:#B4141B;--red-soft:#FDF3F3;--ink:#0A0C10;--ink-2:#16181D;--ink-3:#2A2E36;--slate:#4B5563;--muted:#6B7280;--muted-2:#9CA3AF;--line:#EBEDF0;--line-2:#DCE0E6;--bg:#FAFBFC;--pos:#0E7A54;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:#EDEEF1;color:var(--ink-2);line-height:1.55;font-size:14px}
+img{max-width:100%;display:block}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+
+/* ------- Screen toolbar (hidden on print) ------- */
+.toolbar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);padding:14px 24px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.toolbar-title{font-size:14px;font-weight:700;color:var(--ink);margin-right:12px}
+.toolbar-btn{padding:9px 16px;border-radius:9px;font-size:13.5px;font-weight:600;border:1.5px solid var(--line-2);background:#fff;color:var(--ink-3);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:7px}
+.toolbar-btn:hover{border-color:var(--ink);color:var(--ink)}
+.toolbar-btn.primary{background:var(--red);color:#fff;border-color:var(--red)}
+.toolbar-btn.primary:hover{background:var(--red-dark);border-color:var(--red-dark)}
+.toolbar-btn svg{width:13px;height:13px}
+.toolbar-hint{font-size:12px;color:var(--muted);margin-left:auto}
+@media print{.toolbar{display:none!important}}
+
+/* ------- A4 page canvas ------- */
+.page{width:210mm;min-height:297mm;background:#fff;margin:24px auto;padding:20mm 20mm 22mm;box-shadow:0 20px 60px -20px rgba(15,25,50,.16),0 4px 12px -4px rgba(15,25,50,.08);position:relative;color:var(--ink-2)}
+@media print{
+  html,body{background:#fff}
+  .page{width:auto;min-height:auto;margin:0;padding:16mm 16mm 18mm;box-shadow:none}
+  @page{size:A4;margin:0}
+}
+
+/* ------- Header ------- */
+.head{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:18px;border-bottom:3px solid var(--red);margin-bottom:22px;gap:24px}
+.brand-block img{height:44px;width:auto}
+.brand-mono{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.09em;text-transform:uppercase;margin-top:8px;line-height:1.5}
+.qref{text-align:right}
+.qref-label{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
+.qref-num{font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.01em;margin-top:4px;font-variant-numeric:tabular-nums}
+.qref-dates{margin-top:10px;font-size:11.5px;color:var(--ink-3);line-height:1.5}
+.qref-dates strong{color:var(--ink)}
+
+/* ------- Parties (client + supplier) ------- */
+.parties{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
+.party{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.party-h{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.party-name{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.005em;margin-bottom:4px}
+.party-line{font-size:12px;color:var(--ink-3);line-height:1.55}
+
+/* ------- Title row ------- */
+.title-row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;gap:16px}
+.title-row h1{font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.1}
+.title-tag{display:inline-block;background:var(--red-soft);color:var(--red-dark);font-size:10.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;padding:4px 10px;border-radius:20px}
+.title-sub{font-size:13.5px;color:var(--slate);margin-bottom:20px;line-height:1.5}
+
+/* ------- Line items table ------- */
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:16px}
+.tbl thead th{text-align:left;background:var(--bg);font-size:10.5px;font-weight:800;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;padding:10px 12px;border-bottom:2px solid var(--ink);border-top:1px solid var(--line)}
+.tbl thead th.right{text-align:right}
+.tbl tbody td{padding:12px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-3)}
+.tbl tbody td.right{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink)}
+.tbl tbody td strong{color:var(--ink);font-weight:700}
+.tbl-desc{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.5}
+
+/* ------- Totals block ------- */
+.totals{display:flex;justify-content:flex-end;margin-bottom:22px}
+.totals-tbl{width:min(320px,60%);font-size:13px}
+.totals-tbl .row{display:flex;justify-content:space-between;padding:7px 0}
+.totals-tbl .row.sub{border-top:1px solid var(--line)}
+.totals-tbl .row.grand{border-top:2px solid var(--ink);padding:12px 0 0;margin-top:4px;font-size:16px;font-weight:800;color:var(--ink)}
+.totals-tbl .row .lbl{color:var(--slate);font-weight:600}
+.totals-tbl .row .val{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:700}
+.totals-tbl .row.grand .lbl{color:var(--ink)}
+.totals-tbl .row.grand .val{color:var(--red)}
+
+/* ------- Terms block ------- */
+.terms{background:var(--bg);border-left:3px solid var(--red);padding:14px 18px;border-radius:0 10px 10px 0;font-size:11.5px;color:var(--ink-3);line-height:1.6;margin-bottom:24px}
+.terms h3{font-family:var(--mono);font-size:10px;font-weight:800;color:var(--red);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.terms p{margin-bottom:6px}
+.terms p:last-child{margin-bottom:0}
+.terms .kv{display:grid;grid-template-columns:130px 1fr;gap:4px 12px;margin-top:8px}
+.terms .kv .k{color:var(--muted);font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:.06em}
+.terms .kv .v{color:var(--ink);font-weight:600}
+
+/* ------- Signature block ------- */
+.sig{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:8px;page-break-inside:avoid}
+.sig-block{border-top:1px solid var(--ink);padding-top:8px}
+.sig-block .lbl{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.09em;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.sig-block .name{font-size:12.5px;font-weight:700;color:var(--ink)}
+.sig-block .role{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ------- Footer strip ------- */
+.foot-strip{position:absolute;bottom:12mm;left:20mm;right:20mm;font-size:9.5px;color:var(--muted-2);text-align:center;font-family:var(--mono);letter-spacing:.09em;line-height:1.5;border-top:1px solid var(--line);padding-top:8px}
+@media print{.foot-strip{bottom:8mm;left:16mm;right:16mm}}
+.foot-strip strong{color:var(--ink-3);font-weight:700}
+
+/* Editable via URL params */
+[contenteditable="true"]:hover{outline:1px dashed var(--muted-2);outline-offset:2px}
+[contenteditable="true"]:focus{outline:2px solid var(--red);outline-offset:2px}
+
+/* ------- Section: Add-ons highlight ------- */
+.addon-row{background:#FFF8E7}
+.addon-row td:first-child::before{content:"+ ";color:var(--red);font-weight:800}
+
+/* Right-align amount column but keep description flexible */
+</style>
+</head>
+<body>
+
+<div class="toolbar" role="toolbar" aria-label="Quote actions">
+  <div class="toolbar-title">Quotation preview</div>
+  <button class="toolbar-btn primary" onclick="window.print()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6V2h8v4M4 12h8v4H4z"/><rect x="2" y="6" width="12" height="6" rx="1"/></svg>Print / Save as PDF</button>
+  <button class="toolbar-btn" onclick="mcCopyQuoteHTML()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M11 5V3.5A1.5 1.5 0 009.5 2h-6A1.5 1.5 0 002 3.5v6A1.5 1.5 0 003.5 11H5"/></svg>Copy HTML</button>
+  <button class="toolbar-btn" onclick="mcClearOverrides()">Reset to defaults</button>
+  <div class="toolbar-hint">Click any value on the page to edit inline · Save via Print → PDF</div>
+</div>
+
+<article class="page" id="quote-page">
+
+  <!-- ===== HEADER ===== -->
+  <header class="head">
+    <div class="brand-block">
+      <img src="/logo.png" alt="MediaClip">
+      <div class="brand-mono">MediaClip · Botswana Media Intelligence<br>a Voodoo Holdings company · Gaborone</div>
+    </div>
+    <div class="qref">
+      <div class="qref-label">Quotation</div>
+      <div class="qref-num" contenteditable="true" data-key="qnum">MC-2026-0001</div>
+      <div class="qref-dates">
+        <strong>Issued:</strong> <span contenteditable="true" data-key="issued">11 September 2026</span><br>
+        <strong>Valid until:</strong> <span contenteditable="true" data-key="valid">11 October 2026</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== PARTIES ===== -->
+  <section class="parties">
+    <div class="party">
+      <div class="party-h">Prepared for</div>
+      <div class="party-name" contenteditable="true" data-key="client">BIHL Group</div>
+      <div class="party-line" contenteditable="true" data-key="clientContact">Attn: Group Head of Communications</div>
+      <div class="party-line" contenteditable="true" data-key="clientAddr">Fairscape Precinct, Fairgrounds, Gaborone, Botswana</div>
+      <div class="party-line" contenteditable="true" data-key="clientEmail">comms@bihl.co.bw</div>
+    </div>
+    <div class="party">
+      <div class="party-h">Prepared by</div>
+      <div class="party-name">MediaClip</div>
+      <div class="party-line"><strong>Trading division of Voodoo Holdings</strong></div>
+      <div class="party-line">Gaborone, Botswana</div>
+      <div class="party-line">dumela@mediaclip.net · +267 77 777 747</div>
+    </div>
+  </section>
+
+  <!-- ===== TITLE ===== -->
+  <div class="title-row">
+    <h1 contenteditable="true" data-key="title">Media Intelligence — Enterprise Package</h1>
+    <span class="title-tag" contenteditable="true" data-key="tag">12-MONTH TERM</span>
+  </div>
+  <div class="title-sub" contenteditable="true" data-key="subtitle">Continuous Botswana media monitoring across print, radio, television, digital news and public social conversations, with English and Setswana analysis, live dashboard access, priority alerts and executive-ready reporting.</div>
+
+  <!-- ===== LINE ITEMS ===== -->
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th style="width:52%">Line item</th>
+        <th class="right" style="width:12%">Qty</th>
+        <th class="right" style="width:18%">Unit (BWP)</th>
+        <th class="right" style="width:18%">Amount (BWP)</th>
+      </tr>
+    </thead>
+    <tbody id="line-body">
+      <tr>
+        <td>
+          <strong contenteditable="true">MediaClip Enterprise subscription — monthly</strong>
+          <div class="tbl-desc" contenteditable="true">Group brand, up to 5 subsidiaries, 3 competitors, 10 seats, priority + threshold + crisis alerts, weekly executive brief, monthly deep-dive, quarterly strategic review, dedicated analyst hours.</div>
+        </td>
+        <td class="right">12</td>
+        <td class="right" data-price="1">50,000.00</td>
+        <td class="right" data-line="1">600,000.00</td>
+      </tr>
+      <tr>
+        <td>
+          <strong contenteditable="true">Additional monitored subsidiary — BIC (Botswana Insurance Company)</strong>
+          <div class="tbl-desc" contenteditable="true">Full brand profile monitoring; 60% of subscription rate applied per subsidiary beyond the group primary.</div>
+        </td>
+        <td class="right">12</td>
+        <td class="right" data-price="1">3,000.00</td>
+        <td class="right" data-line="1">36,000.00</td>
+      </tr>
+      <tr>
+        <td>
+          <strong contenteditable="true">One-off onboarding — Enterprise scope</strong>
+          <div class="tbl-desc" contenteditable="true">Discovery workshop, brand + competitor + source configuration, historical baseline pull where available, dashboard branding, alert-routing setup, report-template customisation, team training session, first-week watch-together.</div>
+        </td>
+        <td class="right">1</td>
+        <td class="right" data-price="1">25,000.00</td>
+        <td class="right" data-line="1">25,000.00</td>
+      </tr>
+      <tr class="addon-row">
+        <td>
+          <strong contenteditable="true">Bespoke board report — quarterly</strong>
+          <div class="tbl-desc" contenteditable="true">Optional quarterly board-ready deck synthesising three months of intelligence into a Chair-ready narrative. Priced per report; billed on delivery.</div>
+        </td>
+        <td class="right">4</td>
+        <td class="right" data-price="1">4,500.00</td>
+        <td class="right" data-line="1">18,000.00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ===== TOTALS ===== -->
+  <section class="totals">
+    <div class="totals-tbl">
+      <div class="row"><span class="lbl">Subtotal</span><span class="val" id="subtotal">BWP 679,000.00</span></div>
+      <div class="row sub"><span class="lbl">VAT (14%)</span><span class="val" id="vat">BWP 95,060.00</span></div>
+      <div class="row grand"><span class="lbl">Total</span><span class="val" id="grand">BWP 774,060.00</span></div>
+    </div>
+  </section>
+
+  <!-- ===== TERMS ===== -->
+  <section class="terms">
+    <h3>Commercial terms</h3>
+    <p>This quotation is issued subject to acceptance and signature of a MediaClip Service Agreement covering scope, service levels, data protection, and confidentiality. On signature, an Onboarding Statement of Work is completed jointly with the client's communications team.</p>
+    <div class="kv">
+      <div class="k">Contract term</div><div class="v" contenteditable="true">12 months, invoiced monthly in arrears</div>
+      <div class="k">Payment terms</div><div class="v" contenteditable="true">30 days from invoice date, EFT to MediaClip account (details on invoice)</div>
+      <div class="k">Currency</div><div class="v" contenteditable="true">Botswana Pula (BWP), excluding withholding tax where applicable</div>
+      <div class="k">Renewal</div><div class="v" contenteditable="true">Auto-renews for a further 12 months unless either party gives 60 days' written notice</div>
+      <div class="k">Onboarding</div><div class="v" contenteditable="true">Waived on 24-month commitment; discountable to 50% on 18-month commitment</div>
+      <div class="k">Additional scope</div><div class="v" contenteditable="true">Extra brands from BWP 3,000/mo · extra competitors from BWP 1,500/mo · bespoke briefs from BWP 4,500/report</div>
+    </div>
+    <p style="margin-top:10px">All pricing is quoted exclusive of VAT except where the grand total explicitly includes it. Data-protection provisions align with Botswana's Data Protection Act 2024 (Act 18 of 2024) and are formalised in an accompanying Data Processing Agreement for enterprise engagements.</p>
+  </section>
+
+  <!-- ===== SIGNATURE ===== -->
+  <section class="sig">
+    <div class="sig-block">
+      <div class="lbl">Client acceptance</div>
+      <div class="name" contenteditable="true">Name &amp; role</div>
+      <div class="role" contenteditable="true">Signature · Date</div>
+    </div>
+    <div class="sig-block">
+      <div class="lbl">For MediaClip · Voodoo Holdings</div>
+      <div class="name" contenteditable="true">Cecil Tabona</div>
+      <div class="role" contenteditable="true">Managing Director · Signature · Date</div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="foot-strip">
+    <strong>MediaClip · a Voodoo Holdings company</strong> · Gaborone, Botswana · dumela@mediaclip.net · mediaclip.net<br>
+    Data protection: Botswana Data Protection Act 2024 · Registration status on request
+  </div>
+
+</article>
+
+<script>
+(function(){
+  // ---- URL param support -------------------------------------------------
+  // Anyone can pre-fill this quote by opening ?client=BIHL+Group&tier=enterprise&qnum=MC-2026-0007
+  // and every [contenteditable][data-key] element is auto-filled.
+  var params = new URLSearchParams(location.search);
+
+  function setKey(key, val){
+    if (!val) return;
+    document.querySelectorAll('[data-key="' + key + '"]').forEach(function(el){
+      el.textContent = val;
+    });
+  }
+  ['qnum','issued','valid','client','clientContact','clientAddr','clientEmail','title','tag','subtitle'].forEach(function(k){
+    setKey(k, params.get(k));
+  });
+
+  // ---- Tier presets -----------------------------------------------------
+  // Open ?tier=essential|professional|enterprise to swap the line items.
+  var TIER_PRESETS = {
+    essential: {
+      title: 'Media Intelligence — Essential Package',
+      subtitle: 'One monitored brand with one competitor tracked, English + Setswana analysis, live dashboard, monthly executive report and email + dashboard alerts.',
+      tag: '12-MONTH TERM',
+      lines: [
+        { name: 'MediaClip Essential subscription — monthly', desc: '1 brand + 1 competitor, 2 seats, monthly executive report, email + dashboard alerts, business-hours support.', qty: 12, unit: 10000 },
+        { name: 'One-off onboarding — Essential scope', desc: 'Brand + competitor + source configuration, dashboard branding, alert-routing setup, report template, 60-minute training session.', qty: 1, unit: 5000 }
+      ]
+    },
+    professional: {
+      title: 'Media Intelligence — Professional Package',
+      subtitle: '1 brand + 3 competitors, 5 seats, priority alerts, weekly + monthly + quarterly reporting cadence, campaign and issue tracking, ad-library intelligence.',
+      tag: '12-MONTH TERM',
+      lines: [
+        { name: 'MediaClip Professional subscription — monthly', desc: '1 brand + up to 3 competitors, 5 seats, weekly executive brief, monthly deep-dive, quarterly strategic review, priority alerts, campaign tracking.', qty: 12, unit: 25000 },
+        { name: 'One-off onboarding — Professional scope', desc: 'Discovery worksheet, brand + competitor set + source configuration, dashboard branding, alert routing, report template customisation, team training session.', qty: 1, unit: 12500 }
+      ]
+    },
+    enterprise: null // default; already rendered in HTML
+  };
+
+  var tier = (params.get('tier') || '').toLowerCase();
+  var preset = TIER_PRESETS[tier];
+  if (preset && Array.isArray(preset.lines)){
+    setKey('title', preset.title);
+    setKey('tag', preset.tag);
+    setKey('subtitle', preset.subtitle);
+    var body = document.getElementById('line-body');
+    if (body){
+      body.innerHTML = preset.lines.map(function(l){
+        return '<tr>'
+          + '<td><strong contenteditable="true">' + l.name + '</strong>'
+          + '<div class="tbl-desc" contenteditable="true">' + l.desc + '</div></td>'
+          + '<td class="right">' + l.qty + '</td>'
+          + '<td class="right" data-price="1">' + l.unit.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>'
+          + '<td class="right" data-line="1">' + (l.qty * l.unit).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2}) + '</td>'
+        + '</tr>';
+      }).join('');
+    }
+  }
+
+  // ---- Live totals: recompute every keystroke ----------------------------
+  function recompute(){
+    var subtotal = 0;
+    document.querySelectorAll('#line-body tr').forEach(function(row){
+      var cells = row.querySelectorAll('td');
+      if (cells.length < 4) return;
+      var qty = parseFloat((cells[1].textContent || '0').replace(/[^0-9.\-]/g,'')) || 0;
+      var unit = parseFloat((cells[2].textContent || '0').replace(/,/g,'').replace(/[^0-9.\-]/g,'')) || 0;
+      var line = qty * unit;
+      cells[3].textContent = line.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
+      subtotal += line;
+    });
+    var vat = subtotal * 0.14;
+    var grand = subtotal + vat;
+    document.getElementById('subtotal').textContent = 'BWP ' + subtotal.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
+    document.getElementById('vat').textContent = 'BWP ' + vat.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
+    document.getElementById('grand').textContent = 'BWP ' + grand.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
+  }
+  document.getElementById('line-body').addEventListener('input', recompute);
+  recompute();
+
+  // ---- Copy the finished quote as HTML for pasting into Gmail / Word -----
+  window.mcCopyQuoteHTML = function(){
+    var page = document.getElementById('quote-page').outerHTML;
+    var html = '<!doctype html><html><head><meta charset="utf-8"></head><body style="background:#EDEEF1">' + page + '</body></html>';
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(html).then(function(){
+        alert('Quote HTML copied to clipboard.');
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = html;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      alert('Quote HTML copied to clipboard.');
+    }
+  };
+
+  window.mcClearOverrides = function(){
+    if (confirm('Reset every editable field to its default value?')){
+      location.href = location.pathname;
+    }
+  };
+})();
+</script>
+</body>
+</html>
