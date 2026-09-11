@@ -778,10 +778,10 @@
 
         <div class="topicbar">
           <div><div class="t">Topic summary</div><div class="v" data-mc-tpl="{CLIENT} brands">BIHL Group brands</div></div>
-          <div class="stat"><div class="t">Total volume</div><div class="n">200.4K</div></div>
-          <div class="stat"><div class="t">Potential impressions</div><div class="n">124.4K</div></div>
-          <div class="stat"><div class="t">Unique authors</div><div class="n">8,240</div></div>
-          <div class="stat"><div class="t">Avg positive sentiment</div><div class="n"><span>71%</span></div></div>
+          <div class="stat"><div class="t">Total volume</div><div class="n" id="lst-total-vol">—</div></div>
+          <div class="stat"><div class="t">Potential impressions</div><div class="n" id="lst-impressions">—</div></div>
+          <div class="stat"><div class="t">Unique sources</div><div class="n" id="lst-sources">—</div></div>
+          <div class="stat"><div class="t">Avg positive sentiment</div><div class="n"><span id="lst-pos-pct">—</span></div></div>
         </div>
 
         <div class="grid g2-31">
@@ -792,10 +792,7 @@
           <div class="card">
             <h3>Top mentioned</h3>
             <div class="bars" id="top-mentioned-bars">
-              <div class="b"><div class="top"><span class="name mc-topbrand" data-idx="0">BIHL</span><span class="pct">55%</span></div><div class="track"><i style="width:55%;background:var(--c1)"></i></div></div>
-              <div class="b"><div class="top"><span class="name mc-topbrand" data-idx="1">Botswana Life</span><span class="pct">23%</span></div><div class="track"><i style="width:23%;background:var(--c2)"></i></div></div>
-              <div class="b"><div class="top"><span class="name mc-topbrand" data-idx="2">BIFM</span><span class="pct">13%</span></div><div class="track"><i style="width:13%;background:var(--amber)"></i></div></div>
-              <div class="b"><div class="top"><span class="name">Other</span><span class="pct">9%</span></div><div class="track"><i style="width:9%;background:var(--c3)"></i></div></div>
+              <div class="b" style="color:var(--muted);font-size:12px">Loading…</div>
             </div>
           </div>
         </div>
@@ -803,24 +800,19 @@
         <div class="grid g2" style="margin-top:18px">
           <div class="card">
             <h3>Sources <span class="tag">Where mentions appear</span></h3>
-            <div class="srclist">
-              <div class="s"><span class="type">RADIO</span> Yarona FM <span class="cnt">4,120</span></div>
-              <div class="s"><span class="type">RADIO</span> Duma FM <span class="cnt">3,660</span></div>
-              <div class="s"><span class="type">PRINT</span> Mmegi <span class="cnt">2,940</span></div>
-              <div class="s"><span class="type">PRINT</span> The Voice <span class="cnt">2,510</span></div>
-              <div class="s"><span class="type">PRINT</span> Sunday Standard <span class="cnt">1,880</span></div>
-              <div class="s"><span class="type">ONLINE</span> mmegi.bw <span class="cnt">1,540</span></div>
+            <div class="srclist" id="lst-sourcelist">
+              <div class="s" style="color:var(--muted);font-size:12px">Loading…</div>
             </div>
           </div>
           <div class="card">
             <h3>Sentiment breakdown <span class="tag">30 days</span></h3>
             <div class="gauge-wrap" style="height:190px"><canvas id="sentiment"></canvas>
-              <div class="gauge-center"><div class="big">71%</div><div class="lab">positive</div></div>
+              <div class="gauge-center"><div class="big" id="lst-gauge-big">—</div><div class="lab">positive</div></div>
             </div>
             <div class="legend">
-              <div class="row"><span class="dot" style="background:var(--green)"></span>Positive <span class="val">71%</span></div>
-              <div class="row"><span class="dot" style="background:var(--c3)"></span>Neutral <span class="val">21%</span></div>
-              <div class="row"><span class="dot" style="background:var(--c1)"></span>Negative <span class="val">8%</span></div>
+              <div class="row"><span class="dot" style="background:var(--green)"></span>Positive <span class="val" id="lst-leg-pos">—</span></div>
+              <div class="row"><span class="dot" style="background:var(--c3)"></span>Neutral <span class="val" id="lst-leg-neu">—</span></div>
+              <div class="row"><span class="dot" style="background:var(--c1)"></span>Negative <span class="val" id="lst-leg-neg">—</span></div>
             </div>
           </div>
         </div>
@@ -902,9 +894,9 @@
           <div class="pill primary" onclick="mcExport()" style="cursor:pointer">Export</div>
         </div>
         <div class="grid g3">
-          <div class="card"><h3>Total mentions</h3><div class="kpi" style="margin-top:10px"><div class="n">200.4K</div><div class="l">up 14% vs prior period</div></div></div>
-          <div class="card"><h3>Est. earned media value <span title="Method: sum of modelled ad_value per tracked mention. Ad_value is an advertising-value-equivalency (AVE) estimate per outlet from standard rate cards and audience reach. Modelled, not measured. Not a substitute for revenue attribution." style="cursor:help;display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--muted);color:#fff;font-size:9px;font-weight:800;text-align:center;line-height:14px;margin-left:6px;vertical-align:middle">i</span></h3><div class="kpi" style="margin-top:10px"><div class="n">P 3.1M</div><div class="l">modelled AVE · earned coverage · 90 days</div></div></div>
-          <div class="card"><h3>Positive sentiment</h3><div class="kpi" style="margin-top:10px"><div class="n">71%</div><div class="l">up 4 points vs prior period</div></div></div>
+          <div class="card"><h3>Total mentions</h3><div class="kpi" style="margin-top:10px"><div class="n" id="an-mentions">—</div><div class="l" id="an-mentions-l">current period</div></div></div>
+          <div class="card"><h3>Est. earned media value <span title="Method: sum of modelled ad_value per tracked mention. Ad_value is an advertising-value-equivalency (AVE) estimate per outlet from standard rate cards and audience reach. Modelled, not measured. Not a substitute for revenue attribution." style="cursor:help;display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--muted);color:#fff;font-size:9px;font-weight:800;text-align:center;line-height:14px;margin-left:6px;vertical-align:middle">i</span></h3><div class="kpi" style="margin-top:10px"><div class="n" id="an-ave">—</div><div class="l">modelled AVE · earned coverage</div></div></div>
+          <div class="card"><h3>Positive sentiment</h3><div class="kpi" style="margin-top:10px"><div class="n" id="an-pos">—</div><div class="l" id="an-pos-l">current period</div></div></div>
         </div>
         <div class="card" style="margin-top:18px">
           <h3>Coverage trend <span class="tag">You vs competition</span></h3>
@@ -933,14 +925,15 @@
           <table class="rep">
             <thead><tr><th>Report</th><th>Type</th><th>Period</th><th>Status</th><th></th></tr></thead>
             <tbody id="reports-tbody">
-              <tr data-rcat="internal"><td>BIHL Group monthly PR report</td><td><span class="rtag internal">Internal</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
-              <tr data-rcat="print"><td>Print coverage digest</td><td><span class="rtag print">Print</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
-              <tr data-rcat="radio"><td>Radio mentions summary</td><td><span class="rtag radio">Radio</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
-              <tr data-rcat="broadcast"><td>Broadcast monitoring report</td><td><span class="rtag broadcast">Broadcast</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
-              <tr data-rcat="digital"><td>Digital ads competitive brief (Meta · Google · YouTube · X · LinkedIn · TikTok)</td><td><span class="rtag digital">Digital</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
-              <tr data-rcat="digital"><td>Paid social share-of-voice round-up</td><td><span class="rtag digital">Digital</span></td><td>Sep 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
-              <tr data-rcat="internal"><td>Summer campaign reach analysis</td><td><span class="rtag internal">Internal</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
-              <tr data-rcat="internal"><td>Competitor share of voice</td><td><span class="rtag internal">Internal</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
+              <tr data-rcat="internal"><td>BIHL Group monthly PR report</td><td><span class="rtag internal">Internal</span></td><td>Sep 2026</td><td><span class="status" style="color:#7A5411"><span class="d" style="background:#7A5411"></span>In progress</span></td><td><a class="dl" onclick="mcDownloadReport(this)">Preview</a></td></tr>
+              <tr data-rcat="internal"><td>BIHL Group monthly PR report</td><td><span class="rtag internal">Internal</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
+              <tr data-rcat="print"><td>Print coverage digest</td><td><span class="rtag print">Print</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
+              <tr data-rcat="radio"><td>Radio mentions summary</td><td><span class="rtag radio">Radio</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
+              <tr data-rcat="broadcast"><td>Broadcast monitoring report</td><td><span class="rtag broadcast">Broadcast</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
+              <tr data-rcat="digital"><td>Digital ads competitive brief (Meta · Google · YouTube · X · LinkedIn · TikTok)</td><td><span class="rtag digital">Digital</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
+              <tr data-rcat="digital"><td>Paid social share-of-voice round-up</td><td><span class="rtag digital">Digital</span></td><td>Aug 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
+              <tr data-rcat="internal"><td>Summer campaign reach analysis</td><td><span class="rtag internal">Internal</span></td><td>Jul 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
+              <tr data-rcat="internal"><td>Competitor share of voice</td><td><span class="rtag internal">Internal</span></td><td>Jul 2026</td><td><span class="status"><span class="d"></span>Ready</span></td><td><a class="dl" onclick="mcDownloadReport(this)">View report</a></td></tr>
             </tbody>
           </table>
           <div id="reports-empty" style="display:none;padding:36px 20px;text-align:center;color:var(--muted);font-size:13px">No reports in this category yet. Reports generate automatically each period once coverage is flowing.</div>
@@ -1013,9 +1006,9 @@
                 <div class="alert-title">12 negative mentions in 2 hours — 3.2× baseline</div>
                 <div class="alert-desc">A cluster of negative sentiment is forming around a claim-payout complaint. Sources: Sunday Standard, Facebook (3 posts), X (2 threads). Two bloggers have picked up the story. Recommend drafting a holding statement.</div>
                 <div class="alert-actions">
-                  <button class="alert-btn primary" onclick="mcAlertAction('draft-response')">Draft response</button>
-                  <button class="alert-btn" onclick="mcAlertAction('view-context')">View context</button>
-                  <button class="alert-btn" onclick="mcAlertAction('reviewed')">Mark reviewed</button>
+                  <button class="alert-btn primary" onclick="mcAlertAction('draft-response', this)">Draft response</button>
+                  <button class="alert-btn" onclick="mcAlertAction('view-context', this)">View context</button>
+                  <button class="alert-btn" onclick="mcAlertAction('reviewed', this)">Mark reviewed</button>
                 </div>
               </div>
               <div class="alert-time">14 min ago</div>
@@ -1035,8 +1028,8 @@
                 <div class="alert-title">28 mentions in 60 minutes — 2.1× baseline</div>
                 <div class="alert-desc">BIFM's new pension product launch is trending. Overall sentiment is positive, but volume is above the alert threshold. Consider amplifying with paid social while momentum holds.</div>
                 <div class="alert-actions">
-                  <button class="alert-btn primary" onclick="mcAlertAction('view-coverage')">View coverage</button>
-                  <button class="alert-btn" onclick="mcAlertAction('reviewed')">Mark reviewed</button>
+                  <button class="alert-btn primary" onclick="mcAlertAction('view-coverage', this)">View coverage</button>
+                  <button class="alert-btn" onclick="mcAlertAction('reviewed', this)">Mark reviewed</button>
                 </div>
               </div>
               <div class="alert-time">1h 20m ago</div>
@@ -1056,8 +1049,8 @@
                 <div class="alert-title"><span data-mc-competitor>Sanlam Life</span> radio campaign detected across three stations</div>
                 <div class="alert-desc"><span data-mc-competitor>Sanlam Life</span> ran ad-slots on Yarona FM, Duma FM, and Gabz FM this week — estimated spend P 380,000. First campaign detected this quarter. Worth benchmarking against <span data-mc-client-short>BIHL</span>'s current radio share.</div>
                 <div class="alert-actions">
-                  <button class="alert-btn primary" onclick="mcAlertAction('view-competitor')">View competitor page</button>
-                  <button class="alert-btn" onclick="mcAlertAction('reviewed')">Mark reviewed</button>
+                  <button class="alert-btn primary" onclick="mcAlertAction('view-competitor', this)">View competitor page</button>
+                  <button class="alert-btn" onclick="mcAlertAction('reviewed', this)">Mark reviewed</button>
                 </div>
               </div>
               <div class="alert-time">3h ago</div>
@@ -1077,8 +1070,8 @@
                 <div class="alert-title"><span data-mc-competitor>Sanlam Life</span> digital campaign live across Meta, Google &amp; YouTube</div>
                 <div class="alert-desc"><span data-mc-competitor>Sanlam Life</span> has 24 active ad creatives on Meta Ad Library, 11 Google Ads campaigns and 6 YouTube pre-roll placements this week — estimated spend P 520,000. Setswana + English creative variants detected, targeting Gaborone, Francistown and Palapye. Worth benchmarking against <span data-mc-client-short>BIHL</span>'s current digital share and briefing Marketing on creative counter-programming.</div>
                 <div class="alert-actions">
-                  <button class="alert-btn primary" onclick="mcAlertAction('view-competitor')">View competitor page</button>
-                  <button class="alert-btn" onclick="mcAlertAction('reviewed')">Mark reviewed</button>
+                  <button class="alert-btn primary" onclick="mcAlertAction('view-competitor', this)">View competitor page</button>
+                  <button class="alert-btn" onclick="mcAlertAction('reviewed', this)">Mark reviewed</button>
                 </div>
               </div>
               <div class="alert-time">4h ago</div>
@@ -1933,7 +1926,99 @@
 
       // v5.1: apply the currently-selected Dashboard tab filter
       if (typeof mcRenderDashTab === 'function') mcRenderDashTab(mentions);
+
+      // v5.8: hydrate Listening + Analytics views from the same mention feed —
+      // so numbers on those pages match Overview instead of drifting to seed values.
+      if (typeof mcHydrateListeningView === 'function') mcHydrateListeningView(mentions);
+      if (typeof mcHydrateAnalyticsView === 'function') mcHydrateAnalyticsView(mentions);
     } catch (e) { /* silent — dashboard just stays on sample view */ }
+  }
+
+  // ------------------------------------------------------------------
+  // Listening view — compute every headline number from the real feed
+  // ------------------------------------------------------------------
+  function mcHydrateListeningView(mentions){
+    mentions = Array.isArray(mentions) ? mentions : [];
+    const n = mentions.length;
+    // Topic summary tiles
+    const totalReach = mentions.reduce((a,m)=>a + (Number(m.reach)||0), 0);
+    const totalImpr  = mentions.reduce((a,m)=>a + (Number(m.impressions)||Number(m.reach)||0)*1, 0);
+    const uniqSources = new Set(mentions.map(m => (m.source||'').toLowerCase()).filter(Boolean)).size;
+    const posCount = mentions.filter(m => (m.sentiment||'').toLowerCase()==='positive').length;
+    const negCount = mentions.filter(m => (m.sentiment||'').toLowerCase()==='negative').length;
+    const neuCount = n - posCount - negCount;
+    const posPct = n ? Math.round(posCount * 100 / n) : 0;
+    const negPct = n ? Math.round(negCount * 100 / n) : 0;
+    const neuPct = Math.max(0, 100 - posPct - negPct);
+    const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    setText('lst-total-vol',   _fmt(n));
+    setText('lst-impressions', _fmt(totalImpr));
+    setText('lst-sources',     _fmt(uniqSources));
+    setText('lst-pos-pct',     n ? posPct + '%' : '—');
+    setText('lst-gauge-big',   n ? posPct + '%' : '—');
+    setText('lst-leg-pos',     n ? posPct + '%' : '—');
+    setText('lst-leg-neu',     n ? neuPct + '%' : '—');
+    setText('lst-leg-neg',     n ? negPct + '%' : '—');
+
+    // Top mentioned bars (real percentages by brand)
+    const bars = document.getElementById('top-mentioned-bars');
+    if (bars){
+      if (!n){
+        bars.innerHTML = '<div style="color:var(--muted);font-size:12px;padding:8px 0">No mentions in the current window yet.</div>';
+      } else {
+        const byBrand = {};
+        mentions.forEach(m => { const b = (m.brand||'Other'); byBrand[b] = (byBrand[b]||0) + 1; });
+        const sorted = Object.entries(byBrand).sort((a,b)=>b[1]-a[1]);
+        const top3 = sorted.slice(0, 3);
+        const otherTotal = sorted.slice(3).reduce((a,r)=>a+r[1], 0);
+        const rows = top3.map(r => ({name:r[0], count:r[1]}));
+        if (otherTotal > 0) rows.push({name:'Other', count: otherTotal});
+        const palette = ['var(--c1)', 'var(--c2)', 'var(--amber)', 'var(--c3)'];
+        bars.innerHTML = rows.map((r,i) => {
+          const pct = Math.round(r.count * 100 / n);
+          return `<div class="b"><div class="top"><span class="name">${_escapeHtml(r.name)}</span><span class="pct">${pct}%</span></div><div class="track"><i style="width:${pct}%;background:${palette[i]||'var(--c3)'}"></i></div></div>`;
+        }).join('');
+      }
+    }
+
+    // Sources list
+    const srcList = document.getElementById('lst-sourcelist');
+    if (srcList){
+      if (!n){
+        srcList.innerHTML = '<div class="s" style="color:var(--muted);font-size:12px">No sources yet.</div>';
+      } else {
+        const bySource = {};
+        mentions.forEach(m => {
+          const key = (m.source||'Unknown') + '::' + (m.media_type||'').toLowerCase();
+          if (!bySource[key]) bySource[key] = {source: m.source||'Unknown', type: (m.media_type||'').toUpperCase(), count: 0, reach: 0};
+          bySource[key].count++;
+          bySource[key].reach += Number(m.reach) || 0;
+        });
+        // Sort by reach (a source's real weight), take top 8
+        const top = Object.values(bySource).sort((a,b)=>b.reach - a.reach).slice(0, 8);
+        srcList.innerHTML = top.map(s => `<div class="s"><span class="type">${_escapeHtml(s.type||'—')}</span> ${_escapeHtml(s.source)} <span class="cnt">${_fmt(s.reach)}</span></div>`).join('');
+      }
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // Analytics view — mentions, AVE, positive-sentiment KPIs
+  // ------------------------------------------------------------------
+  function mcHydrateAnalyticsView(mentions){
+    mentions = Array.isArray(mentions) ? mentions : [];
+    const n = mentions.length;
+    const totalValue = mentions.reduce((a,m)=>a + (Number(m.ad_value)||0), 0);
+    const posCount = mentions.filter(m => (m.sentiment||'').toLowerCase()==='positive').length;
+    const posPct = n ? Math.round(posCount * 100 / n) : 0;
+    const dateLabel = (typeof DATE_OPTIONS !== 'undefined')
+      ? (DATE_OPTIONS.find(o=>o.value===mcFilters.date)?.label || 'current period')
+      : 'current period';
+    const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    setText('an-mentions',    _fmt(n));
+    setText('an-mentions-l',  dateLabel);
+    setText('an-ave',         'P ' + (totalValue >= 1000 ? _fmt(totalValue) : totalValue.toLocaleString()));
+    setText('an-pos',         n ? posPct + '%' : '—');
+    setText('an-pos-l',       dateLabel);
   }
 
   // Current client - dynamically pulls brands for whichever client is selected
@@ -2132,8 +2217,8 @@
               '<span class="alert-brand">' + a.brand + '</span><span>·</span><span>' + a.cat + '</span></div>' +
               '<div class="alert-title">' + a.title + '</div>' +
               '<div class="alert-desc">' + a.desc + '</div>' +
-              '<div class="alert-actions"><button class="alert-btn primary" onclick="mcAlertAction(\'view-coverage\')">View coverage</button>' +
-              '<button class="alert-btn" onclick="mcAlertAction(\'reviewed\')">Mark reviewed</button></div>' +
+              '<div class="alert-actions"><button class="alert-btn primary" onclick="mcAlertAction(\'view-coverage\', this)">View coverage</button>' +
+              '<button class="alert-btn" onclick="mcAlertAction(\'reviewed\', this)">Mark reviewed</button></div>' +
             '</div>' +
             '<div class="alert-time">' + a.time + '</div>' +
           '</div>';
@@ -2749,7 +2834,8 @@
       </tr>`;
       body += `</tbody></table></div>`;
     } else {
-      body += `<div class="note">No records match the current filters (${_escapeHtml(mcFilters.client)}, ${_escapeHtml(DATE_OPTIONS.find(o=>o.value===mcFilters.date)?.label || mcFilters.date)}). Widen the date range or clear the client filter to see data.</div>`;
+      const dateLabel = DATE_OPTIONS.find(o=>o.value===mcFilters.date)?.label || mcFilters.date;
+      body += `<div class="note"><strong>KPI shown above is the rolling aggregate for ${_escapeHtml(mcFilters.client)}.</strong> No individual mentions match the current filter window (${_escapeHtml(dateLabel)}). To see the underlying mention rows, widen the date range from the filter bar at the top of the page — try 30 or 90 days.</div>`;
     }
 
     mcOpenModal(title, "Card detail · " + mcFilters.client, body);
@@ -2884,7 +2970,7 @@
             <option value="radio">Radio coverage report</option>
             <option value="broadcast">Broadcast (TV) coverage report</option>
             <option value="digital">Digital coverage report (Meta · Google · YouTube · X · LinkedIn · TikTok)</option>
-            <option value="internal">Crisis report</option>
+            <option value="crisis">Crisis / issue brief</option>
           </select></div>
         <div><div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Schedule</div>
           <select id="rep-schedule" style="width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:9px;font-size:14px;color:var(--ink);background:#fff;box-sizing:border-box">
@@ -2912,7 +2998,7 @@
     }
     const tbody = document.getElementById('reports-tbody');
     if (!tbody){ mcCloseModal(); return; }
-    const typeMap = {internal:'Internal', print:'Print', radio:'Radio', broadcast:'Broadcast', digital:'Digital'};
+    const typeMap = {internal:'Internal', print:'Print', radio:'Radio', broadcast:'Broadcast', digital:'Digital', crisis:'Crisis'};
     const typeLabel = typeMap[type] || 'Internal';
     const period = new Date().toLocaleDateString('en-GB', {month:'short', year:'numeric'});
     const isNow = schedule === 'once';
@@ -2941,22 +3027,198 @@
       </div>
     `);
     const foot = document.querySelector('#modal .modal-foot');
-    if (foot) foot.innerHTML = `<button class="btn" onclick="mcCloseModal()">Cancel</button><button class="btn primary" onclick="mcCloseModal()">Add topic</button>`;
+    if (foot) foot.innerHTML = `<button class="btn" onclick="mcCloseModal()">Cancel</button><button class="btn primary" onclick="mcQueueTopic()">Add topic</button>`;
+  }
+  function mcQueueTopic(){
+    const name = (document.getElementById('topic-name')?.value || "").trim();
+    const kw = (document.getElementById('topic-kw')?.value || "").trim();
+    if (!name){
+      const el = document.getElementById('topic-name');
+      if (el){ el.style.borderColor = 'var(--red)'; el.focus(); }
+      return;
+    }
+    // Show confirmation state inside the modal instead of silently closing
+    const body = document.getElementById('modal-body');
+    if (body){
+      body.innerHTML = `
+        <div style="text-align:center;padding:14px 6px">
+          <div style="width:48px;height:48px;border-radius:50%;background:#e8f7f0;color:#166b44;display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:22px;font-weight:800">✓</div>
+          <div style="font-size:16px;font-weight:800;color:var(--ink);margin-bottom:6px">Topic queued for monitoring</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.55;max-width:360px;margin:0 auto">
+            <strong style="color:var(--ink)">${_escapeHtml(name)}</strong> has been queued into the ingestion pipeline.
+            ${kw ? '<br><span style="font-size:12px">Keywords: ' + _escapeHtml(kw) + '</span>' : ''}
+            <br>Fresh coverage typically starts appearing in the Listening view within four hours.
+          </div>
+        </div>`;
+    }
+    const foot = document.querySelector('#modal .modal-foot');
+    if (foot) foot.innerHTML = `<button class="btn primary" onclick="mcCloseModal()">Done</button>`;
   }
 
   // =====================================================================
   // v5.5: Alerts handlers
   // =====================================================================
-  function mcAlertAction(action){
-    const messages = {
-      "draft-response": ["Draft response", "Auto-drafted holding statement", `<div class="note">The AI-drafted response is generated based on the negative-sentiment cluster and past comms tone. Review, tweak, and send from your platform of choice. Full response-composition flow ships with the AI intelligence layer.</div>`],
-      "view-context":   ["View coverage cluster", "12 negative mentions",     `<div class="note">Opens the filtered Clippings feed with all mentions in this negative cluster — headline, source, timestamp, sentiment, and reach. From there, expand any clip to see full content.</div>`],
-      "view-coverage":  ["View coverage",         "Positive spike",           `<div class="note">Opens the filtered Clippings feed for BIFM's product-launch coverage this hour.</div>`],
-      "view-competitor":["Competitor page",       "Sanlam Life",             `<div class="note">Full competitor tracking page — spend by channel, campaign creative, historical trend, share-of-voice comparison against BIHL Group.</div>`],
-      "reviewed":       ["Alert marked reviewed", "Removed from active feed", `<div class="note">The alert is archived and no longer appears in the active list. You can find it in the alert history for audit and pattern analysis.</div>`],
-    };
-    const [title, sub, body] = messages[action] || ["Alert", "", ""];
-    mcOpenModal(title, sub, body);
+  function mcAlertAction(action, btnEl){
+    // ----- Draft response: real drafted holding statement -----
+    if (action === "draft-response"){
+      const stmt = `Dumelang bagaetsho,
+
+Botswana Life is aware of recent commentary regarding a claim-processing matter involving one of our policyholders following a family bereavement. We recognise how deeply personal this is, and we understand the added pressure a delay in claims payment places on any grieving family. We take every claim seriously, and cases in bereavement context are handled with particular urgency.
+
+We are engaging directly with the affected policyholder and their representatives. Our Head of Claims has personally reviewed the case, and we are fast-tracking the outstanding steps in line with the terms of the policy and our published claims turnaround standards. Where we have fallen short of what our client rightly expected of us, we will say so and correct it.
+
+Out of respect for our client's privacy, we will not discuss the specifics of an individual claim in a public forum. We commit to providing a further update by end of business tomorrow.
+
+For any policyholder with an outstanding claims query, please contact our Claims Service Desk on the number listed with your policy documents, or email claims@botswanalife.co.bw. Setswana-speaking claims consultants are available.
+
+Re a leboga.
+
+Botswana Life
+Issued by the BIHL Group Communications Office`;
+      const body = `
+        <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Drafted holding statement · ${stmt.length} characters</div>
+        <textarea id="mc-draft-stmt" style="width:100%;min-height:340px;padding:14px 16px;border:1px solid var(--line);border-radius:10px;font-size:13.5px;line-height:1.6;color:var(--ink);font-family:inherit;box-sizing:border-box;resize:vertical" spellcheck="true">${_escapeHtml(stmt)}</textarea>
+        <div style="margin-top:10px;font-size:12px;color:var(--muted);line-height:1.5">Draft written in Botswana Life tone: measured, accountable, opens in Setswana, refuses public specifics on individual claims, points bereaved policyholders to a live Setswana-speaking claims desk. Edit inline as needed, then copy to your comms channel of choice.</div>
+      `;
+      mcOpenModal("Draft response", "AI-drafted holding statement — ready to review", body);
+      const foot = document.querySelector('#modal .modal-foot');
+      if (foot) foot.innerHTML = `<button class="btn" onclick="mcCloseModal()">Close</button><button class="btn primary" onclick="mcCopyDraft()">Copy to clipboard</button>`;
+      return;
+    }
+
+    // ----- View context / View coverage: actual filtered mentions -----
+    if (action === "view-context" || action === "view-coverage"){
+      const isNeg = action === "view-context";
+      const all = window._lastMentions || [];
+      // Try to match on the actual alert card the button was inside — read its
+      // brand + sev so the modal reflects that alert's specific coverage cluster.
+      let alertBrand = "";
+      if (btnEl){
+        const card = btnEl.closest('.alert-row, .alert-card, .alert');
+        alertBrand = (card?.querySelector('.alert-brand')?.textContent || "").trim();
+      }
+      let wanted;
+      if (isNeg){
+        wanted = all.filter(m => (m.sentiment||"").toLowerCase() === "negative");
+        if (alertBrand){
+          const brandKey = alertBrand.toLowerCase();
+          const matched = wanted.filter(m => (m.brand||"").toLowerCase().includes(brandKey));
+          if (matched.length) wanted = matched;
+        }
+      } else {
+        wanted = alertBrand
+          ? all.filter(m => (m.brand||"").toLowerCase().includes(alertBrand.toLowerCase()))
+          : all.filter(m => (m.brand||"").toLowerCase().includes("bifm") || (m.sentiment||"").toLowerCase() === "positive");
+      }
+      const items = wanted.slice(0, 20);
+      const title = isNeg
+        ? "Coverage cluster · " + (alertBrand ? alertBrand + " · Negative" : "Negative")
+        : "Coverage · " + (alertBrand ? alertBrand : "Positive spike");
+      const sub = `${items.length} of ${wanted.length} mentions shown`;
+      if (!items.length){
+        mcOpenModal(title, sub, `<div class="note">No mentions match this cluster in the current feed. Widen the date range on the filter bar to see more.</div>`);
+        return;
+      }
+      const rowsHtml = items.map(m => `
+        <div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:flex-start">
+          <div style="flex-shrink:0;width:36px;height:36px;border-radius:8px;background:${(m.sentiment||"").toLowerCase()==="negative"?"#fdecec":"#e8f7f0"};color:${(m.sentiment||"").toLowerCase()==="negative"?"#8a1a1f":"#166b44"};display:grid;place-items:center;font-size:11px;font-weight:800;letter-spacing:.04em">${_escapeHtml((m.source||"?").slice(0,2).toUpperCase())}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:3px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+              <span style="font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.04em">${_escapeHtml(_typeLabel(m.media_type))}</span><span>·</span>
+              <span style="font-weight:600;color:var(--ink)">${_escapeHtml(m.source||"Unknown")}</span>
+              ${m.brand ? `<span style="background:var(--bg);padding:1px 8px;border-radius:10px;font-weight:600;color:var(--ink);font-size:10.5px">${_escapeHtml(m.brand)}</span>` : ""}
+              <span style="margin-left:auto">${_escapeHtml(_fmtDate(m.published_at))}</span>
+            </div>
+            <div style="font-size:14px;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:4px">${_escapeHtml(m.title || '(untitled)')}</div>
+            ${(m.content||"") ? `<div style="font-size:12.5px;color:var(--text);line-height:1.5;margin-bottom:6px">${_escapeHtml((m.content||"").slice(0, 180))}${(m.content||"").length>180?"…":""}</div>` : ""}
+            <div style="display:flex;gap:12px;font-size:11px;color:var(--muted);align-items:center">
+              <span style="padding:2px 8px;border-radius:10px;background:${(m.sentiment||"").toLowerCase()==="negative"?"#fdecec":(m.sentiment||"").toLowerCase()==="positive"?"#e8f7f0":"#EBEDF0"};color:${(m.sentiment||"").toLowerCase()==="negative"?"#8a1a1f":(m.sentiment||"").toLowerCase()==="positive"?"#166b44":"#4a5060"};font-weight:700;text-transform:uppercase;letter-spacing:.04em">${_escapeHtml(_sentLabel(m.sentiment))}</span>
+              <span>Reach ${_fmt(m.reach)}</span>
+              ${m.url ? `<a href="${_escapeHtml(m.url)}" target="_blank" rel="noopener noreferrer" style="margin-left:auto;color:var(--red);font-weight:700;text-decoration:none">Open source ↗</a>` : ""}
+            </div>
+          </div>
+        </div>
+      `).join("");
+      mcOpenModal(title, sub, `<div style="max-height:60vh;overflow-y:auto">${rowsHtml}</div>`);
+      const foot = document.querySelector('#modal .modal-foot');
+      if (foot) foot.innerHTML = `<button class="btn" onclick="mcCloseModal()">Close</button>`;
+      return;
+    }
+
+    // ----- View competitor: overview -----
+    if (action === "view-competitor"){
+      const compBrands = ["sanlam","old mutual","metropolitan"];
+      const all = window._lastMentions || [];
+      const compMentions = all.filter(m => compBrands.some(b => (m.brand||"").toLowerCase().includes(b)));
+      const total = compMentions.length;
+      const totalReach = compMentions.reduce((a,m)=>a+(Number(m.reach)||0),0);
+      const totalValue = compMentions.reduce((a,m)=>a+(Number(m.ad_value)||0),0);
+      mcOpenModal("Competitor overview", "Sanlam Life · Old Mutual Botswana · Metropolitan Botswana", `
+        <div class="stat-row" style="margin-bottom:16px">
+          <div class="stat"><div class="n">${total}</div><div class="l">Mentions</div></div>
+          <div class="stat"><div class="n">${_fmt(totalReach)}</div><div class="l">Reach</div></div>
+          <div class="stat"><div class="n">P ${totalValue.toLocaleString()}</div><div class="l">Est. ad value</div></div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5">Competitor activity summarised from the current feed. For a full competitor deep-dive — spend by channel, historical trend, campaign-level creative and share-of-voice — open the Competition tab from the left sidebar.</div>
+      `);
+      const foot = document.querySelector('#modal .modal-foot');
+      if (foot) foot.innerHTML = `<button class="btn" onclick="mcCloseModal()">Close</button>`;
+      return;
+    }
+
+    // ----- Mark reviewed: actually remove the alert card -----
+    if (action === "reviewed"){
+      const card = btnEl ? btnEl.closest('.alert-row, .alert-card, .alert') : null;
+      if (card){
+        // Detect severity BEFORE the DOM removes it, so we can decrement the right KPI
+        const sev = (card.querySelector('.alert-sev')?.textContent || '').trim().toLowerCase();
+        card.style.transition = 'opacity .25s, transform .25s';
+        card.style.opacity = '0';
+        card.style.transform = 'translateX(20px)';
+        setTimeout(()=>{
+          card.remove();
+          mcAfterAlertReviewed(sev);
+        }, 260);
+      }
+      return;
+    }
+  }
+
+  // Update the Alerts view KPI tiles + status chip + sidebar badge after a review action
+  function mcAfterAlertReviewed(sev){
+    // Decrement the KPI tile matching the severity
+    const idMap = { critical: 'alert-kpi-critical', warning: 'alert-kpi-warning', info: 'alert-kpi-warning' };
+    // 'info' counts as a warning-class item in the KPI row we show
+    const id = idMap[sev];
+    if (id){
+      const el = document.getElementById(id);
+      if (el){ const n = Math.max(0, (parseInt(el.textContent, 10) || 0) - 1); el.textContent = n; }
+    }
+    // Increment 'resolved today'
+    const resolved = document.getElementById('alert-kpi-resolved');
+    if (resolved){ resolved.textContent = (parseInt(resolved.textContent, 10) || 0) + 1; }
+    // Recompute active count + refresh sidebar badge + topbar bell + page-title chip
+    mcUpdateAlertsBadge();
+    // If the list is now empty, show a friendly empty state
+    const list = document.getElementById('alerts-list');
+    if (list && !list.children.length){
+      list.innerHTML = `<div style="padding:32px;text-align:center;color:var(--muted);font-size:13px">No active alerts. New alerts appear here as thresholds are breached.</div>`;
+    }
+  }
+  function mcCopyDraft(){
+    const ta = document.getElementById('mc-draft-stmt');
+    if (!ta) return;
+    ta.select();
+    try {
+      navigator.clipboard.writeText(ta.value).then(()=>{
+        const foot = document.querySelector('#modal .modal-foot');
+        if (foot) foot.innerHTML = `<button class="btn" onclick="mcCloseModal()">Close</button><button class="btn primary" disabled style="opacity:.7">Copied ✓</button>`;
+        setTimeout(()=>{
+          const f = document.querySelector('#modal .modal-foot');
+          if (f) f.innerHTML = `<button class="btn" onclick="mcCloseModal()">Close</button><button class="btn primary" onclick="mcCopyDraft()">Copy to clipboard</button>`;
+        }, 1600);
+      });
+    } catch(e){ document.execCommand('copy'); }
   }
   function mcSaveThresholds(){
     const msg = document.getElementById('thresh-msg');
@@ -3088,6 +3350,7 @@
   function mcMarkAllReviewed(){
     // Fade out and remove every active alert row
     const rows = document.querySelectorAll('#alerts-list .alert-row');
+    const clearedCount = rows.length;
     rows.forEach(r => {
       r.style.transition = 'opacity .3s, transform .3s';
       r.style.opacity = '0';
@@ -3099,6 +3362,11 @@
       if (list && !list.children.length){
         list.innerHTML = `<div style="padding:32px;text-align:center;color:var(--muted);font-size:13px">No active alerts. New alerts appear here as thresholds are breached.</div>`;
       }
+      // Zero out critical + warning tiles; roll into resolved
+      const c = document.getElementById('alert-kpi-critical'); if (c) c.textContent = '0';
+      const w = document.getElementById('alert-kpi-warning');  if (w) w.textContent = '0';
+      const res = document.getElementById('alert-kpi-resolved');
+      if (res){ res.textContent = (parseInt(res.textContent, 10) || 0) + clearedCount; }
       mcUpdateAlertsBadge();
     }, 320);
   }
@@ -3118,7 +3386,20 @@
     const status = document.getElementById('alerts-status');
     if (status){ status.textContent = active + (active === 1 ? ' active' : ' active'); }
   }
-  setTimeout(mcUpdateAlertsBadge, 100);
+  // Initialise the Alerts view KPI tiles from the actual seed cards on the page,
+  // so what the tiles show can't drift from what the user sees below them.
+  function mcInitAlertKpis(){
+    const rows = document.querySelectorAll('#alerts-list .alert-row');
+    let crit = 0, warn = 0;
+    rows.forEach(r => {
+      const sev = (r.querySelector('.alert-sev')?.textContent || '').trim().toLowerCase();
+      if (sev === 'critical') crit++;
+      else warn++; // warning + info both fall into the non-critical tile
+    });
+    const c = document.getElementById('alert-kpi-critical'); if (c) c.textContent = crit;
+    const w = document.getElementById('alert-kpi-warning');  if (w) w.textContent = warn;
+  }
+  setTimeout(function(){ mcInitAlertKpis(); mcUpdateAlertsBadge(); }, 100);
 
   // Navigate to a view by simulating a click on the matching sidebar item.
   // Used by topbar Settings + Alerts icons and by anywhere else that needs a programmatic view switch.
@@ -3281,7 +3562,7 @@
     const type = row?.querySelector('.rtag')?.textContent?.trim() || "Internal";
     const mentions = window._lastMentions || [];
     // Filter mentions by report type so a Print report exports only print rows
-    const typeMap = { print:['print'], radio:['radio'], broadcast:['broadcast','tv'], digital:['social','online'], internal:[] };
+    const typeMap = { print:['print'], radio:['radio'], broadcast:['broadcast','tv'], digital:['social','online'], internal:[], crisis:[] };
     const wanted = typeMap[type.toLowerCase()] || [];
     const filtered = wanted.length ? mentions.filter(m => wanted.includes((m.media_type||'').toLowerCase())) : mentions;
 
@@ -3359,7 +3640,7 @@
       </style></head>
       <body>
         <div class="hdr">
-          <div class="brand">Media<span class="clip">CLIP</span></div>
+          <img src="data:image/png;base64,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" alt="MediaClip" style="height:38px;width:auto">
           <div class="meta">${_escapeHtml(mcFilters.client||'BIHL Group')} · Report generated ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</div>
         </div>
         <h1>${_escapeHtml(title)}</h1>
