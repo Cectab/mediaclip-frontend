@@ -877,8 +877,9 @@
             <div class="chartbox sm"><canvas id="channelMix"></canvas></div>
           </div>
           <div class="card">
-            <h3>Digital ad-spend detected <span class="tag">Competitive intel</span></h3>
+            <h3>Digital ad-spend detected <span class="tag" style="background:#FFF4E4;color:#7A5100">Sample · awaiting Meta Ad Library sync</span></h3>
             <div class="chartbox sm"><canvas id="digitalCompetitive"></canvas></div>
+            <div style="font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.45">Live competitor ad-spend detection ingests from Meta Ad Library, Google Ads Transparency and X Ad Repository. Once those transparency-portal syncs are configured for this tenant, this chart hydrates automatically.</div>
           </div>
         </div>
       </section>
@@ -1931,6 +1932,7 @@
       // so numbers on those pages match Overview instead of drifting to seed values.
       if (typeof mcHydrateListeningView === 'function') mcHydrateListeningView(mentions);
       if (typeof mcHydrateAnalyticsView === 'function') mcHydrateAnalyticsView(mentions);
+      if (typeof mcHydrateReachView === 'function')     mcHydrateReachView(mentions);
     } catch (e) { /* silent — dashboard just stays on sample view */ }
   }
 
@@ -1997,6 +1999,117 @@
         // Sort by reach (a source's real weight), take top 8
         const top = Object.values(bySource).sort((a,b)=>b.reach - a.reach).slice(0, 8);
         srcList.innerHTML = top.map(s => `<div class="s"><span class="type">${_escapeHtml(s.type||'—')}</span> ${_escapeHtml(s.source)} <span class="cnt">${_fmt(s.reach)}</span></div>`).join('');
+      }
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // Reach view — bar charts hydrated from the mention feed
+  // (per-brand per-outlet reach, in thousands, so Y-axis 'K' label stays true)
+  // ------------------------------------------------------------------
+  function mcHydrateReachView(mentions){
+    mentions = Array.isArray(mentions) ? mentions : [];
+    if (typeof charts === 'undefined') return;
+
+    // Brand grouping — consolidate sub-brands so the 3-series chart is legible
+    const brandGroup = (b) => {
+      const s = (b || '').toLowerCase();
+      if (s.includes('bihl')) return 'BIHL';
+      if (s.includes('botswana life')) return 'Botswana Life';
+      if (s.includes('bifm')) return 'BIFM';
+      return 'Other';
+    };
+    const BRAND_KEYS = ['BIHL', 'Botswana Life', 'BIFM'];
+
+    // Helper: sum reach (in K, rounded) by (brand, source) for mentions matching a media_type predicate
+    const buildDataset = (mtypePredicate, labels) => {
+      const grid = {};
+      BRAND_KEYS.forEach(b => { grid[b] = {}; labels.forEach(l => grid[b][l] = 0); });
+      mentions.forEach(m => {
+        if (!mtypePredicate(m)) return;
+        const bg = brandGroup(m.brand);
+        if (!BRAND_KEYS.includes(bg)) return;
+        // Match source loosely — the label 'Yarona FM' should catch source 'Yarona FM' regardless of case
+        const src = (m.source || '');
+        const label = labels.find(l => src.toLowerCase() === l.toLowerCase() || src.toLowerCase().startsWith(l.toLowerCase().split(' ')[0]));
+        if (label){ grid[bg][label] += Math.round((Number(m.reach) || 0) / 1000); }
+      });
+      // Return arrays in BRAND_KEYS order, one array per brand across the label list
+      return BRAND_KEYS.map(b => labels.map(l => grid[b][l]));
+    };
+
+    const applyChart = (chartId, labels, mtypePredicate) => {
+      const c = charts[chartId];
+      if (!c) return;
+      const data = buildDataset(mtypePredicate, labels);
+      c.data.datasets.forEach((ds, i) => {
+        if (data[i]) ds.data = data[i];
+      });
+      c.update('none');
+    };
+
+    // Print reach — The Voice, Mmegi, Sunday Std (Sunday Standard), Weekend Post
+    // Match "sunday std" label against a source that starts with "sunday" via the loose matcher
+    applyChart('printReach', ['The Voice','Mmegi','Sunday Std','Weekend Post'], m => (m.media_type||'').toLowerCase() === 'print');
+    applyChart('reachChart', ['The Voice','Mmegi','Sunday Std','Weekend Post'], m => (m.media_type||'').toLowerCase() === 'print');
+    applyChart('radioReach', ['Yarona FM','Duma FM','Gabz FM','RB2'], m => (m.media_type||'').toLowerCase() === 'radio');
+    applyChart('tvReach',    ['Btv','Now TV','eBotswana'],            m => ['broadcast','tv'].includes((m.media_type||'').toLowerCase()));
+
+    // Digital reach — labels are platforms but the mention feed's source is a platform name (X, Meta, LinkedIn)
+    // Group social+online rows by source name matching each platform label
+    applyChart('digitalReach', ['Meta','Google','YouTube','X','LinkedIn','TikTok'],
+      m => ['social','online','digital'].includes((m.media_type||'').toLowerCase()));
+
+    // Channel mix (donut) — pure count-based
+    const cm = charts['channelMix'];
+    if (cm){
+      const buckets = { Print:0, Radio:0, Broadcast:0, Digital:0, 'Online news':0, Social:0 };
+      mentions.forEach(m => {
+        const t = (m.media_type||'').toLowerCase();
+        if (t === 'print')        buckets['Print']++;
+        else if (t === 'radio')   buckets['Radio']++;
+        else if (t === 'broadcast' || t === 'tv') buckets['Broadcast']++;
+        else if (t === 'digital') buckets['Digital']++;
+        else if (t === 'online' || t === 'online news') buckets['Online news']++;
+        else if (t === 'social')  buckets['Social']++;
+      });
+      const values = Object.values(buckets);
+      if (values.some(v => v > 0)){
+        cm.data.datasets[0].data = values;
+        cm.update('none');
+      }
+    }
+
+    // Analytics trend line — bucket the mentions into 12 weekly buckets by published_at
+    const tr = charts['trend'];
+    if (tr && mentions.length){
+      const now = new Date();
+      const weeks = 12;
+      // Build 12 empty week bins working back from today
+      const weekStart = (d) => { const t = new Date(d); t.setHours(0,0,0,0); t.setDate(t.getDate() - t.getDay()); return t; };
+      const currentWeek = weekStart(now);
+      const bins = Array.from({length:weeks}, (_,i) => {
+        const start = new Date(currentWeek); start.setDate(start.getDate() - (weeks-1-i)*7);
+        return { start, client: 0, competitor: 0 };
+      });
+      mentions.forEach(m => {
+        const d = m.published_at ? new Date(m.published_at) : null;
+        if (!d || isNaN(d)) return;
+        const idx = bins.findIndex((b, i) => {
+          const next = bins[i+1] ? bins[i+1].start : new Date(currentWeek.getTime() + 7*86400000);
+          return d >= b.start && d < next;
+        });
+        if (idx < 0) return;
+        const bg = brandGroup(m.brand);
+        if (BRAND_KEYS.includes(bg)) bins[idx].client++;
+        else bins[idx].competitor++;
+      });
+      // Only overwrite the datasets if we actually placed at least one mention into a bin
+      const total = bins.reduce((a,b)=>a+b.client+b.competitor,0);
+      if (total > 0){
+        if (tr.data.datasets[0]) tr.data.datasets[0].data = bins.map(b=>b.client);
+        if (tr.data.datasets[1]) tr.data.datasets[1].data = bins.map(b=>b.competitor);
+        tr.update('none');
       }
     }
   }
