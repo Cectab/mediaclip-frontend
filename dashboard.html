@@ -297,6 +297,52 @@
 
   /* Content */
   .content{padding:22px 26px 40px}
+  /* --- Mobile pass — tighten sidebar / topbar / content padding on phones --- */
+  @media (max-width:720px){
+    .sidebar{width:56px;padding:14px 0}
+    .side-mark{width:34px;height:34px;font-size:13px;margin-bottom:18px}
+    .nav a{width:40px;height:40px;border-radius:11px}
+    .nav a svg{width:19px;height:19px}
+    .avatar{width:36px;height:36px}
+    .topbar{padding:0 14px;gap:10px;height:56px}
+    .search{display:none}
+    .tb-icon{width:34px;height:34px}
+    .content{padding:16px 14px 36px}
+    .pagehead{gap:8px;margin-bottom:14px}
+    .pagehead .pill{padding:8px 12px;font-size:12.5px}
+    .pagehead .dd-btn{padding:8px 12px;font-size:12.5px}
+    .card{padding:14px 14px 12px}
+    .tabs{gap:14px;overflow-x:auto;flex-wrap:nowrap;white-space:nowrap;-webkit-overflow-scrolling:touch}
+    .tabs button{padding:8px 2px 12px;font-size:13px;flex-shrink:0}
+    .alert-actions{flex-wrap:wrap;gap:6px}
+    .alert-btn{padding:6px 10px;font-size:12px}
+    .alert-time{display:none}
+    .spons-row{padding:12px 12px;gap:10px}
+    .spons-badge{width:44px;height:44px;font-size:12px;flex-shrink:0}
+    .spons-title{font-size:14px}
+    .spons-value{font-size:14px;text-align:right}
+    /* Table overflow — every data table becomes horizontally scrollable */
+    .rep, .recips, .mentions-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .rep thead, .recips thead, .mentions-table thead{white-space:nowrap}
+    .rep td, .recips td, .mentions-table td{white-space:nowrap}
+    .rep td:first-child, .mentions-table td:first-child{white-space:normal;min-width:200px}
+    .alert-kpis{grid-template-columns:1fr 1fr;gap:10px}
+    .alert-kpi{padding:14px 12px}
+    .alert-kpi .n{font-size:22px}
+    .kpi .n{font-size:22px}
+    .stat-row{flex-wrap:wrap}
+    .stat{min-width:100px}
+    .modal{width:calc(100vw - 24px);max-width:calc(100vw - 24px)}
+    .modal-body{padding:18px 18px 8px}
+    .drawer{width:100vw;max-width:100vw}
+    /* Sponsorship hero shrinks to 1-col on phone */
+    .spons-hero{grid-template-columns:1fr!important;gap:14px!important}
+    /* Reach view charts — keep at least their canvases from collapsing to 0px */
+    .chartbox{min-height:220px}
+    .chartbox.sm{min-height:180px}
+    /* Report title cell should be readable but the row still fits */
+    .rep td:first-child{max-width:70vw}
+  }
   .pagehead{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:18px}
   .brandsel{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:var(--shadow)}
   .brandsel .caret{color:var(--muted);font-size:11px}
@@ -394,7 +440,9 @@
   .spons-hero .num{font-size:32px;font-weight:800;color:var(--ink);letter-spacing:-1px;line-height:1}
   .spons-hero .lab{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
   .spons-list{display:flex;flex-direction:column;gap:10px}
-  .spons-row{display:flex;align-items:center;gap:14px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:10px}
+  .spons-row{display:flex;align-items:center;gap:14px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:10px;transition:border-color .15s,box-shadow .15s,transform .15s}
+  .spons-row:hover{border-color:var(--red);box-shadow:0 8px 24px -14px rgba(218,31,38,.35);transform:translateY(-1px)}
+  .spons-row:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(218,31,38,.16)}
   .spons-badge{width:40px;height:40px;border-radius:9px;background:linear-gradient(135deg,#1FA97A,#158A62);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
   .spons-body{flex:1;min-width:0}
   .spons-title{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:3px}
@@ -2014,12 +2062,14 @@
     // Brand grouping — consolidate sub-brands so the 3-series chart is legible
     const brandGroup = (b) => {
       const s = (b || '').toLowerCase();
-      if (s.includes('bihl')) return 'BIHL';
+      // Check the most specific first — 'botswana insurance company' contains 'botswana' so must come before Botswana Life
+      if (s.includes('bic') || s.includes('botswana insurance company')) return 'BIC';
       if (s.includes('botswana life')) return 'Botswana Life';
       if (s.includes('bifm')) return 'BIFM';
+      if (s.includes('bihl')) return 'BIHL';
       return 'Other';
     };
-    const BRAND_KEYS = ['BIHL', 'Botswana Life', 'BIFM'];
+    const BRAND_KEYS = ['BIHL', 'Botswana Life', 'BIFM', 'BIC'];
 
     // Helper: sum reach (in K, rounded) by (brand, source) for mentions matching a media_type predicate
     const buildDataset = (mtypePredicate, labels) => {
@@ -2161,6 +2211,76 @@
   }
   // Run once the DOM has settled; no live-feed dependency for this view yet.
   setTimeout(mcHydrateSponsorshipView, 150);
+
+  // Make every sponsorship row clickable → opens a detail modal with source list,
+  // coverage summary and (where linkable) a jump to the underlying mentions.
+  function mcWireSponsorshipRows(){
+    document.querySelectorAll('.spons-row').forEach(row => {
+      if (row.dataset.wired) return;
+      row.dataset.wired = '1';
+      row.style.cursor = 'pointer';
+      row.setAttribute('tabindex', '0');
+      row.setAttribute('role', 'button');
+      row.addEventListener('click', () => mcSponsorshipDetail(row));
+      row.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); mcSponsorshipDetail(row); }});
+    });
+  }
+  function mcSponsorshipDetail(row){
+    const title = (row.querySelector('.spons-title')?.textContent || '').trim();
+    const meta  = (row.querySelector('.spons-meta')?.textContent || '').trim();
+    const val   = (row.querySelector('.spons-value')?.childNodes[0]?.textContent || '').trim();
+    const valLabel = (row.querySelector('.spons-value .lab')?.textContent || 'value').trim();
+
+    // Guess which outlets to spotlight from the meta line (e.g. "Broadcast: Btv · Radio: Duma FM, Yarona FM")
+    const outletHints = meta.split(/[·,;]+/).map(s => s.trim()).filter(Boolean);
+
+    // If the mention feed has anything mentioning the sponsorship (very rough keyword sniff), surface those rows
+    const kw = title.toLowerCase().replace(/[—\-]/g,' ').split(/\s+/).filter(w => w.length > 3);
+    const mentions = window._lastMentions || [];
+    const matched = mentions.filter(m => {
+      const hay = ((m.title||'') + ' ' + (m.content||'')).toLowerCase();
+      return kw.some(w => hay.includes(w));
+    }).slice(0, 5);
+
+    const bodyBits = [];
+    bodyBits.push(`<div class="stat-row" style="margin-bottom:16px">
+      <div class="stat"><div class="n" style="font-size:22px">${_escapeHtml(val || '—')}</div><div class="l">${_escapeHtml(valLabel)}</div></div>
+      <div class="stat"><div class="n" style="font-size:22px">${outletHints.length}</div><div class="l">Outlet references</div></div>
+      <div class="stat"><div class="n" style="font-size:22px">${matched.length}</div><div class="l">Related mentions in feed</div></div>
+    </div>`);
+
+    if (outletHints.length){
+      bodyBits.push(`<div style="margin-top:10px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Coverage footprint</div>`);
+      bodyBits.push(`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">` +
+        outletHints.map(h => `<span style="background:var(--bg);color:var(--ink);font-size:12px;font-weight:600;padding:5px 11px;border-radius:20px;border:1px solid var(--line)">${_escapeHtml(h)}</span>`).join('') +
+        `</div>`);
+    }
+
+    if (matched.length){
+      bodyBits.push(`<div style="margin-top:10px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Recent mentions linked to this sponsorship</div>`);
+      bodyBits.push(`<div style="max-height:280px;overflow-y:auto">` + matched.map(m => `
+        <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);align-items:flex-start">
+          <div style="flex-shrink:0;width:32px;height:32px;border-radius:8px;background:${(m.sentiment||'').toLowerCase()==='negative'?'#fdecec':'#e8f7f0'};color:${(m.sentiment||'').toLowerCase()==='negative'?'#8a1a1f':'#166b44'};display:grid;place-items:center;font-size:10.5px;font-weight:800">${_escapeHtml((m.source||'?').slice(0,2).toUpperCase())}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:3px">${_escapeHtml(m.source||'')} · ${_escapeHtml(_typeLabel(m.media_type))} · ${_escapeHtml(_fmtDate(m.published_at))}</div>
+            <div style="font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.4">${_escapeHtml((m.title||'').slice(0,140))}${(m.title||'').length>140?'…':''}</div>
+            ${m.url ? `<a href="${_escapeHtml(m.url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="display:inline-block;margin-top:6px;color:var(--red);font-size:11.5px;font-weight:700;text-decoration:none">Open source ↗</a>` : ''}
+          </div>
+        </div>
+      `).join('') + `</div>`);
+    } else {
+      bodyBits.push(`<div style="margin-top:12px;padding:14px 16px;background:var(--bg);border-radius:10px;font-size:12.5px;color:var(--muted);line-height:1.5">
+        No mentions in the current feed reference this sponsorship by keyword. As live coverage flows in, related mentions will appear here automatically.
+      </div>`);
+    }
+
+    bodyBits.push(`<div style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.55">Sponsorship value is a modelled estimate combining branded coverage reach, adjacency-attribution and media-rate cards. It is an estimate of earned value, not a substitute for direct campaign reporting.</div>`);
+
+    mcOpenModal(title || 'Sponsorship detail', meta || '', bodyBits.join(''));
+    const foot = document.querySelector('#modal .modal-foot');
+    if (foot) foot.innerHTML = `<button class="btn" onclick="mcCloseModal()">Close</button>`;
+  }
+  setTimeout(mcWireSponsorshipRows, 200);
 
   // ------------------------------------------------------------------
   // Analytics view — mentions, AVE, positive-sentiment KPIs
@@ -4044,7 +4164,7 @@ Issued by the BIHL Group Communications Office`;
   // gauges — 4 segments: Print / Broadcast / Radio / Digital
   ring('gMascom',{l:['Print','Broadcast','Radio','Digital'],v:[101,98,53,168]},[RED,INK,AMBER,GREEN]);
   ring('gComp',{l:['Print','Broadcast','Radio','Digital'],v:[88,121,79,196]},[RED,INK,AMBER,GREEN]);
-  ring('sov',{l:['BIHL','Botswana Life','BIFM'],v:[55,23,22]},[RED,INK,GREY]);
+  ring('sov',{l:['BIHL','Botswana Life','BIFM','BIC'],v:[48,22,18,12]},[RED,INK,GREY,BIC_COLOR]);
   ring('sentiment',{l:['Positive','Neutral','Negative'],v:[71,21,8]},[GREEN,GREY,RED]);
 
   // media type stacked area
@@ -4058,13 +4178,15 @@ Issued by the BIHL Group Communications Office`;
   // source spend
   charts.sourceSpend=new Chart(document.getElementById('sourceSpend'),{type:'bar',data:{labels:['Mmegi','The Voice','Sunday Std','Weekend Post','Business Wk'],datasets:[{data:[101,86,72,54,38],backgroundColor:RED,borderRadius:6,barThickness:26}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},ticks:{callback:v=>'P'+v+'K',maxTicksLimit:5}}}}});
 
-  // reach grouped (dashboard)
+  // reach grouped (dashboard) — 4 brand series so BIC (Botswana Insurance Company) is not omitted
+  const BIC_COLOR = '#8257e6';
   const reachCfg=(id,print)=>{charts[id]=new Chart(document.getElementById(id),{type:'bar',data:{labels:['The Voice','Mmegi','Sunday Std','Weekend Post'],datasets:[
     {label:'BIHL',data:print[0],backgroundColor:RED,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
     {label:'Botswana Life',data:print[1],backgroundColor:INK,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
-    {label:'BIFM',data:print[2],backgroundColor:GREY,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
+    {label:'BIFM',data:print[2],backgroundColor:GREY,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
+    {label:'BIC',data:print[3]||[0,0,0,0],backgroundColor:BIC_COLOR,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
   ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:14}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},ticks:{callback:v=>v+'K',maxTicksLimit:5}}}}});};
-  reachCfg('reachChart',[[160,120,90,70],[110,95,70,55],[130,80,60,45]]);
+  reachCfg('reachChart',[[160,120,90,70],[110,95,70,55],[130,80,60,45],[70,55,45,32]]);
 
   // listening mentions line
   charts.mentions=new Chart(document.getElementById('mentions'),{type:'line',data:{labels:days,datasets:[
@@ -4074,22 +4196,25 @@ Issued by the BIHL Group Communications Office`;
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:16}}},scales:{x:{grid:{display:false},ticks:{maxTicksLimit:6}},y:{grid:{color:'#F0F2F4'},ticks:{maxTicksLimit:5}}}}});
 
   // reach view charts
-  reachCfg('printReach',[[160,120,90,70],[110,95,70,55],[130,80,60,45]]);
+  reachCfg('printReach',[[160,120,90,70],[110,95,70,55],[130,80,60,45],[70,55,45,32]]);
   charts.radioReach=new Chart(document.getElementById('radioReach'),{type:'bar',data:{labels:['Yarona FM','Duma FM','Gabz FM','RB2'],datasets:[
     {label:'BIHL',data:[180,150,120,90],backgroundColor:RED,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
     {label:'Botswana Life',data:[120,110,80,70],backgroundColor:INK,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
-    {label:'BIFM',data:[140,100,95,60],backgroundColor:GREY,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
+    {label:'BIFM',data:[140,100,95,60],backgroundColor:GREY,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
+    {label:'BIC',data:[85,72,55,42],backgroundColor:BIC_COLOR,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
   ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:14}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},ticks:{callback:v=>v+'K',maxTicksLimit:5}}}}});
   charts.tvReach=new Chart(document.getElementById('tvReach'),{type:'bar',data:{labels:['Btv','Now TV','eBotswana'],datasets:[
     {label:'BIHL',data:[140,90,70],backgroundColor:RED,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
     {label:'Botswana Life',data:[100,70,55],backgroundColor:INK,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
-    {label:'BIFM',data:[120,80,60],backgroundColor:GREY,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
+    {label:'BIFM',data:[120,80,60],backgroundColor:GREY,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
+    {label:'BIC',data:[65,45,32],backgroundColor:BIC_COLOR,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
   ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:14}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},ticks:{callback:v=>v+'K',maxTicksLimit:5}}}}});
   // Digital reach across Meta, Google, YouTube, X, LinkedIn, TikTok
   charts.digitalReach=new Chart(document.getElementById('digitalReach'),{type:'bar',data:{labels:['Meta','Google','YouTube','X','LinkedIn','TikTok'],datasets:[
     {label:'BIHL',data:[420,340,260,180,140,110],backgroundColor:GREEN,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
     {label:'Botswana Life',data:[320,240,190,120,90,80],backgroundColor:INK,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
-    {label:'BIFM',data:[180,160,110,90,140,50],backgroundColor:GREY,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
+    {label:'BIFM',data:[180,160,110,90,140,50],backgroundColor:GREY,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
+    {label:'BIC',data:[210,180,120,90,70,60],backgroundColor:BIC_COLOR,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
   ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:14}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},ticks:{callback:v=>v+'K',maxTicksLimit:5}}}}});
   // Digital ad-spend detected across competitors (Meta Ad Library + Google Ads Transparency + X Ad Repository)
   charts.digitalCompetitive=new Chart(document.getElementById('digitalCompetitive'),{type:'bar',data:{labels:['Meta','Google','YouTube','LinkedIn','TikTok'],datasets:[
