@@ -671,7 +671,7 @@
           </div>
 
           <div class="card">
-            <h3>Footprint <span class="tag">30 days</span></h3>
+            <h3>Footprint <span class="tag date-label">Last 30 days</span></h3>
             <div class="kpis">
               <div class="kpi"><div class="n" id="kpi-impressions">124.4K</div><div class="l">Impressions</div></div>
               <div class="kpi"><div class="n" id="kpi-reach">89.2K</div><div class="l">Reach</div></div>
@@ -684,7 +684,7 @@
 
         <div class="grid g2-31" style="margin-top:18px">
           <div class="card">
-            <h3>Media type over time <span class="tag">Last 30 days</span></h3>
+            <h3>Media type over time <span class="tag date-label">Last 30 days</span></h3>
             <div class="chartbox"><canvas id="mediaType"></canvas></div>
           </div>
           <div class="card">
@@ -766,7 +766,7 @@
         <div id="tab-demographics" class="tab-panel" style="display:none">
           <div class="grid g2" style="margin-top:0">
             <div class="card">
-              <h3>Audience by age <span class="tag">Last 30 days</span></h3>
+              <h3>Audience by age <span class="tag date-label">Last 30 days</span></h3>
               <div class="bars" id="dem-age" style="margin-top:14px">
                 <div class="b"><div class="top"><span class="name">18–24</span><span class="pct">11%</span></div><div class="track"><i style="width:11%;background:var(--c1)"></i></div></div>
                 <div class="b"><div class="top"><span class="name">25–34</span><span class="pct">28%</span></div><div class="track"><i style="width:28%;background:var(--c1)"></i></div></div>
@@ -777,7 +777,7 @@
               <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5"><span data-mc-tpl="The audience your coverage is reaching skews 25–44 — the primary buying window for {CLIENT}'s brand, product and service portfolio.">The audience your coverage is reaching skews 25–44 — the primary buying window for BIHL Group's life, health and asset-management products.</span></div>
             </div>
             <div class="card">
-              <h3>Audience by region <span class="tag">Last 30 days</span></h3>
+              <h3>Audience by region <span class="tag date-label">Last 30 days</span></h3>
               <div class="bars" id="dem-region" style="margin-top:14px">
                 <div class="b"><div class="top"><span class="name">Gaborone &amp; South East</span><span class="pct">48%</span></div><div class="track"><i style="width:48%;background:var(--c1)"></i></div></div>
                 <div class="b"><div class="top"><span class="name">Francistown &amp; North East</span><span class="pct">19%</span></div><div class="track"><i style="width:19%;background:var(--c1)"></i></div></div>
@@ -790,7 +790,7 @@
           </div>
           <div class="grid g2" style="margin-top:18px">
             <div class="card">
-              <h3>Language mix <span class="tag">Last 30 days</span></h3>
+              <h3>Language mix <span class="tag date-label">Last 30 days</span></h3>
               <div class="bars" id="dem-language" style="margin-top:14px">
                 <div class="b"><div class="top"><span class="name">English</span><span class="pct">54%</span></div><div class="track"><i style="width:54%;background:var(--c1)"></i></div></div>
                 <div class="b"><div class="top"><span class="name">Setswana</span><span class="pct">33%</span></div><div class="track"><i style="width:33%;background:var(--c1)"></i></div></div>
@@ -799,7 +799,7 @@
               <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.5">MediaClip's Setswana coverage — a third of your total — is invisible on the international platforms. This is the wedge that isn't in your Meltwater report.</div>
             </div>
             <div class="card">
-              <h3>Platform &amp; channel <span class="tag">Last 30 days</span></h3>
+              <h3>Platform &amp; channel <span class="tag date-label">Last 30 days</span></h3>
               <div class="bars" id="dem-platform" style="margin-top:14px">
                 <div class="b"><div class="top"><span class="name">Digital ads (Meta · Google · YouTube · X · LinkedIn · TikTok)</span><span class="pct">28%</span></div><div class="track"><i style="width:28%;background:#1FA97A"></i></div></div>
                 <div class="b"><div class="top"><span class="name">Radio stations</span><span class="pct">22%</span></div><div class="track"><i style="width:22%;background:var(--c1)"></i></div></div>
@@ -1959,10 +1959,13 @@
       setClientBadge(clientData.display);
 
       // ---- KPI tiles ----
-      // If any client-side filters are active, recompute KPIs from filtered mentions;
-      // otherwise trust the backend footprint numbers.
-      const filtersActive = window.mcFilters && (mcFilters.sent !== "all" || mcFilters.type !== "all" || clientBrands);
-      if (filtersActive){
+      // Always recompute KPIs from the current filtered mention set — so what a
+      // reader sees in the cards matches what they see in the feed below. This
+      // used to only trigger when sentiment/type filters were active, which meant
+      // changing the date range visibly filtered the mention feed but left the
+      // KPI tiles showing stale seed values. Every filter — client, date, sent,
+      // type — is already reflected in `mentions` by this point.
+      {
         const reach = mentions.reduce((s,m)=>s+(Number(m.reach)||0),0);
         const impressions = mentions.reduce((s,m)=>s+(Number(m.impressions)||0),0);
         const engagements = mentions.reduce((s,m)=>s+(Number(m.engagements)||0),0);
@@ -1972,12 +1975,18 @@
         setEl("kpi-reach",       _fmt(reach));
         setEl("kpi-engagements", _fmt(engagements));
         setEl("kpi-positive",    positivePct == null ? "-" : positivePct + "%");
-      } else {
-        const fp = (d && d.footprint) || {};
-        setEl("kpi-impressions", _fmt(fp.impressions));
-        setEl("kpi-reach",       _fmt(fp.reach));
-        setEl("kpi-engagements", _fmt(fp.engagements));
-        setEl("kpi-positive",    (fp.positive_pct == null ? "-" : fp.positive_pct + "%"));
+        // Also refresh every date label on the dashboard so no header can drift
+        // away from the actual query window. The page-title chip is refreshed
+        // by id; every card-header tag with class `date-label` is refreshed too.
+        try {
+          const opt = (typeof DATE_OPTIONS !== 'undefined')
+            ? DATE_OPTIONS.find(o=>o.value===(window.mcFilters||{}).date)
+            : null;
+          const label = opt ? opt.label : 'Last 30 days';
+          const chip = document.getElementById('chip-dashboard');
+          if (chip) chip.textContent = label;
+          document.querySelectorAll('.date-label').forEach(el => { el.textContent = label; });
+        } catch(e){}
       }
 
       updateDashboardCharts(d, mentions);
