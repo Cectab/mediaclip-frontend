@@ -3823,7 +3823,7 @@ Issued by the BIHL Group Communications Office`;
       const backendBase = (window.MC_BACKEND || 'https://mediaclip-backend.onrender.com').replace(/\/$/, '');
       const token = null;
       try { /* MC_DATA_TOKEN is used server-side; the frontend uses the tenant JWT via mc_token */ } catch(e){}
-      const jwt = (function(){ try { return localStorage.getItem('mc_token') || ''; } catch(e){ return ''; }})();
+      const jwt = (typeof mcAuthGetToken === 'function') ? (await mcAuthGetToken()) : (function(){ try { return localStorage.getItem('mc_jwt') || ''; } catch(e){ return ''; }})();
       const url = `${backendBase}/api/tenant/${encodeURIComponent(tenantKey)}/ads?days=${days}&limit=200`;
       const res = await fetch(url, { headers: { 'Authorization': 'Bearer ' + jwt }});
       if (!res.ok){
