@@ -638,7 +638,8 @@
         <div class="tabs" id="dashboard-tabs">
           <button class="active" data-tab="performance">Performance</button>
           <button data-tab="article-clips">Article Clips</button>
-          <button data-tab="advert-clips">Radio &amp; Broadcast</button>
+          <button data-tab="advert-clips">Advert Clips</button>
+          <button data-tab="broadcast">Radio &amp; Broadcast</button>
           <button data-tab="demographics">Demographics</button>
         </div>
 
@@ -749,12 +750,46 @@
           </div>
         </div>
 
-        <!-- ADVERT CLIPS PANEL -->
+        <!-- ADVERT CLIPS PANEL — paid digital ad creative from Meta / Google / LinkedIn / TikTok / X libraries -->
         <div id="tab-advert-clips" class="tab-panel" style="display:none">
           <div class="clips-card">
             <div class="clips-head">
+              <h3>Advert clips <span style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.05em;margin-left:8px" id="tab-ads-total">Loading…</span></h3>
+              <div style="font-size:12px;color:var(--muted)">Paid creative from Meta Ad Library, Google Ads Transparency, LinkedIn Ad Library, TikTok Commercial Content Library and X Ad Repository — for your monitored brands and competitors.</div>
+            </div>
+            <!-- Filter chips -->
+            <div style="display:flex;gap:6px;flex-wrap:wrap;padding:12px 0 16px;font-size:12px" id="tab-ads-filters">
+              <button class="clip-chip on" data-af="platform" data-v="all">All platforms</button>
+              <button class="clip-chip" data-af="platform" data-v="facebook">Facebook</button>
+              <button class="clip-chip" data-af="platform" data-v="instagram">Instagram</button>
+              <button class="clip-chip" data-af="platform" data-v="google_search">Google</button>
+              <button class="clip-chip" data-af="platform" data-v="youtube">YouTube</button>
+              <button class="clip-chip" data-af="platform" data-v="linkedin">LinkedIn</button>
+              <button class="clip-chip" data-af="platform" data-v="tiktok">TikTok</button>
+              <button class="clip-chip" data-af="platform" data-v="x">X</button>
+              <span style="border-left:1px solid var(--line);margin:0 6px"></span>
+              <button class="clip-chip on" data-af="advertiser" data-v="all">All advertisers</button>
+              <button class="clip-chip" data-af="advertiser" data-v="client">Client brands</button>
+              <button class="clip-chip" data-af="advertiser" data-v="competitor">Competitors</button>
+              <span style="border-left:1px solid var(--line);margin:0 6px"></span>
+              <button class="clip-chip on" data-af="language" data-v="all">All languages</button>
+              <button class="clip-chip" data-af="language" data-v="en">English</button>
+              <button class="clip-chip" data-af="language" data-v="tn">Setswana</button>
+              <button class="clip-chip" data-af="language" data-v="en+tn">Code-switched</button>
+            </div>
+            <!-- Ads grid -->
+            <div id="tab-ads-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px">
+              <div class="clip-empty" style="grid-column:1/-1">Loading advert clips…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RADIO & BROADCAST PANEL — editorial mentions on radio + TV -->
+        <div id="tab-broadcast" class="tab-panel" style="display:none">
+          <div class="clips-card">
+            <div class="clips-head">
               <h3>Radio &amp; Broadcast clips <span style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.05em;margin-left:8px" id="tab-adverts-total">Loading…</span></h3>
-              <div style="font-size:12px;color:var(--muted)">Broadcast news, current affairs and radio programming mentioning your brands — including Setswana callers and studio discussions. Paid-advert detection appears here when the paid-media source syncs are configured for your tenant.</div>
+              <div style="font-size:12px;color:var(--muted)">Broadcast news, current affairs and radio programming mentioning your brands — including Setswana callers and studio discussions.</div>
             </div>
             <div class="clips-list" id="tab-adverts-list">
               <div class="clip-empty">Loading clips…</div>
@@ -3765,8 +3800,125 @@ Issued by the BIHL Group Communications Office`;
   // =====================================================================
   const DASHBOARD_TAB_FILTER = {
     "article-clips": ["print","online"],
-    "advert-clips":  ["radio","broadcast"]
+    "broadcast":     ["radio","broadcast"]
+    // "advert-clips" is not a mention-type filter — it fetches from /api/tenant/:id/ads
   };
+
+  // Client-side filter state for the Advert Clips tab (platform / advertiser / language)
+  const mcAdsFilter = { platform: 'all', advertiser: 'all', language: 'all' };
+  window._lastAds = [];
+
+  // --------------------------------------------------------------------
+  // Advert Clips — fetch from /api/tenant/:tenantKey/ads and render grid
+  // --------------------------------------------------------------------
+  async function mcLoadAdverts(){
+    const grid = document.getElementById('tab-ads-grid');
+    const totalEl = document.getElementById('tab-ads-total');
+    if (!grid) return;
+    try {
+      const tenantKey = (window.mcFilters && mcFilters.client) || 'BIHL Group';
+      const days = (window.mcFilters && mcFilters.date && mcFilters.date !== 'all')
+        ? parseInt(mcFilters.date, 10) || 30
+        : 90;
+      const backendBase = (window.MC_BACKEND || 'https://mediaclip-backend.onrender.com').replace(/\/$/, '');
+      const token = null;
+      try { /* MC_DATA_TOKEN is used server-side; the frontend uses the tenant JWT via mc_token */ } catch(e){}
+      const jwt = (function(){ try { return localStorage.getItem('mc_token') || ''; } catch(e){ return ''; }})();
+      const url = `${backendBase}/api/tenant/${encodeURIComponent(tenantKey)}/ads?days=${days}&limit=200`;
+      const res = await fetch(url, { headers: { 'Authorization': 'Bearer ' + jwt }});
+      if (!res.ok){
+        renderAdsEmpty(grid, totalEl, `Cannot reach the ads endpoint (${res.status}). Once Meta Ad Library ingestion is live, this fills automatically.`);
+        return;
+      }
+      const data = await res.json();
+      const ads = Array.isArray(data.ads) ? data.ads : [];
+      window._lastAds = ads;
+      mcRenderAdsGrid();
+    } catch (err) {
+      renderAdsEmpty(grid, totalEl, 'Cannot reach the ads endpoint yet. Once Meta Ad Library ingestion is live, this fills automatically.');
+    }
+  }
+
+  function renderAdsEmpty(grid, totalEl, msg){
+    grid.innerHTML = `<div class="clip-empty" style="grid-column:1/-1;padding:32px 20px;text-align:center;color:var(--muted);font-size:13px">${_escapeHtml(msg)}</div>`;
+    if (totalEl) totalEl.textContent = '0 ads';
+  }
+
+  function mcRenderAdsGrid(){
+    const grid = document.getElementById('tab-ads-grid');
+    const totalEl = document.getElementById('tab-ads-total');
+    if (!grid) return;
+    let ads = window._lastAds || [];
+    // Apply client-side filter chips
+    if (mcAdsFilter.platform !== 'all') ads = ads.filter(a => (a.platform||'') === mcAdsFilter.platform);
+    if (mcAdsFilter.advertiser === 'client'){
+      const client = (window.mcFilters && mcFilters.client) || 'BIHL Group';
+      ads = ads.filter(a => (a.advertiser_brand_group||'').toLowerCase().includes(client.toLowerCase()) || (a.advertiser_brand_group||'') === client);
+    } else if (mcAdsFilter.advertiser === 'competitor'){
+      const client = (window.mcFilters && mcFilters.client) || 'BIHL Group';
+      ads = ads.filter(a => a.advertiser_brand_group && !((a.advertiser_brand_group||'').toLowerCase().includes(client.toLowerCase())));
+    }
+    if (mcAdsFilter.language !== 'all') ads = ads.filter(a => (a.language||'') === mcAdsFilter.language);
+
+    if (!ads.length){
+      renderAdsEmpty(grid, totalEl, 'No advert clips match this filter yet. Once Meta / Google / LinkedIn ingesters produce coverage against your monitored brands, cards appear here.');
+      return;
+    }
+
+    const platformLabel = { facebook:'Facebook', instagram:'Instagram', google_search:'Google Search', google_display:'Google Display', youtube:'YouTube', linkedin:'LinkedIn', tiktok:'TikTok', x:'X' };
+    const platformColor = { facebook:'#1877F2', instagram:'#E1306C', google_search:'#4285F4', google_display:'#EA4335', youtube:'#FF0000', linkedin:'#0A66C2', tiktok:'#000000', x:'#000000' };
+    const langLabel = { en:'English', tn:'Setswana', 'en+tn':'Code-switched' };
+
+    grid.innerHTML = ads.map(a => {
+      const p = a.platform || 'facebook';
+      const first = a.first_seen_at ? _fmtDate(a.first_seen_at) : '—';
+      const impLow = a.impressions_lower, impHigh = a.impressions_upper;
+      const impStr = (impLow && impHigh) ? `${_fmt(impLow)}–${_fmt(impHigh)}` : (impLow ? `${_fmt(impLow)}+` : '—');
+      const spendLow = a.spend_lower, spendHigh = a.spend_upper;
+      const spendStr = (spendLow && spendHigh) ? `${a.currency||'USD'} ${spendLow.toLocaleString()}–${spendHigh.toLocaleString()}` : '—';
+      const previewImg = a.preview_url
+        ? `<img src="${_escapeHtml(a.preview_url)}" alt="Ad preview" style="width:100%;height:180px;object-fit:cover;border-radius:8px;background:var(--bg)" loading="lazy" onerror="this.style.display='none'">`
+        : `<div style="width:100%;height:180px;border-radius:8px;background:linear-gradient(135deg,var(--bg),var(--line));display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Preview unavailable</div>`;
+      const sourceLink = a.source_url
+        ? `<a href="${_escapeHtml(a.source_url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--red);text-decoration:none">View on ${_escapeHtml(platformLabel[p]||p)} ↗</a>`
+        : '';
+      return `
+        <div class="ad-card" style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,box-shadow .15s">
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)">
+            <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${platformColor[p]||'#666'}"></span>
+            <strong style="color:var(--ink);font-weight:700">${_escapeHtml(a.advertiser_name || 'Unknown advertiser')}</strong>
+            ${a.advertiser_verified ? '<span title="Verified advertiser" style="color:#1877F2;font-size:11px">✓</span>' : ''}
+            <span style="margin-left:auto;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;font-size:10px">${_escapeHtml(platformLabel[p]||p)}</span>
+          </div>
+          ${previewImg}
+          ${a.headline ? `<div style="font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.35">${_escapeHtml(a.headline)}</div>` : ''}
+          ${a.body_text ? `<div style="font-size:12.5px;color:var(--text);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">${_escapeHtml(a.body_text)}</div>` : ''}
+          <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:10.5px;color:var(--muted);margin-top:4px">
+            <span style="background:var(--bg);padding:2px 8px;border-radius:10px;font-weight:600">🇧🇼 BW</span>
+            <span style="background:var(--bg);padding:2px 8px;border-radius:10px;font-weight:600">${_escapeHtml(langLabel[a.language]||a.language||'—')}</span>
+            <span style="background:var(--bg);padding:2px 8px;border-radius:10px">First seen ${first}</span>
+          </div>
+          <div style="font-size:10.5px;color:var(--muted);line-height:1.4">
+            <span>Est. impressions ${impStr}</span> · <span>Spend ${spendStr}</span>
+          </div>
+          ${sourceLink}
+        </div>
+      `;
+    }).join('');
+    if (totalEl) totalEl.textContent = ads.length + (ads.length === 1 ? ' ad' : ' ads');
+  }
+
+  // Wire the filter chips
+  document.addEventListener('click', function(e){
+    const chip = e.target.closest('#tab-ads-filters .clip-chip');
+    if (!chip) return;
+    const filter = chip.dataset.af, value = chip.dataset.v;
+    if (!filter || !value) return;
+    document.querySelectorAll(`#tab-ads-filters .clip-chip[data-af="${filter}"]`).forEach(c => c.classList.remove('on'));
+    chip.classList.add('on');
+    mcAdsFilter[filter] = value;
+    mcRenderAdsGrid();
+  });
   let mcActiveDashTab = "performance";
 
   // Render a filtered clippings feed into a given container (reuses the Listening clippings styling)
@@ -3829,12 +3981,17 @@ Issued by the BIHL Group Communications Office`;
       "performance":   document.getElementById("tab-performance"),
       "article-clips": document.getElementById("tab-article-clips"),
       "advert-clips":  document.getElementById("tab-advert-clips"),
+      "broadcast":     document.getElementById("tab-broadcast"),
       "demographics":  document.getElementById("tab-demographics"),
     };
     Object.entries(panels).forEach(([key, el]) => {
       if (!el) return;
       el.style.display = (key === mcActiveDashTab) ? "" : "none";
     });
+    // Advert Clips fetches from its own /ads endpoint when it becomes active
+    if (mcActiveDashTab === "advert-clips"){
+      if (typeof mcLoadAdverts === "function") mcLoadAdverts();
+    }
     // Populate clip panels when they become active
     if (mcActiveDashTab === "article-clips" && mentions){
       mcRenderTabClips(
@@ -3843,12 +4000,12 @@ Issued by the BIHL Group Communications Office`;
         mentions,
         DASHBOARD_TAB_FILTER["article-clips"]
       );
-    } else if (mcActiveDashTab === "advert-clips" && mentions){
+    } else if (mcActiveDashTab === "broadcast" && mentions){
       mcRenderTabClips(
         document.getElementById("tab-adverts-list"),
         document.getElementById("tab-adverts-total"),
         mentions,
-        DASHBOARD_TAB_FILTER["advert-clips"]
+        DASHBOARD_TAB_FILTER["broadcast"]
       );
     }
     // Resize charts if returning to Performance so they redraw correctly
