@@ -1746,13 +1746,19 @@
     return d.toISOString();
   }
   function _mkMention(brand, source, type, sent, sentType, prio, days, title, content, reach, imp, eng, ad, lang){
+    // Seed mentions do NOT get a fake URL — the previous fake-URL generator
+    // produced broken links like https://x.co.bw/…-title-slug which 404'd
+    // during demos. Real mentions ingested from Datastreamer carry the real
+    // source URL, so "Open source ↗" appears only on rows that actually link
+    // somewhere; seed rows show no source button.
     return {
       brand: brand, source: source, media_type: type,
       sentiment: sent, sentiment_type: sentType, priority: prio,
       published_at: _iso(days),
       reach: reach, impressions: imp, engagements: eng, ad_value: ad,
       title: title, content: content,
-      url: "https://" + source.toLowerCase().replace(/[^a-z0-9]/g,'') + ".co.bw/" + title.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40),
+      url: null,
+      is_demo: true,
       language: lang || "en"
     };
   }
