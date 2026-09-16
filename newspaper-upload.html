@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediaClip — Upload Newspaper</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #121821;
+      --panel-2: #1a2231;
+      --text: #f2f5f8;
+      --muted: #8892a0;
+      --accent: #3b82f6;
+      --accent-2: #60a5fa;
+      --border: #23303f;
+      --ok: #22c55e;
+      --warn: #f59e0b;
+      --err: #ef4444;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .wrap {
+      width: 100%;
+      max-width: 680px;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0 0 4px;
+      letter-spacing: -0.01em;
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 24px;
+      line-height: 1.5;
+    }
+    .paper-select {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .paper-select label {
+      color: var(--muted);
+      font-size: 13px;
+      width: 100%;
+      margin-bottom: 4px;
+    }
+    .paper-chip {
+      padding: 8px 14px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .paper-chip:hover { border-color: var(--accent); }
+    .paper-chip.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .dropzone {
+      background: var(--panel);
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .dropzone.hover {
+      border-color: var(--accent);
+      background: var(--panel-2);
+    }
+    .dropzone-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      opacity: 0.6;
+    }
+    .dropzone-text {
+      font-size: 16px;
+      margin: 0 0 6px;
+    }
+    .dropzone-hint {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+    input[type="file"] { display: none; }
+    .status {
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--panel);
+      border-radius: 8px;
+      display: none;
+    }
+    .status.active { display: block; }
+    .status-title {
+      font-size: 14px;
+      font-weight: 500;
+      margin: 0 0 10px;
+    }
+    .status.ok .status-title { color: var(--ok); }
+    .status.warn .status-title { color: var(--warn); }
+    .status.err .status-title { color: var(--err); }
+    .status-body { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .brand-count {
+      display: inline-block;
+      background: var(--panel-2);
+      padding: 4px 10px;
+      border-radius: 6px;
+      color: var(--accent-2);
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 12px;
+      margin: 4px 6px 0 0;
+    }
+    .progress {
+      height: 3px;
+      background: var(--panel-2);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .progress-bar {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.3s;
+    }
+    footer {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      margin-top: 32px;
+    }
+    footer code {
+      background: var(--panel);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 11px;
+    }
+    #snippets { margin-top: 12px; }
+    .snippet {
+      background: var(--panel-2);
+      padding: 8px 12px;
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      margin: 6px 0;
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .snippet strong { color: var(--accent-2); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Upload newspaper</h1>
+    <p class="sub">Drop the PDF you received by email or WhatsApp. MediaClip extracts the text right in your browser and files every mention of your tracked brands into the database.</p>
+
+    <div class="paper-select">
+      <label>Which paper is this?</label>
+      <button class="paper-chip active" data-key="botswana-gazette" data-name="Botswana Gazette">Botswana Gazette</button>
+      <button class="paper-chip" data-key="daily-news" data-name="Daily News">Daily News</button>
+      <button class="paper-chip" data-key="patriot-on-sunday" data-name="Patriot on Sunday">Patriot on Sunday</button>
+      <button class="paper-chip" data-key="the-voice" data-name="The Voice">The Voice</button>
+      <button class="paper-chip" data-key="weekend-post" data-name="Weekend Post">Weekend Post</button>
+      <button class="paper-chip" data-key="sunday-standard" data-name="Sunday Standard">Sunday Standard</button>
+      <button class="paper-chip" data-key="business-weekly" data-name="Business Weekly">Business Weekly</button>
+      <button class="paper-chip" data-key="mmegi" data-name="Mmegi">Mmegi</button>
+      <button class="paper-chip" data-key="botswana-guardian" data-name="Botswana Guardian">Botswana Guardian</button>
+    </div>
+
+    <div class="dropzone" id="dropzone">
+      <div class="dropzone-icon">📄</div>
+      <p class="dropzone-text">Drop PDF here — or click to select</p>
+      <p class="dropzone-hint">One or many · Text extracted in your browser · No file leaves your device except the mention snippets</p>
+      <input type="file" id="fileInput" accept="application/pdf,.pdf" multiple>
+    </div>
+
+    <div class="status" id="status">
+      <p class="status-title" id="statusTitle"></p>
+      <div class="status-body" id="statusBody"></div>
+      <div class="progress" id="progress" style="display:none">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div id="snippets"></div>
+    </div>
+
+    <footer>
+      MediaClip Botswana · uploads land in <code>mediaclip_mentions</code>
+    </footer>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs" type="module"></script>
+  <script type="module">
+    import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs';
+
+    const BACKEND = 'https://mediaclip-backend.onrender.com';
+    const WEBHOOK_URL = BACKEND + '/api/datastreamer/webhook';
+    // Public-side webhook secret — same one the scrapers use. If your instance
+    // rotated this, update it here.
+    const WEBHOOK_SECRET = 'mediaclip_ads_wh_2026_9f4a7c1d8e6b';
+
+    const TRACKED_BRANDS = ["BIHL Group","Botswana Life","BIFM","BIC","Botswana Insurance Company","Sanlam Botswana","Old Mutual Botswana","Metropolitan Botswana"];
+
+    const SETSWANA_MARKERS = ['dumela','tsala','pula','motho','batho','setswana','tshelete','kgotla','morafe','naga'];
+    function detectLanguage(text) {
+      if (!text) return { language: 'en', confidence: 0.5 };
+      const t = text.toLowerCase();
+      let hits = 0;
+      for (const m of SETSWANA_MARKERS) if (t.includes(m)) hits++;
+      if (hits >= 4) return { language: 'tn', confidence: Math.min(0.5 + hits * 0.05, 0.95) };
+      if (hits >= 1) return { language: 'en+tn', confidence: 0.6 };
+      return { language: 'en', confidence: 0.7 };
+    }
+
+    function brandGroupFor(brand) {
+      const s = (brand || '').toLowerCase();
+      if (s.includes('bihl') || s.includes('botswana insurance company') || s.match(/\bbic\b/)) return 'BIHL Group';
+      if (s.includes('botswana life')) return 'Botswana Life';
+      if (s.includes('bifm')) return 'BIFM';
+      if (s.includes('sanlam')) return 'Sanlam Botswana';
+      if (s.includes('old mutual')) return 'Old Mutual Botswana';
+      if (s.includes('metropolitan')) return 'Metropolitan Botswana';
+      return 'Other';
+    }
+
+    async function extractPdfText(file) {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      let fullText = '';
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        const pageText = content.items.map(item => item.str).join(' ');
+        fullText += pageText + '\n\n';
+      }
+      return fullText;
+    }
+
+    function findMentions(text, paperName) {
+      const mentions = [];
+      const lines = text.split(/[\n\r]+/);
+      for (const brand of TRACKED_BRANDS) {
+        const escaped = brand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`\\b${escaped}\\b`, 'ig');
+        for (let i = 0; i < lines.length; i++) {
+          if (regex.test(lines[i])) {
+            const start = Math.max(0, i - 1);
+            const end = Math.min(lines.length, i + 3);
+            const snippet = lines.slice(start, end).join(' ').trim().slice(0, 800);
+            const lang = detectLanguage(snippet);
+            mentions.push({
+              brand,
+              brand_group: brandGroupFor(brand),
+              snippet,
+              paper: paperName,
+              language: lang.language,
+              language_confidence: lang.confidence,
+            });
+          }
+        }
+      }
+      return mentions;
+    }
+
+    async function pushMentions(mentions, paperKey, paperName, filename) {
+      let ingested = 0;
+      for (let i = 0; i < mentions.length; i++) {
+        const m = mentions[i];
+        const doc = {
+          id: `upload-${paperKey}-${Date.now()}-${i}`,
+          title: `${paperName} — ${m.brand} mention`,
+          text: m.snippet,
+          content: m.snippet,
+          source: `print_${paperKey.replace(/-/g, '_')}`,
+          publisher: paperName,
+          data_source: `print_${paperKey.replace(/-/g, '_')}`,
+          published_at: new Date().toISOString(),
+          created_at: new Date().toISOString(),
+          language: m.language,
+          url: `mediaclip://upload/${encodeURIComponent(filename)}`,
+          sentiment: null,
+          sentiment_type: null,
+          priority: 'normal',
+          engagement: {},
+          metrics: {},
+          brand: m.brand,
+          brand_group: m.brand_group,
+        };
+        try {
+          const res = await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-datastreamer-secret': WEBHOOK_SECRET },
+            body: JSON.stringify(doc),
+          });
+          if (res.ok) ingested++;
+        } catch (e) { /* count as failure, continue */ }
+      }
+      return ingested;
+    }
+
+    // UI wiring
+    let selectedPaperKey = 'botswana-gazette';
+    let selectedPaperName = 'Botswana Gazette';
+    document.querySelectorAll('.paper-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.paper-chip').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedPaperKey = btn.dataset.key;
+        selectedPaperName = btn.dataset.name;
+      });
+    });
+
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const status = document.getElementById('status');
+    const statusTitle = document.getElementById('statusTitle');
+    const statusBody = document.getElementById('statusBody');
+    const progress = document.getElementById('progress');
+    const progressBar = document.getElementById('progressBar');
+    const snippetsEl = document.getElementById('snippets');
+
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('hover'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('hover'));
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropzone.classList.remove('hover');
+      handleFiles(Array.from(e.dataTransfer.files));
+    });
+    fileInput.addEventListener('change', e => handleFiles(Array.from(e.target.files)));
+
+    async function handleFiles(files) {
+      const pdfs = files.filter(f => f.type === 'application/pdf' || /\.pdf$/i.test(f.name));
+      if (!pdfs.length) return showStatus('err', 'Not a PDF', 'Please drop a PDF file.');
+
+      showStatus('warn', `Processing ${pdfs.length} PDF${pdfs.length > 1 ? 's' : ''}…`, `Extracting text — this happens in your browser, no upload yet.`);
+      progress.style.display = 'block';
+      snippetsEl.innerHTML = '';
+
+      const totalByBrand = {};
+      let totalMentions = 0;
+      let totalIngested = 0;
+      const allSnippets = [];
+
+      for (let i = 0; i < pdfs.length; i++) {
+        const file = pdfs[i];
+        progressBar.style.width = `${((i + 0.3) / pdfs.length) * 100}%`;
+        showStatus('warn', `Processing ${file.name}…`, `Extracting text from ${file.name}.`);
+        try {
+          const text = await extractPdfText(file);
+          if (text.length < 500) {
+            showStatus('warn', `${file.name} — image PDF`, `Only ${text.length} characters extracted. This is likely a scanned image — OCR would be needed. Skipping.`);
+            continue;
+          }
+          progressBar.style.width = `${((i + 0.6) / pdfs.length) * 100}%`;
+
+          const mentions = findMentions(text, selectedPaperName);
+          for (const m of mentions) {
+            totalByBrand[m.brand] = (totalByBrand[m.brand] || 0) + 1;
+            if (allSnippets.length < 6) allSnippets.push(m);
+          }
+          totalMentions += mentions.length;
+
+          if (mentions.length) {
+            showStatus('warn', `${file.name} — sending ${mentions.length} mentions`, `Filing into <code>mediaclip_mentions</code>.`);
+            const ingested = await pushMentions(mentions, selectedPaperKey, selectedPaperName, file.name);
+            totalIngested += ingested;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      progressBar.style.width = '100%';
+
+      let brandHtml = '';
+      for (const [brand, count] of Object.entries(totalByBrand).sort((a,b) => b[1]-a[1])) {
+        brandHtml += `<span class="brand-count">${brand} × ${count}</span>`;
+      }
+      showStatus('ok',
+        `Done — ${totalMentions} mention${totalMentions !== 1 ? 's' : ''}, ${totalIngested} filed`,
+        `<div>${brandHtml || '<em>No tracked brands mentioned in this issue.</em>'}</div>`
+      );
+
+      snippetsEl.innerHTML = '';
+      for (const m of allSnippets) {
+        const snip = document.createElement('div');
+        snip.className = 'snippet';
+        const highlighted = m.snippet.replace(new RegExp(m.brand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'ig'), s => `<strong>${s}</strong>`);
+        snip.innerHTML = `<div style="color: var(--accent-2); font-size: 11px; margin-bottom: 4px;">${m.brand} · ${m.language}</div>${highlighted}`;
+        snippetsEl.appendChild(snip);
+      }
+
+      setTimeout(() => { progress.style.display = 'none'; progressBar.style.width = '0%'; }, 1500);
+    }
+
+    function showStatus(kind, title, body) {
+      status.className = 'status active ' + kind;
+      statusTitle.textContent = title;
+      statusBody.innerHTML = body;
+    }
+  </script>
+</body>
+</html>
