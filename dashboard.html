@@ -1657,91 +1657,84 @@
     const src = (source || '').toLowerCase();
     const kwFromTitle = (title || brand || '').replace(/[^\w\s]/g,' ').replace(/\s+/g,' ').trim().slice(0, 80);
     const kwEnc = encodeURIComponent(kwFromTitle);
+    const brandEnc = encodeURIComponent(brand || '');
+    const googleSite = function(domain){
+      return 'https://www.google.com/search?q=' + encodeURIComponent('site:' + domain + ' ' + kwFromTitle);
+    };
 
-    // Drop clearly broken patterns — replaced with a working search URL
-    if (url) {
-      // Placeholder / demo-seed URLs: short numeric IDs and short kebab slugs
-      // that don't correspond to real posts on these platforms.
-      // Real X status IDs are 18-19 digits; anything shorter is fake.
-      if (/x\.com\/(?:i\/status\/|status\/)\d{1,10}(?:$|\?|\/)/i.test(url) ||
-          /twitter\.com\/[^/]+\/status\/\d{1,10}(?:$|\?|\/)/i.test(url)) {
-        return 'https://x.com/search?q=' + kwEnc;
-      }
-      // Facebook doesn't use /post/<N> — that's a placeholder pattern
-      if (/facebook\.com\/post\/\d+/i.test(url)) {
-        return 'https://www.facebook.com/search/top?q=' + kwEnc;
-      }
-      // LinkedIn real post URLs contain a long numeric activity id; short slugs are fake
-      if (/linkedin\.com\/posts\/[a-z0-9\-]{1,20}\/?$/i.test(url)) {
-        return 'https://www.linkedin.com/search/results/content/?keywords=' + kwEnc;
-      }
-      // Business Weekly / Sunday Standard placeholder slugs like "bihl-h1-2026"
-      if (/businessweekly\.co\.bw\/[a-z0-9\-]{5,30}$/i.test(url) &&
-          !/\/(latest|news|business|opinion|feature)\//i.test(url)) {
-        return 'https://www.businessweekly.co.bw/?s=' + kwEnc;
-      }
-      if (/sundaystandard\.info\/[a-z0-9\-]{5,30}$/i.test(url) &&
-          !/\/(news|business|in-depth|opinions|20\d\d)\//i.test(url)) {
-        return 'https://www.sundaystandard.info/?s=' + kwEnc;
-      }
-      // LinkedIn fake ad-library detail URL
-      if (/linkedin\.com\/ad-library\/detail\//i.test(url)) {
-        return 'https://www.linkedin.com/ad-library/all-ads?keyword=' + kwEnc;
-      }
-      // TikTok fake ads detail URL
-      if (/library\.tiktok\.com\/ads\/detail\//i.test(url)) {
-        return 'https://library.tiktok.com/ads?region=BW&adv_name=' + kwEnc;
-      }
-      // Mmegi login-only publications URL
-      if (/enews\.mmegi\.bw\/publications\//i.test(url)) {
-        return 'https://www.mmegi.bw';
-      }
-      // Mmegi.bw short seed slugs (real Mmegi articles use /news/... /business/... paths)
-      if (/^https?:\/\/(?:www\.)?mmegi\.bw\/[a-z0-9\-]{2,25}$/i.test(url) &&
-          !/\/(news|business|opinion|feature|columnist|columns|latest|20\d\d)\//i.test(url)) {
-        return 'https://www.mmegi.bw/?s=' + kwEnc;
-      }
-      // The Voice short seed slugs (real Voice articles are longer than 25 chars)
-      if (/^https?:\/\/(?:www\.)?thevoicebw\.com\/[a-z0-9\-]{2,20}\/?$/i.test(url)) {
-        return 'https://thevoicebw.com/?s=' + kwEnc;
-      }
-      // Instagram short seed slugs
-      if (/^https?:\/\/(?:www\.)?instagram\.com\/p\/[A-Za-z0-9_\-]{1,6}\/?$/i.test(url)) {
-        return 'https://www.instagram.com/explore/search/keyword/?q=' + kwEnc;
-      }
-      // Tiktok short seed video IDs (real TikTok video IDs are 19 digits)
-      if (/tiktok\.com\/@[^/]+\/video\/\d{1,10}$/i.test(url)) {
-        return 'https://www.tiktok.com/search?q=' + kwEnc;
-      }
-      // If it already parses as a valid absolute URL, keep it
-      try {
-        const u = new URL(url);
-        if (u.protocol === 'http:' || u.protocol === 'https:') return url;
-      } catch(e){}
+    // Source-scoped fallback — every source we track resolves to a real, working page.
+    // Used both when the URL is missing AND when we've detected the URL is broken/seeded.
+    function fallbackForSource() {
+      if (/meta|facebook/.test(src))                    return 'https://www.facebook.com/search/top?q=' + kwEnc;
+      if (/instagram/.test(src))                        return 'https://www.instagram.com/explore/search/keyword/?q=' + kwEnc;
+      if (/linkedin/.test(src))                         return 'https://www.linkedin.com/search/results/content/?keywords=' + kwEnc;
+      if (/tiktok/.test(src))                           return 'https://www.tiktok.com/search?q=' + kwEnc;
+      if (/google|adstransparency/.test(src))           return 'https://adstransparency.google.com/?region=BW&q=' + kwEnc;
+      if (/twitter|^x$|x\.com/.test(src))               return 'https://x.com/search?q=' + kwEnc;
+      if (/mmegi/.test(src))                            return 'https://www.mmegi.bw/?s=' + kwEnc;
+      if (/patriot/.test(src))                          return 'https://thepatriot.co.bw/?s=' + kwEnc;
+      if (/voice/.test(src))                            return 'https://thevoicebw.com/?s=' + kwEnc;
+      if (/sunday\s*standard|sundaystandard/.test(src)) return 'https://www.sundaystandard.info/?s=' + kwEnc;
+      if (/daily\s*news|dailynews/.test(src))           return googleSite('dailynews.gov.bw');
+      if (/gazette/.test(src))                          return 'https://www.thegazette.news/?s=' + kwEnc;
+      if (/business\s*weekly|businessweekly/.test(src)) return 'https://www.businessweekly.co.bw/?s=' + kwEnc;
+      if (/guardian/.test(src))                         return googleSite('botswanaguardian.co.bw');
+      if (/weekend\s*post|weekendpost/.test(src))       return googleSite('theweekendpost.co.bw');
+      if (/btv/.test(src))                              return googleSite('btv.gov.bw');
+      if (/duma/.test(src))                             return 'https://dumafm.co.bw';
+      if (/yarona/.test(src))                           return 'https://www.yaronafm.co.bw';
+      if (/gabz/.test(src))                             return 'https://www.gabzfm.com';
+      if (/ub\s*radio|university\s*of\s*botswana\s*radio/.test(src)) return googleSite('ub.bw');
+      if (/rb1|radio\s*botswana\s*1/.test(src))         return googleSite('radiobotswana.gov.bw');
+      if (/rb2|rb\s*2|radio\s*botswana\s*2/.test(src))  return googleSite('radiobotswana.gov.bw');
+      if (/now\s*tv|nowtv/.test(src))                   return 'https://nowtvbw.com';
+      if (/ebotswana/.test(src))                        return 'https://www.ebotswana.co.bw';
+      // Final safety net — Google the brand + title. Always works.
+      return 'https://www.google.com/search?q=' + encodeURIComponent((brand || '') + ' ' + kwFromTitle + ' Botswana');
     }
 
-    // Fall back by source when the URL is null / relative / malformed
-    if (/meta|facebook/.test(src))       return 'https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=BW&q=' + kwEnc;
-    if (/instagram/.test(src))           return 'https://www.instagram.com/explore/search/keyword/?q=' + kwEnc;
-    if (/linkedin/.test(src))            return 'https://www.linkedin.com/ad-library/all-ads?keyword=' + kwEnc;
-    if (/tiktok/.test(src))              return 'https://library.tiktok.com/ads?region=BW&adv_name=' + kwEnc;
-    if (/google|adstransparency/.test(src)) return 'https://adstransparency.google.com/?region=BW&q=' + kwEnc;
-    if (/twitter|^x$|x\.com/.test(src))  return 'https://x.com/search?q=' + kwEnc;
-    if (/mmegi/.test(src))               return 'https://www.mmegi.bw';
-    if (/patriot/.test(src))             return 'https://thepatriot.co.bw';
-    if (/voice/.test(src))               return 'https://www.thevoicebw.com';
-    if (/sunday\s*standard|sundaystandard/.test(src)) return 'https://www.sundaystandard.info';
-    if (/daily\s*news|dailynews/.test(src)) return 'http://www.dailynews.gov.bw';
-    if (/gazette/.test(src))             return 'https://www.thegazette.news';
-    if (/business\s*weekly|businessweekly/.test(src)) return 'https://www.businessweekly.co.bw';
-    if (/btv/.test(src))                 return 'https://www.btv.gov.bw';
-    if (/duma/.test(src))                return 'https://dumafm.co.bw';
-    if (/yarona/.test(src))              return 'https://www.yaronafm.co.bw';
-    if (/gabz/.test(src))                return 'https://www.gabzfm.com';
-    if (/rb2|rb\s*2/.test(src))          return 'https://www.gov.bw/ministries-authorities/ministry-communications-knowledge-and-technology';
-    if (/now\s*tv|nowtv/.test(src))      return 'https://nowtvbw.com';
-    if (/ebotswana/.test(src))           return 'https://www.ebotswana.co.bw';
-    return null; // no reliable target — caller should hide the "Open source" affordance
+    // Missing / empty URL → straight to source fallback
+    if (!url) return fallbackForSource();
+
+    // Known-bad DOMAINS: domain doesn't resolve, or is a demo-seed shape
+    if (/^https?:\/\/(?:www\.)?botswanaguardian\.co\.bw/i.test(url)) return fallbackForSource();
+
+    // Placeholder / demo-seed URL patterns
+    // X: real status IDs are 18–19 digits; anything shorter is fake
+    if (/x\.com\/(?:i\/status\/|status\/)\d{1,10}(?:$|\?|\/)/i.test(url) ||
+        /twitter\.com\/[^/]+\/status\/\d{1,10}(?:$|\?|\/)/i.test(url)) return fallbackForSource();
+    // Facebook doesn't use /post/<N> — that's a placeholder pattern
+    if (/facebook\.com\/post\/\d+/i.test(url)) return fallbackForSource();
+    // LinkedIn real post URLs contain a long numeric activity ID
+    if (/linkedin\.com\/posts\/[a-z0-9\-]{1,20}\/?$/i.test(url)) return fallbackForSource();
+    // LinkedIn fake ad-library detail
+    if (/linkedin\.com\/ad-library\/detail\//i.test(url)) return fallbackForSource();
+    // TikTok fake ads detail
+    if (/library\.tiktok\.com\/ads\/detail\//i.test(url)) return fallbackForSource();
+    // Mmegi login-only publications URL
+    if (/enews\.mmegi\.bw\/publications\//i.test(url)) return fallbackForSource();
+    // Business Weekly placeholder slugs (real articles use section paths)
+    if (/^https?:\/\/(?:www\.)?businessweekly\.co\.bw\/[a-z0-9\-]{5,30}\/?$/i.test(url) &&
+        !/\/(latest|news|business|opinion|feature)\//i.test(url)) return fallbackForSource();
+    // Sunday Standard placeholder slugs
+    if (/^https?:\/\/(?:www\.)?sundaystandard\.info\/[a-z0-9\-]{5,30}\/?$/i.test(url) &&
+        !/\/(news|business|in-depth|opinions|20\d\d)\//i.test(url)) return fallbackForSource();
+    // Mmegi.bw short seed slugs (real Mmegi articles use section paths)
+    if (/^https?:\/\/(?:www\.)?mmegi\.bw\/[a-z0-9\-]{2,25}\/?$/i.test(url) &&
+        !/\/(news|business|opinion|feature|columnist|columns|latest|20\d\d)\//i.test(url)) return fallbackForSource();
+    // The Voice: short slugs are seed. Also catch the specific bihl-trust-graduates seed URL that 404s.
+    if (/^https?:\/\/(?:www\.)?thevoicebw\.com\/(?:bihl-trust-graduates|[a-z0-9\-]{2,20})\/?$/i.test(url)) return fallbackForSource();
+    // Instagram short seed slugs
+    if (/^https?:\/\/(?:www\.)?instagram\.com\/p\/[A-Za-z0-9_\-]{1,6}\/?$/i.test(url)) return fallbackForSource();
+    // TikTok short seed video IDs (real IDs are 19 digits)
+    if (/tiktok\.com\/@[^/]+\/video\/\d{1,10}$/i.test(url)) return fallbackForSource();
+
+    // Otherwise: validate URL syntactically. If it parses, keep it; if not, fall back.
+    try {
+      const u = new URL(url);
+      if (u.protocol === 'http:' || u.protocol === 'https:') return url;
+    } catch(e){}
+    return fallbackForSource();
   }
 
   // Batch normalizer for a list of mentions
