@@ -1678,8 +1678,9 @@
       if (/daily\s*news|dailynews/.test(src))           return googleSite('dailynews.gov.bw');
       if (/gazette/.test(src))                          return 'https://www.thegazette.news/?s=' + kwEnc;
       if (/business\s*weekly|businessweekly/.test(src)) return 'https://www.businessweekly.co.bw/?s=' + kwEnc;
-      if (/guardian/.test(src))                         return googleSite('botswanaguardian.co.bw');
-      if (/weekend\s*post|weekendpost/.test(src))       return googleSite('theweekendpost.co.bw');
+      if (/botswana\s*guardian|guardian/.test(src))     return 'https://www.guardiansun.co.bw/?s=' + kwEnc;
+      if (/midweek\s*sun|midweeksun|\bsun\b/.test(src)) return 'https://www.guardiansun.co.bw/?s=' + kwEnc;
+      if (/weekend\s*post|weekendpost/.test(src))       return 'https://weekendpost.co.bw/?s=' + kwEnc;
       if (/btv/.test(src))                              return googleSite('btv.gov.bw');
       if (/duma/.test(src))                             return 'https://dumafm.co.bw';
       if (/yarona/.test(src))                           return 'https://www.yaronafm.co.bw';
