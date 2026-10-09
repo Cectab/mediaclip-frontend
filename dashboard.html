@@ -4560,91 +4560,39 @@ Issued by the BIHL Group Communications Office`;
     {label:'BIHL Group',data:[120,140,135,160,170,158,180,190,175,200,210,205],borderColor:RED,backgroundColor:'rgba(218,31,38,.10)',fill:true,tension:.4,pointRadius:0,borderWidth:2.5},
     {label:'Competition',data:[150,145,160,150,165,170,168,175,180,178,185,190],borderColor:INK,fill:false,tension:.4,pointRadius:0,borderWidth:2,borderDash:[5,4]}
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:16}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},ticks:{maxTicksLimit:5}}}}});
+</script><script>
+(function mcPermanentTenantInjector() {
+  var EXTRA_TENANTS = ['Debswana', 'Botswana Life', 'Ministry of Health'];
+  var MENU_ID = 'dd-client-menu';
+  function injectOnce() {
+    var menu = document.getElementById(MENU_ID);
+    if (!menu) return false;
+    var existing = {};
+    menu.querySelectorAll('button[data-v]').forEach(function (b) {
+      existing[b.getAttribute('data-v')] = true;
+    });
+    EXTRA_TENANTS.forEach(function (t) {
+      if (existing[t]) return;
+      var b = document.createElement('button');
+      b.setAttribute('data-v', t);
+      b.textContent = t;
+      b.onclick = function () {
+        try { localStorage.setItem('mc_f_client', t); } catch (e) {}
+        if (typeof window.mcFetchLiveTenant === 'function') {
+          try { window.mcFetchLiveTenant(t); return; } catch (e) {}
+        }
+        location.reload();
+      };
+      menu.appendChild(b);
+    });
+    return true;
+  }
+  if (!injectOnce()) {
+    var obs = new MutationObserver(function () { injectOnce(); });
+    obs.observe(document.body, { subtree: true, childList: true });
+    setTimeout(function () { obs.disconnect(); }, 10000);
+  }
+})();
 </script>
-# ===========================================================
-# MediaClip Dashboard Regression Auto-Check — GitHub Actions
-#
-# WHAT IT DOES:
-#   Every 6 hours, probes the live backend to confirm:
-#     - /api/health returns 200
-#     - All 5 admin endpoints return 401 with wrong key (= registered)
-#     - All 7 ad platforms have rows in mediaclip_ads
-#     - Mentions table has <= 5 duplicate URLs (triggers dedupe otherwise)
-#   If anything fails, the workflow fails and GitHub emails you.
-#
-# WHERE IT GOES:
-#   File path (new file in Cectab/mediaclip-backend repo):
-#   .github/workflows/dashboard-check.yml
-#
-# ONE-TIME SETUP:
-#   Same ADMIN_API_KEY secret as the dedupe cron. If you've already
-#   added it, nothing else to do.
-#
-# PASTE STEPS:
-#   1. Open https://github.com/Cectab/mediaclip-backend/new/main/.github/workflows
-#   2. Name the file:   dashboard-check.yml
-#   3. Paste EVERYTHING below the DIVIDER line.
-#   4. Commit directly to main.
-#   5. Workflow runs 4x daily; failures email you.
-# ===========================================================
-# ------------------------- DIVIDER -------------------------
-name: Dashboard Regression Check
-
-on:
-  schedule:
-    # Every 6 hours
-    - cron: '0 */6 * * *'
-  workflow_dispatch:
-
-jobs:
-  check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: /api/health up
-        run: |
-          r=$(curl -s -o /tmp/body -w "%{http_code}" https://mediaclip-backend.onrender.com/api/health)
-          if [ "$r" != "200" ]; then
-            echo "::error::health endpoint returned $r"; cat /tmp/body; exit 1
-          fi
-          grep -q '"ok":true' /tmp/body && echo "health OK" || (echo "::error::health body unexpected"; cat /tmp/body; exit 1)
-
-      - name: Admin endpoints registered (should 401 with wrong key)
-        run: |
-          for ep in "GET /api/admin/health" "POST /api/admin/dedupe" "POST /api/admin/seed-tenant" "POST /api/admin/seed-ads" "DELETE /api/admin/seed-ads"; do
-            method=$(echo "$ep" | awk '{print $1}')
-            path=$(echo "$ep" | awk '{print $2}')
-            status=$(curl -s -o /dev/null -w "%{http_code}" -X "$method" \
-              "https://mediaclip-backend.onrender.com$path" \
-              -H "Authorization: Bearer wrong-key" \
-              -H "Content-Type: application/json" \
-              -d '{}')
-            if [ "$status" != "401" ]; then
-              echo "::error::$ep returned $status (expected 401 — route may be gone)"; exit 1
-            fi
-            echo "$ep -> $status OK"
-          done
-
-      - name: Full admin health snapshot
-        env:
-          ADMIN_API_KEY: ${{ secrets.ADMIN_API_KEY }}
-        run: |
-          echo "Fetching health detail..."
-          curl -s -X GET \
-            https://mediaclip-backend.onrender.com/api/admin/health \
-            -H "Authorization: Bearer $ADMIN_API_KEY" \
-            -H "Content-Type: application/json" > /tmp/health.json
-          cat /tmp/health.json | python3 -m json.tool || cat /tmp/health.json
-          # Fail if mentions table has >5 duplicate URLs
-          dupe_overrun=$(python3 -c "
-          import json
-          d = json.load(open('/tmp/health.json'))
-          q = d.get('quality', {})
-          total = q.get('m_total', 0) or 0
-          unique = q.get('m_unique', 0) or 0
-          print(max(0, total - unique - 5))
-          ")
-          if [ "$dupe_overrun" != "0" ]; then
-            echo "::error::>5 duplicate URLs — manual dedupe may be needed"; exit 1
-          fi
-          echo "quality check OK"</body>
+</body>
 </html>
