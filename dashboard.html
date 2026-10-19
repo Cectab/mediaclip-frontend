@@ -274,13 +274,16 @@
 
   /* Sidebar */
   .sidebar{width:76px;background:linear-gradient(180deg,var(--red),var(--red-dark));display:flex;flex-direction:column;align-items:center;padding:18px 0;position:sticky;top:0;height:100vh;flex-shrink:0;z-index:150;transition:width .2s ease,padding .2s ease}
-  .sidebar.collapsed{width:14px;padding:18px 0;overflow:hidden}
-  .sidebar.collapsed .side-mark,.sidebar.collapsed .side-ico,.sidebar.collapsed .side-label,.sidebar.collapsed .side-badge{display:none}
-  .sb-toggle{position:fixed;top:14px;left:76px;z-index:200;background:#fff;border:1px solid #e5e7eb;border-left:none;border-radius:0 8px 8px 0;width:22px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:2px 1px 6px rgba(0,0,0,.08);color:#64748b;font-size:14px;transition:left .2s ease,transform .2s ease}
-  .sb-toggle:hover{color:var(--red);background:#fff}
+  .sidebar.collapsed{width:0;padding:0;overflow:hidden;border:0}
+  .sidebar.collapsed > *{display:none}
+  .app:has(.sidebar.collapsed) .topbar{padding-left:72px}
+  .sb-toggle{position:fixed;top:14px;left:84px;z-index:200;background:transparent;border:0;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#5f6368;transition:left .2s ease,background .15s ease}
+  .sb-toggle:hover{background:#f1f3f4}
   .sidebar.collapsed ~ .sb-toggle{left:14px}
-  .sb-toggle svg{width:12px;height:12px;transition:transform .2s ease}
-  .sidebar.collapsed ~ .sb-toggle svg{transform:rotate(180deg)}
+  .sb-toggle svg.ico-close{width:20px;height:20px;display:block}
+  .sb-toggle svg.ico-open{width:20px;height:20px;display:none}
+  .sidebar.collapsed ~ .sb-toggle svg.ico-close{display:none}
+  .sidebar.collapsed ~ .sb-toggle svg.ico-open{display:block}
   @media (max-width: 820px){.sb-toggle{display:none}}
   .side-mark{width:40px;height:40px;border-radius:11px;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--red);font-size:15px;letter-spacing:-1px;margin-bottom:26px}
   .nav{display:flex;flex-direction:column;gap:10px;flex:1}
@@ -538,7 +541,8 @@
     </div>
   </aside>
   <button class="sb-toggle" id="sb-toggle" title="Collapse / expand menu" onclick="mcToggleSidebar()" aria-label="Toggle sidebar">
-    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M10.5 3L5.5 8l5 5V3z"/></svg>
+    <svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
 
   <div class="main">
