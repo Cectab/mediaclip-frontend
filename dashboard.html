@@ -3210,8 +3210,9 @@
     try { token = localStorage.getItem("mc_token"); } catch(e){}
     if (token){
       document.getElementById("mc-login").style.display = "none";
-      try { mcApplyClientBranding(); } catch(e){}
       loadDashboard();
+      // Defer branding apply until mcFilters is initialised later in the script
+      setTimeout(function(){ try { mcApplyClientBranding(); } catch(e){} }, 50);
     }
   })();
   // ---- navigation ----
