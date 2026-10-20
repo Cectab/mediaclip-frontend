@@ -3210,6 +3210,7 @@
     try { token = localStorage.getItem("mc_token"); } catch(e){}
     if (token){
       document.getElementById("mc-login").style.display = "none";
+      try { mcApplyClientBranding(); } catch(e){}
       loadDashboard();
     }
   })();
