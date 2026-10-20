@@ -3272,7 +3272,7 @@
     } catch(e) {}
     return "BIHL Group";
   }
-  const mcFilters = {
+  const mcFilters = window.mcFilters = {
     client: _resolveInitialClient(),
     date:   (function(){try{return localStorage.getItem("mc_f_date")||"30";}catch(e){return "30";}})(),
     sent:   (function(){try{return localStorage.getItem("mc_f_sent")||"all";}catch(e){return "all";}})(),
