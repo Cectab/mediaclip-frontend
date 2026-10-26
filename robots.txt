@@ -1,5 +1,12 @@
+# MediaClip — robots.txt
+# Allow all search engines to crawl all public pages.
+# Point them at the sitemap for faster re-indexing.
+
 User-agent: *
 Allow: /
-Disallow: /admin
+
+# Dashboard requires login; crawlers won't be able to index user data,
+# but allowing the URL means the login page itself can be crawled.
+Allow: /dashboard.html
 
 Sitemap: https://mediaclip.net/sitemap.xml
