@@ -441,7 +441,7 @@
   .cov-tile[data-cap="news"] .cov-tile-icon{background:#EEF1F5;color:#33383F}
   .cov-tile[data-cap="newsfeed"] .cov-tile-icon{background:#EEF1F5;color:#33383F}
   .cov-tile[data-cap="sponsorship"] .cov-tile-icon{background:#e6f6f0;color:#158A62}
-  .cov-tile[data-cap="casestudies"] .cov-tile-icon{background:#e7f0ff;color:#33528A}
+  .cov-tile[data-cap="alerts"] .cov-tile-icon{background:#fdecec;color:#DA1F26}
   /* Sponsorship monitoring page */
   .spons-hero{background:linear-gradient(135deg,#FFF,#FBFCFE);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
   .spons-hero .num{font-size:32px;font-weight:800;color:var(--ink);letter-spacing:-1px;line-height:1}
@@ -465,7 +465,7 @@
   .case-card h4{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin:0 0 6px}
   .case-card .client{font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:10px}
   .case-outcome{font-size:12.5px;color:var(--ink);line-height:1.55;margin-bottom:12px}
-  .case-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-top:12px;border-top:1px solid var(--line)}
+  .case-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px;padding-top:12px;border-top:1px solid var(--line)}
   .case-metric .n{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.4px}
   .case-metric .l{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.03em;text-transform:uppercase;margin-top:2px}
   .rtag.internal{color:#33383F;background:#eef0f2}
@@ -933,14 +933,14 @@
                 <div class="cov-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9a6 6 0 1 0 12 0M12 15v7M8 22h8"/><path d="M6 9V3h12v6"/></svg></div>
                 <div class="cov-tile-name">Sponsorship monitoring</div>
               </div>
-              <div class="cov-tile-meta"><strong>ROI tracking</strong> — Debswana-supported athletics · BFA · industry awards</div>
+              <div class="cov-tile-meta"><strong>Coverage tracking</strong> — Debswana-supported athletics · BFA · industry awards</div>
             </div>
-            <div class="cov-tile" data-cap="casestudies" onclick="mcSwitchView('casestudies')">
+            <div class="cov-tile" data-cap="alerts" onclick="mcSwitchView('alerts')">
               <div class="cov-tile-head">
-                <div class="cov-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-                <div class="cov-tile-name">Illustrative use cases</div>
+                <div class="cov-tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
+                <div class="cov-tile-name">Alerts</div>
               </div>
-              <div class="cov-tile-meta"><strong>Scenarios</strong> — reputation defence, SOV wins, crisis containment, sponsorship ROI</div>
+              <div class="cov-tile-meta"><strong>Crisis &amp; competitor signals</strong> — sentiment drops, coverage spikes, competitor moves · analyst-reviewed</div>
             </div>
           </div>
         </div>
@@ -965,28 +965,25 @@
         <div id="tab-performance" class="tab-panel">
         <div class="grid g3">
           <div class="card">
-            <h3>Ad Value (Earned) <span class="tag" id="gauge-client-tag">Client</span></h3>
-            <div class="gauge-wrap"><canvas id="gMascom"></canvas>
-              <div class="gauge-center"><div class="big" id="gauge-client-value">P 420K</div><div class="lab" id="gauge-client-label">30-day estimated ad value</div></div>
+            <h3>Share of voice <span class="tag">Client vs tracked set</span></h3>
+            <div class="gauge-wrap"><canvas id="gSov"></canvas>
+              <div class="gauge-center"><div class="big" id="gauge-sov-value">—</div><div class="lab" id="gauge-sov-label">Populates once monitoring begins</div></div>
             </div>
             <div class="legend">
-              <div class="row"><span class="dot" style="background:var(--c1)"></span>Print <span class="val" id="gauge-client-print">P 101,000</span></div>
-              <div class="row"><span class="dot" style="background:var(--c2)"></span>Broadcast <span class="val" id="gauge-client-broadcast">P 98,400</span></div>
-              <div class="row"><span class="dot" style="background:var(--amber)"></span>Radio <span class="val" id="gauge-client-radio">P 52,600</span></div>
-              <div class="row"><span class="dot" style="background:#1FA97A"></span>Digital <span class="val" id="gauge-client-digital">P 168,400</span></div>
+              <div class="row"><span class="dot" style="background:var(--c1)"></span><span id="gauge-sov-client-name">Client</span> <span class="val" id="gauge-sov-client">—</span></div>
+              <div class="row"><span class="dot" style="background:var(--c3)"></span>Rest of tracked set <span class="val" id="gauge-sov-rest">—</span></div>
             </div>
           </div>
 
           <div class="card">
-            <h3>Ad Value (Earned) <span class="tag" id="gauge-comp-tag">Competition</span></h3>
-            <div class="gauge-wrap"><canvas id="gComp"></canvas>
-              <div class="gauge-center"><div class="big" id="gauge-comp-value">P 484K</div><div class="lab" id="gauge-comp-label">All competitors</div></div>
+            <h3>Sentiment <span class="tag date-label">Last 30 days</span></h3>
+            <div class="gauge-wrap"><canvas id="gSent"></canvas>
+              <div class="gauge-center"><div class="big" id="gauge-sent-value">—</div><div class="lab" id="gauge-sent-label">positive</div></div>
             </div>
             <div class="legend">
-              <div class="row"><span class="dot" style="background:var(--c1)"></span>Print <span class="val" id="gauge-comp-print">P 88,200</span></div>
-              <div class="row"><span class="dot" style="background:var(--c2)"></span>Broadcast <span class="val" id="gauge-comp-broadcast">P 121,300</span></div>
-              <div class="row"><span class="dot" style="background:var(--amber)"></span>Radio <span class="val" id="gauge-comp-radio">P 78,900</span></div>
-              <div class="row"><span class="dot" style="background:#1FA97A"></span>Digital <span class="val" id="gauge-comp-digital">P 195,600</span></div>
+              <div class="row"><span class="dot" style="background:var(--green)"></span>Positive <span class="val" id="gauge-sent-pos">—</span></div>
+              <div class="row"><span class="dot" style="background:var(--c3)"></span>Neutral <span class="val" id="gauge-sent-neu">—</span></div>
+              <div class="row"><span class="dot" style="background:var(--c1)"></span>Negative <span class="val" id="gauge-sent-neg">—</span></div>
             </div>
           </div>
 
@@ -1017,7 +1014,7 @@
 
         <div class="grid g2 ops-plus" style="margin-top:18px">
           <div class="card">
-            <h3>Source spend <span class="tag">Top titles</span></h3>
+            <h3>Coverage by source <span class="tag">Top titles</span></h3>
             <div class="chartbox sm"><canvas id="sourceSpend"></canvas></div>
           </div>
           <div class="card">
@@ -1146,7 +1143,7 @@
                 <span style="display:inline-block;background:#FEE2E2;color:#991B1B;font-size:10px;font-weight:700;letter-spacing:.5px;padding:3px 8px;border-radius:10px;margin-bottom:10px;text-transform:uppercase">Coming · Jan 2027</span>
                 <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:4px;line-height:1.3">The Botswana Marketer</div>
                 <div style="font-size:11.5px;color:#6B7280;margin-bottom:9px">Annual · marketing &amp; communications industry</div>
-                <div style="font-size:12.5px;color:#374151;line-height:1.5">The agency and advertiser landscape — spend allocation by medium, campaign performance benchmarks, emerging platforms and the state of creative in Botswana. For marketing directors, agency principals and comms leads.</div>
+                <div style="font-size:12.5px;color:#374151;line-height:1.5">The agency and advertiser landscape — share of voice by medium, campaign performance benchmarks, emerging platforms and the state of creative in Botswana. For marketing directors, agency principals and comms leads.</div>
               </div>
 
               <div class="card" style="padding:16px;border:2px solid #DA1F26">
@@ -1435,9 +1432,9 @@
             <div class="chartbox sm"><canvas id="channelMix"></canvas></div>
           </div>
           <div class="card">
-            <h3>Digital ad-spend detected <span class="tag" style="background:#FFF4E4;color:#7A5100">Sample · awaiting Meta Ad Library sync</span></h3>
+            <h3>Digital ads detected <span class="tag" style="background:#FFF4E4;color:#7A5100">Sample · awaiting Meta Ad Library sync</span></h3>
             <div class="chartbox sm"><canvas id="digitalCompetitive"></canvas></div>
-            <div style="font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.45">Live competitor ad-spend detection ingests from Meta Ad Library, Google Ads Transparency and X Ad Repository. Once those transparency-portal syncs are configured for this tenant, this chart hydrates automatically.</div>
+            <div style="font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.45">Active creatives per platform. Live competitor ad detection ingests from Meta Ad Library, Google Ads Transparency and X Ad Repository. Once those transparency-portal syncs are configured for this tenant, this chart hydrates automatically.</div>
           </div>
         </div>
       </section>
@@ -1445,16 +1442,15 @@
       <!-- ===================== ANALYTICS ===================== -->
       <section class="view" id="analytics">
         <div class="page-title">Analytics</div>
-        <div class="page-sub">Trend analysis, PR value, and competitive coverage over the last 90 days.</div>
+        <div class="page-sub">Trend analysis, PR performance, and competitive coverage over the last 90 days.</div>
         <div class="pagehead">
           <div class="dd admin-only" data-dd="client"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">BIHL Group</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
           <div class="spacer"></div>
           <div class="dd" data-dd="date"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">Last 90 days</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
           <div class="pill primary ops-plus" onclick="mcExport()" style="cursor:pointer">Export</div>
         </div>
-        <div class="grid g3">
+        <div class="grid g2">
           <div class="card"><h3>Total mentions</h3><div class="kpi" style="margin-top:10px"><div class="n" id="an-mentions">—</div><div class="l" id="an-mentions-l">current period</div></div></div>
-          <div class="card"><h3>Est. earned media value <span title="Method: sum of modelled ad_value per tracked mention. Ad_value is an advertising-value-equivalency (AVE) estimate per outlet from standard rate cards and audience reach. Modelled, not measured. Not a substitute for revenue attribution." style="cursor:help;display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--muted);color:#fff;font-size:9px;font-weight:800;text-align:center;line-height:14px;margin-left:6px;vertical-align:middle">i</span></h3><div class="kpi" style="margin-top:10px"><div class="n" id="an-ave">—</div><div class="l">modelled AVE · earned coverage</div></div></div>
           <div class="card"><h3>Positive sentiment</h3><div class="kpi" style="margin-top:10px"><div class="n" id="an-pos">—</div><div class="l" id="an-pos-l">current period</div></div></div>
         </div>
         <div class="card" style="margin-top:18px">
@@ -1606,7 +1602,7 @@
                   <span>Competitor move</span>
                 </div>
                 <div class="alert-title"><span data-mc-competitor>Sanlam Life</span> radio campaign detected across three stations</div>
-                <div class="alert-desc"><span data-mc-competitor>Sanlam Life</span> ran ad-slots on Yarona FM, Duma FM, and Gabz FM this week — estimated spend P 380,000. First campaign detected this quarter. Worth benchmarking against <span data-mc-client-short>BIHL</span>'s current radio share.</div>
+                <div class="alert-desc"><span data-mc-competitor>Sanlam Life</span> ran ad-slots on Yarona FM, Duma FM, and Gabz FM — detected across 3 stations in the last 7 days. First campaign detected this quarter. Worth benchmarking against <span data-mc-client-short>BIHL</span>'s current radio share.</div>
                 <div class="alert-actions">
                   <button class="alert-btn primary" onclick="mcAlertAction('view-competitor', this)">View competitor page</button>
                   <button class="alert-btn" onclick="mcAlertAction('reviewed', this)">Mark reviewed</button>
@@ -1627,7 +1623,7 @@
                   <span>Digital ad campaign detected</span>
                 </div>
                 <div class="alert-title"><span data-mc-competitor>Sanlam Life</span> digital campaign live across Meta, Google &amp; YouTube</div>
-                <div class="alert-desc"><span data-mc-competitor>Sanlam Life</span> has 24 active ad creatives on Meta Ad Library, 11 Google Ads campaigns and 6 YouTube pre-roll placements this week — estimated spend P 520,000. Setswana + English creative variants detected, targeting Gaborone, Francistown and Palapye. Worth benchmarking against <span data-mc-client-short>BIHL</span>'s current digital share and briefing Marketing on creative counter-programming.</div>
+                <div class="alert-desc"><span data-mc-competitor>Sanlam Life</span> has 24 active ad creatives on Meta Ad Library, 11 Google Ads campaigns and 6 YouTube pre-roll placements — 41 creatives detected across three platforms in the last 7 days. Setswana + English creative variants detected, targeting Gaborone, Francistown and Palapye. Worth benchmarking against <span data-mc-client-short>BIHL</span>'s current digital share and briefing Marketing on creative counter-programming.</div>
                 <div class="alert-actions">
                   <button class="alert-btn primary" onclick="mcAlertAction('view-competitor', this)">View competitor page</button>
                   <button class="alert-btn" onclick="mcAlertAction('reviewed', this)">Mark reviewed</button>
@@ -1719,7 +1715,7 @@
       <!-- ===================== SPONSORSHIP MONITORING ===================== -->
       <section class="view" id="sponsorship">
         <div class="page-title">Sponsorship monitoring</div>
-        <div class="page-sub" data-mc-tpl="Track {CLIENT}'s active sponsorships and competitor sponsorship spend across sports, culture, industry events, and CSR platforms in Botswana.">Track BIHL Group's active sponsorships and competitor sponsorship spend across sports, culture, industry events, and CSR platforms in Botswana.</div>
+        <div class="page-sub" data-mc-tpl="Track {CLIENT}'s active sponsorships and competitor sponsorship coverage across sports, culture, industry events, and CSR platforms in Botswana.">Track BIHL Group's active sponsorships and competitor sponsorship coverage across sports, culture, industry events, and CSR platforms in Botswana.</div>
         <div class="pagehead">
           <div class="dd admin-only" data-dd="client"><button class="dd-btn" type="button" onclick="mcToggleDD(this)"><span class="dd-label">BIHL Group</span> <span class="caret">&#9662;</span></button><div class="dd-menu"></div></div>
           <div class="spacer"></div>
@@ -1729,16 +1725,12 @@
 
         <div class="spons-hero">
           <div>
-            <div class="num" id="spons-total">—</div>
-            <div class="lab">Total sponsorship media value earned · this window</div>
-          </div>
-          <div>
             <div class="num" id="spons-count">—</div>
             <div class="lab">Active sponsorship properties monitored</div>
           </div>
           <div>
-            <div class="num" id="spons-comp-total">—</div>
-            <div class="lab">Competitor sponsorship value tracked · last 30 days</div>
+            <div class="num" id="spons-comp-count">—</div>
+            <div class="lab">Competitor sponsorships tracked · last 30 days</div>
           </div>
         </div>
 
@@ -1751,7 +1743,7 @@
                 <div class="spons-title">MVA Fund Annual Report — creative &amp; media placement</div>
                 <div class="spons-meta"><span>Award-winning campaign</span> · <span>Print + digital + broadcast</span> · <span>Q3 2026</span></div>
               </div>
-              <div class="spons-value">P 1.2M<div class="lab">media value</div></div>
+              <div class="spons-value"></div>
             </div>
             <div class="spons-row">
               <div class="spons-badge">FIN</div>
@@ -1759,7 +1751,7 @@
                 <div class="spons-title">Botswana Financial Services Sustainability Award</div>
                 <div class="spons-meta"><span>Category sponsor</span> · <span>Business Weekly · Duma FM</span> · <span>Sep 2026</span></div>
               </div>
-              <div class="spons-value">P 820K<div class="lab">media value</div></div>
+              <div class="spons-value"></div>
             </div>
             <div class="spons-row">
               <div class="spons-badge">EDU</div>
@@ -1767,7 +1759,7 @@
                 <div class="spons-title">Rural schools financial literacy programme — 40 villages</div>
                 <div class="spons-meta"><span>Ministry of Basic Education partnership</span> · <span>The Voice + Setswana radio</span> · <span>Ongoing</span></div>
               </div>
-              <div class="spons-value">P 540K<div class="lab">media value</div></div>
+              <div class="spons-value"></div>
             </div>
             <div class="spons-row">
               <div class="spons-badge">UB</div>
@@ -1775,7 +1767,7 @@
                 <div class="spons-title">University of Botswana graduation ceremony</div>
                 <div class="spons-meta"><span>Title sponsor</span> · <span>Sunday Standard + Btv</span> · <span>Aug 2026</span></div>
               </div>
-              <div class="spons-value">P 380K<div class="lab">media value</div></div>
+              <div class="spons-value"></div>
             </div>
             <div class="spons-row">
               <div class="spons-badge">WBI</div>
@@ -1783,7 +1775,7 @@
                 <div class="spons-title">Women-Led Business Incubator — 55 participants</div>
                 <div class="spons-meta"><span>Programme sponsor</span> · <span>Weekend Post + LinkedIn</span> · <span>Ongoing 2026</span></div>
               </div>
-              <div class="spons-value">P 310K<div class="lab">media value</div></div>
+              <div class="spons-value"></div>
             </div>
           </div>
         </div>
@@ -1798,7 +1790,7 @@
                   <div class="spons-title">Debswana-supported athletics — Botswana track events</div>
                   <div class="spons-meta"><span>Title: Debswana</span> · <span>Broadcast: Btv</span> · <span>Radio: Duma FM, Yarona FM</span></div>
                 </div>
-                <div class="spons-value">P 2.4M<div class="lab">season value</div></div>
+                <div class="spons-value"></div>
               </div>
               <div class="spons-row">
                 <div class="spons-badge" style="background:linear-gradient(135deg,#F2A93B,#B67900)">TOP8</div>
@@ -1806,7 +1798,7 @@
                   <div class="spons-title">Mascom Top 8 — Botswana Premier League football</div>
                   <div class="spons-meta"><span>Title: Mascom</span> · <span>Broadcast: Btv</span> · <span>Setswana commentary</span></div>
                 </div>
-                <div class="spons-value">P 1.8M<div class="lab">season value</div></div>
+                <div class="spons-value"></div>
               </div>
               <div class="spons-row">
                 <div class="spons-badge" style="background:linear-gradient(135deg,#0d6efd,#0846a0)">BCA</div>
@@ -1814,7 +1806,7 @@
                   <div class="spons-title">Botswana Cricket Association T20 series</div>
                   <div class="spons-meta"><span>Category: FNB Botswana</span> · <span>Digital + print</span></div>
                 </div>
-                <div class="spons-value">P 620K<div class="lab">season value</div></div>
+                <div class="spons-value"></div>
               </div>
             </div>
           </div>
@@ -1826,9 +1818,9 @@
                 <div class="spons-badge" style="background:linear-gradient(135deg,#33383F,#16181D)">SAN</div>
                 <div class="spons-body">
                   <div class="spons-title" data-mc-tpl="{COMPETITOR} — Botswana Music Awards title sponsor renewal"><span data-mc-competitor>Sanlam Botswana</span> — Botswana Music Awards title sponsor renewal <span style="display:inline-block;background:var(--red);color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.06em;padding:2px 7px;border-radius:20px;margin-left:6px;vertical-align:1px">NEW DEAL</span></div>
-                  <div class="spons-meta"><span>3-year deal announced Aug 2026</span> · <span>Estimated P 4.5M value</span></div>
+                  <div class="spons-meta"><span>3-year deal announced Aug 2026</span></div>
                 </div>
-                <div class="spons-value">P 4.5M<div class="lab">deal value</div></div>
+                <div class="spons-value"></div>
               </div>
               <div class="spons-row">
                 <div class="spons-badge" style="background:linear-gradient(135deg,#33383F,#16181D)">OM</div>
@@ -1836,7 +1828,7 @@
                   <div class="spons-title">Old Mutual — Marathon Botswana headline sponsorship</div>
                   <div class="spons-meta"><span>September 2026 event</span> · <span>Broadcast: Now TV, Setswana on Duma FM</span></div>
                 </div>
-                <div class="spons-value">P 950K<div class="lab">event value</div></div>
+                <div class="spons-value"></div>
               </div>
               <div class="spons-row">
                 <div class="spons-badge" style="background:linear-gradient(135deg,#33383F,#16181D)">MET</div>
@@ -1844,7 +1836,7 @@
                   <div class="spons-title">Metropolitan — Botswana Chess Championships</div>
                   <div class="spons-meta"><span>Youth outreach angle</span> · <span>Weekend Post feature</span></div>
                 </div>
-                <div class="spons-value">P 240K<div class="lab">event value</div></div>
+                <div class="spons-value"></div>
               </div>
             </div>
           </div>
@@ -1872,7 +1864,6 @@
             <div class="case-outcome">Duma FM Breakfast call-in from a bereaved policyholder triggered a Setswana narrative loop that would have gone untracked by the client's global monitoring tool. MediaClip flagged the escalation within 48 minutes, translated the Setswana quote, and mapped its spread to X threads plus a supporting caller broadcast the same morning. Head of Claims fast-tracked the case, Comms posted a proactive Setswana statement, and the narrative was contained before NBFIRA received a complaint.</div>
             <div class="case-metrics">
               <div class="case-metric"><div class="n">48 min</div><div class="l">detection to alert</div></div>
-              <div class="case-metric"><div class="n">P 2.4M</div><div class="l">estimated reputation loss avoided</div></div>
               <div class="case-metric"><div class="n">0</div><div class="l">regulator escalations</div></div>
             </div>
           </div>
@@ -1884,7 +1875,6 @@
             <div class="case-outcome">Bank launched a mobile-first SME programme going head-to-head with two peer banks running similar campaigns. MediaClip's daily share-of-voice tracking + Meta Ad Library ingestion showed which creative angles peers were leaning into so the client's team could counter-programme. Result: SME product achieved 3× the share of voice of its nearest competitor by week six, with strongest lift in Setswana radio and X.</div>
             <div class="case-metrics">
               <div class="case-metric"><div class="n">3.1×</div><div class="l">SOV vs nearest peer</div></div>
-              <div class="case-metric"><div class="n">P 1.8M</div><div class="l">earned media value</div></div>
               <div class="case-metric"><div class="n">42%</div><div class="l">Setswana lift</div></div>
             </div>
           </div>
@@ -1896,20 +1886,18 @@
             <div class="case-outcome">Mobile money service failed during a Friday salary-week rush, generating 14 negative mentions across radio, X and Facebook within 90 minutes. MediaClip's news-feed alert reached the CEO and CMO before the first Business Weekly reporter called. Coordinated Setswana radio call-in from the CTO + proactive X statement + waiver of affected-transaction fees closed the narrative in one news cycle, keeping the story out of Monday's print edition.</div>
             <div class="case-metrics">
               <div class="case-metric"><div class="n">1</div><div class="l">news cycle to close</div></div>
-              <div class="case-metric"><div class="n">P 3.6M</div><div class="l">avoided churn value</div></div>
               <div class="case-metric"><div class="n">92%</div><div class="l">sentiment recovery in 72h</div></div>
             </div>
           </div>
 
           <div class="case-card">
-            <div class="case-tag">Sponsorship ROI · Financial services</div>
+            <div class="case-tag">Sponsorship coverage · Financial services</div>
             <h4>Annual report campaign turned into an industry-award trophy case</h4>
             <div class="client">Public-mandate financial institution · 2025</div>
-            <div class="case-outcome">MediaClip tracked coverage of an award-winning annual report campaign across print, broadcast and digital for 12 months post-launch. The report generated 4.2× its production cost in earned media value, plus category wins at three industry awards. Client used MediaClip's sentiment and reach exports as case-study evidence in Board reporting and in the next tender submission.</div>
+            <div class="case-outcome">MediaClip tracked coverage of an award-winning annual report campaign across print, broadcast and digital for 12 months post-launch. The report drew sustained pickup across all three channels, plus category wins at three industry awards. Client used MediaClip's sentiment and reach exports as case-study evidence in Board reporting and in the next tender submission.</div>
             <div class="case-metrics">
-              <div class="case-metric"><div class="n">4.2×</div><div class="l">ROI on production cost</div></div>
+              <div class="case-metric"><div class="n">12 mo</div><div class="l">coverage tracked post-launch</div></div>
               <div class="case-metric"><div class="n">3</div><div class="l">industry award wins</div></div>
-              <div class="case-metric"><div class="n">P 6.1M</div><div class="l">earned media value</div></div>
             </div>
           </div>
 
@@ -1933,7 +1921,6 @@
             <div class="case-metrics">
               <div class="case-metric"><div class="n">Same hour</div><div class="l">competitor detection</div></div>
               <div class="case-metric"><div class="n">6 wks</div><div class="l">launch pulled forward</div></div>
-              <div class="case-metric"><div class="n">P 950K</div><div class="l">defended market value</div></div>
             </div>
           </div>
         </div>
@@ -2681,7 +2668,7 @@
       ],
       insights: {
         audience: "The audience your coverage is reaching skews 30–59 — the primary decision-maker window for BIHL Group's life insurance, funeral cover, education savings and BIFM asset management products. BSE analyst and shareholder coverage skews 40–64 with strong Business Weekly, Btv and Now TV pickup.",
-        reach: "Digital ads + radio together are ~50% of BIHL Group's reach, and adding print + broadcast brings you to ~83% of measurable reach — the BSE-listed group narrative lives in Business Weekly, Btv and Now TV, while Setswana Duma FM callers shape claim service perception faster than any other channel. Your Sanlam Emerging Markets shareholder positioning + BIFM P32B AUM milestone are your unique differentiators vs Sanlam Botswana (direct competitor subsidiary), Old Mutual (multinational) and Metropolitan (regional). Digital ads are ~41% of your total media spend — Botswana Life funeral cover Meta creatives and BIFM Executive LinkedIn campaigns dominate, plus targeted Google Ads for the Kids Education Plan launch."
+        reach: "Digital ads + radio together are ~50% of BIHL Group's reach, and adding print + broadcast brings you to ~83% of measurable reach — the BSE-listed group narrative lives in Business Weekly, Btv and Now TV, while Setswana Duma FM callers shape claim service perception faster than any other channel. Your Sanlam Emerging Markets shareholder positioning + BIFM P32B AUM milestone are your unique differentiators vs Sanlam Botswana (direct competitor subsidiary), Old Mutual (multinational) and Metropolitan (regional). Digital ads are ~41% of your detected ad creatives — Botswana Life funeral cover Meta creatives and BIFM Executive LinkedIn campaigns dominate, plus targeted Google Ads for the Kids Education Plan launch."
       }
     },
     "First Capital Bank": {
@@ -2909,7 +2896,7 @@
         { name: "FNB mobile app outage sensitive brief", cat: "sensitive", month: "Sep 2026", status: "ready" },
         { name: "FNB Life funeral cover launch narrative round-up", cat: "internal", month: "Sep 2026", status: "ready" },
         { name: "Big-4 bank share-of-voice", cat: "competitive", month: "Sep 2026", status: "ready" },
-        { name: "FNB Marathon sponsorship ROI brief", cat: "internal", month: "Sep 2026", status: "ready" },
+        { name: "FNB Marathon sponsorship coverage brief", cat: "internal", month: "Sep 2026", status: "ready" },
         { name: "RMB corporate debt mandate media round-up", cat: "internal", month: "Sep 2026", status: "ready" },
       ],
       alerts: [
@@ -2970,8 +2957,6 @@
   }
 
   const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-  const _pula = (n) => "P " + (Number(n)||0).toLocaleString();
-  const _pulaK = (n) => { n = Number(n)||0; return n >= 1000 ? "P " + Math.round(n/100)/10 + "K" : "P " + Math.round(n); };
 
   function setClientBadge(text){
     const el = document.getElementById("client-badge");
@@ -2999,8 +2984,12 @@
     try { token = localStorage.getItem("mc_token"); } catch(e){}
     if (!token) return;
     try {
-      // Frontend-only demo mode: pull from MC_CLIENTS instead of backend
-      const clientKey = (window.mcFilters && mcFilters.client) || "BIHL Group";
+      // Frontend-only demo mode: pull from MC_CLIENTS instead of backend.
+      // The first call runs before mcFilters is built, so fall back to the same
+      // URL / localStorage tenant resolution mcFilters itself uses — otherwise the
+      // headline gauges and Footprint KPIs would paint BIHL under another tenant's header.
+      const clientKey = (window.mcFilters && mcFilters.client)
+        || (typeof _resolveInitialClient === 'function' ? _resolveInitialClient() : "BIHL Group");
       const clientData = MC_CLIENTS[clientKey] || MC_CLIENTS["BIHL Group"];
       // Build share-of-voice — client's top brands + top competitors
       const seed = mcSeed(clientKey);
@@ -3294,45 +3283,20 @@
   // so the tiles can never drift from what the reader sees below.
   // ------------------------------------------------------------------
   function mcHydrateSponsorshipView(){
-    // Parse a "P 1.2M" / "P 820K" / "P 4.5M" spons-value into a raw pula number
-    const parseP = (txt) => {
-      if (!txt) return 0;
-      // Take the first numeric token
-      const m = String(txt).match(/P\s*([\d.,]+)\s*([KM]?)/i);
-      if (!m) return 0;
-      let n = parseFloat((m[1]||'').replace(/,/g,''));
-      if (isNaN(n)) return 0;
-      const suffix = (m[2]||'').toUpperCase();
-      if (suffix === 'K') n *= 1_000;
-      if (suffix === 'M') n *= 1_000_000;
-      return n;
-    };
-    const fmtP = (n) => {
-      if (!n) return '—';
-      if (n >= 1_000_000) return 'P ' + (n / 1_000_000).toFixed(n >= 10_000_000 ? 0 : 1) + 'M';
-      if (n >= 1_000)     return 'P ' + Math.round(n / 1_000) + 'K';
-      return 'P ' + Math.round(n);
-    };
-
-    // Sum active BIHL Group sponsorships
+    // Count active client sponsorship properties (the rows actually listed)
     const active = document.querySelectorAll('#spons-active .spons-row');
-    let bihlTotal = 0;
-    active.forEach(r => { bihlTotal += parseP(r.querySelector('.spons-value')?.childNodes[0]?.textContent || ''); });
-    const t1 = document.getElementById('spons-total'); if (t1) t1.textContent = fmtP(bihlTotal);
     const t2 = document.getElementById('spons-count'); if (t2) t2.textContent = active.length;
 
-    // Sum competitor sponsorship intel (the third card in the two-column grid)
-    // Selector: every .spons-row that appears in the same card as the "Competitor sponsorship intel" h3
-    let compTotal = 0;
+    // Count competitor sponsorship intel rows (every .spons-row inside the
+    // card whose heading reads "Competitor sponsorship intel")
+    let compCount = 0;
     document.querySelectorAll('.card').forEach(card => {
       const h3 = card.querySelector('h3');
       if (h3 && /competitor sponsorship/i.test(h3.textContent)){
-        card.querySelectorAll('.spons-row').forEach(r => {
-          compTotal += parseP(r.querySelector('.spons-value')?.childNodes[0]?.textContent || '');
-        });
+        compCount += card.querySelectorAll('.spons-row').length;
       }
     });
-    const t3 = document.getElementById('spons-comp-total'); if (t3) t3.textContent = fmtP(compTotal);
+    const t3 = document.getElementById('spons-comp-count'); if (t3) t3.textContent = compCount;
   }
   // Run once the DOM has settled; no live-feed dependency for this view yet.
   setTimeout(mcHydrateSponsorshipView, 150);
@@ -3362,8 +3326,6 @@
   function mcSponsorshipDetail(row){
     const title = (row.querySelector('.spons-title')?.textContent || '').trim();
     const meta  = (row.querySelector('.spons-meta')?.textContent || '').trim();
-    const val   = (row.querySelector('.spons-value')?.childNodes[0]?.textContent || '').trim();
-    const valLabel = (row.querySelector('.spons-value .lab')?.textContent || 'value').trim();
 
     // Guess which outlets to spotlight from the meta line (e.g. "Broadcast: Btv · Radio: Duma FM, Yarona FM")
     const outletHints = meta.split(/[·,;]+/).map(s => s.trim()).filter(Boolean);
@@ -3378,7 +3340,6 @@
 
     const bodyBits = [];
     bodyBits.push(`<div class="stat-row" style="margin-bottom:16px">
-      <div class="stat"><div class="n" style="font-size:22px">${_escapeHtml(val || '—')}</div><div class="l">${_escapeHtml(valLabel)}</div></div>
       <div class="stat"><div class="n" style="font-size:22px">${outletHints.length}</div><div class="l">Outlet references</div></div>
       <div class="stat"><div class="n" style="font-size:22px">${matched.length}</div><div class="l">Related mentions in feed</div></div>
     </div>`);
@@ -3408,8 +3369,6 @@
       </div>`);
     }
 
-    bodyBits.push(`<div style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.55">Sponsorship value is a modelled estimate combining branded coverage reach, adjacency-attribution and media-rate cards. It is an estimate of earned value, not a substitute for direct campaign reporting.</div>`);
-
     mcOpenModal(title || 'Sponsorship detail', meta || '', bodyBits.join(''));
     const foot = document.querySelector('#modal .modal-foot');
     if (foot) foot.innerHTML = `<button class="btn" onclick="mcCloseModal()">Close</button>`;
@@ -3417,12 +3376,11 @@
   setTimeout(mcWireSponsorshipRows, 200);
 
   // ------------------------------------------------------------------
-  // Analytics view — mentions, AVE, positive-sentiment KPIs
+  // Analytics view — mentions + positive-sentiment KPIs
   // ------------------------------------------------------------------
   function mcHydrateAnalyticsView(mentions){
     mentions = Array.isArray(mentions) ? mentions : [];
     const n = mentions.length;
-    const totalValue = mentions.reduce((a,m)=>a + (Number(m.ad_value)||0), 0);
     const posCount = mentions.filter(m => (m.sentiment||'').toLowerCase()==='positive').length;
     const posPct = n ? Math.round(posCount * 100 / n) : 0;
     const dateLabel = (typeof DATE_OPTIONS !== 'undefined')
@@ -3431,7 +3389,6 @@
     const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
     setText('an-mentions',    _fmt(n));
     setText('an-mentions-l',  dateLabel);
-    setText('an-ave',         'P ' + (totalValue >= 1000 ? _fmt(totalValue) : totalValue.toLocaleString()));
     setText('an-pos',         n ? posPct + '%' : '—');
     setText('an-pos-l',       dateLabel);
   }
@@ -3677,6 +3634,97 @@
     } catch(e){}
   }
 
+  // ---- Headline gauges (Performance tab, top KPI row) ----
+  // Share of voice: the primary brand's share of tracked-set mentions, read from
+  // MC_CLIENTS[client].competitorSet — the same source the Competitors tab uses.
+  // Sentiment: positive / neutral / negative split of the same filtered mention
+  // set that drives the Footprint KPIs beside it, so the two cards always agree.
+  // Nothing here is modelled; when a tenant has no competitor set the share-of-voice
+  // gauge shows "—" until monitoring populates it.
+  window._mcHeadline = window._mcHeadline || { sov: null, sent: null };
+  function mcHeadlineSov(clientKey){
+    const cd = (typeof MC_CLIENTS !== 'undefined' && MC_CLIENTS[clientKey]) || null;
+    const set = cd && cd.competitorSet;
+    if (set && Array.isArray(set.leaderboard)){
+      const row = set.leaderboard.find(r => r.key && r.key === set.meKey) || set.leaderboard.find(r => r.me);
+      const v = row ? Number(row.sovPct) : NaN;
+      if (isFinite(v)) return v;
+    }
+    const k = cd && cd.kpi;
+    if (k){
+      const raw = (k.sov_pct != null) ? k.sov_pct : ((k.share_of_voice != null) ? k.share_of_voice : k.sov);
+      const v = Number(raw);
+      if (raw != null && isFinite(v)) return v;
+    }
+    return null;
+  }
+  function mcRenderHeadlineGauges(mentions){
+    // Same tenant resolution as loadDashboard(): mcFilters once built, else URL / stored tenant.
+    const clientKey = (window.mcFilters && mcFilters.client)
+      || (typeof _resolveInitialClient === 'function' ? _resolveInitialClient() : "BIHL Group");
+    const cd = (typeof MC_CLIENTS !== 'undefined' && MC_CLIENTS[clientKey]) || null;
+
+    // ----- Share of voice (client vs rest of tracked set) -----
+    const sov = mcHeadlineSov(clientKey);
+    setEl("gauge-sov-client-name", (cd && (cd.primaryBrand || cd.display)) || clientKey);
+    if (sov != null){
+      const pct = Math.max(0, Math.min(100, sov));
+      setEl("gauge-sov-value",  pct.toFixed(1) + "%");
+      setEl("gauge-sov-label",  "of tracked-set mentions");
+      setEl("gauge-sov-client", pct.toFixed(1) + "%");
+      setEl("gauge-sov-rest",   (100 - pct).toFixed(1) + "%");
+      window._mcHeadline.sov = [pct, 100 - pct];
+    } else {
+      setEl("gauge-sov-value",  "—");
+      setEl("gauge-sov-label",  "Populates once monitoring begins");
+      setEl("gauge-sov-client", "—");
+      setEl("gauge-sov-rest",   "—");
+      window._mcHeadline.sov = [0, 100];
+    }
+
+    // ----- Sentiment (positive / neutral / negative) -----
+    const list = Array.isArray(mentions) ? mentions : [];
+    const n   = list.length;
+    const pos = list.filter(m => (m.sentiment||"").toLowerCase() === "positive").length;
+    const neg = list.filter(m => (m.sentiment||"").toLowerCase() === "negative").length;
+    const neu = Math.max(0, n - pos - neg);
+    if (n){
+      const posPct = Math.round(100 * pos / n);
+      const negPct = Math.round(100 * neg / n);
+      const neuPct = Math.max(0, 100 - posPct - negPct);
+      setEl("gauge-sent-value", posPct + "%");
+      setEl("gauge-sent-label", "positive");
+      setEl("gauge-sent-pos",   posPct + "%");
+      setEl("gauge-sent-neu",   neuPct + "%");
+      setEl("gauge-sent-neg",   negPct + "%");
+      window._mcHeadline.sent = [pos, neu, neg];
+    } else {
+      setEl("gauge-sent-value", "—");
+      setEl("gauge-sent-label", "positive");
+      setEl("gauge-sent-pos",   "—");
+      setEl("gauge-sent-neu",   "—");
+      setEl("gauge-sent-neg",   "—");
+      window._mcHeadline.sent = [0, 0, 0];
+    }
+    mcPaintHeadlineGauges();
+  }
+  // Push the last computed split into the two doughnuts. Safe to call before the
+  // chart registry exists (the first loadDashboard() runs before `charts` is built).
+  function mcPaintHeadlineGauges(){
+    let ch = null;
+    try { ch = charts; } catch(e){ return; }
+    const h = window._mcHeadline || {};
+    if (!ch) return;
+    if (ch.gSov && ch.gSov.data && h.sov){
+      ch.gSov.data.datasets[0].data = h.sov.slice();
+      ch.gSov.update();
+    }
+    if (ch.gSent && ch.gSent.data && h.sent){
+      ch.gSent.data.datasets[0].data = h.sent.slice();
+      ch.gSent.update();
+    }
+  }
+
   // ---- Update all Dashboard-view charts + labels from real backend data ----
   function updateDashboardCharts(d, mentions){
     if (!d) return;
@@ -3684,69 +3732,9 @@
     // Identify client (BIHL Group) vs everyone else
     const sov = Array.isArray(d.shareOfVoice) ? d.shareOfVoice.slice() : [];
     const clientLabel = (window.mcFilters && mcFilters.client) || "BIHL Group";
-    const compBrands = sov.map(x => x.brand).filter(b => b && !isClientBrand(b) && b !== "Unattributed");
 
-    // Split mentions client-side
-    const clientMentions = mentions.filter(m => isClientBrand(m.brand));
-    const compMentions   = mentions.filter(m => m.brand && !isClientBrand(m.brand) && m.brand !== "Unattributed");
-
-    // Sum ad_value by media_type for a given subset
-    const spendBy = (subset) => {
-      const b = { print:0, broadcast:0, radio:0, social:0, online:0 };
-      subset.forEach(m => {
-        const t = m.media_type;
-        if (b[t] !== undefined) b[t] += Number(m.ad_value)||0;
-      });
-      return b;
-    };
-
-    // Per-client digital ad-spend multiplier — reflects real Botswana 2026 digital media weight per sector.
-    // Digital budgets: Meta + Google + YouTube + X + LinkedIn + TikTok + Botswana site display + WhatsApp broadcast.
-    // Values are multipliers of traditional-media (print+broadcast+radio) total spend.
-    // Digital ad-spend multiplier as fraction of traditional-media total spend.
-    // Add an entry per tenant as new clients are onboarded — value calibrated to sector.
-    const DIGITAL_MULT = {
-      "BIHL Group": 0.75,  // funeral cover Meta creatives, BIFM Executive LinkedIn, Kids Education Plan Google Ads
-    };
-    const _digitalMult = (key) => DIGITAL_MULT[key] || 0.85;
-
-    // Deterministic digital variance per client so numbers look organic across tenants
-    const _digitalVar = (seed) => 0.92 + ((seed * 9301 + 49297) % 1000) / 10000; // 0.92..1.02
-
-    // ----- Client gauge -----
-    const cSpend = spendBy(clientMentions);
-    const cTrad = cSpend.print + cSpend.broadcast + cSpend.radio;
-    const cDigital = Math.round(cTrad * _digitalMult(currentClient) * _digitalVar(currentClient.length + 3));
-    const cTotal = cTrad + cDigital;
-    setEl("gauge-client-tag", clientLabel);
-    setEl("gauge-client-value", _pulaK(cTotal));
-    setEl("gauge-client-label", "30-day estimated ad value");
-    setEl("gauge-client-print", _pula(cSpend.print));
-    setEl("gauge-client-broadcast", _pula(cSpend.broadcast));
-    setEl("gauge-client-radio", _pula(cSpend.radio));
-    setEl("gauge-client-digital", _pula(cDigital));
-    if (charts.gMascom){
-      charts.gMascom.data.datasets[0].data = [cSpend.print, cSpend.broadcast, cSpend.radio, cDigital];
-      charts.gMascom.update();
-    }
-
-    // ----- Competitor gauge (gComp) -----
-    const kSpend = spendBy(compMentions);
-    const kTrad = kSpend.print + kSpend.broadcast + kSpend.radio;
-    // Competitor digital slightly less than client (they're pooled competitors, average multiplier ~0.90)
-    const kDigital = Math.round(kTrad * (_digitalMult(currentClient) * 0.90) * _digitalVar(currentClient.length + 7));
-    const kTotal = kTrad + kDigital;
-    setEl("gauge-comp-tag", "Competition");
-    setEl("gauge-comp-value", _pulaK(kTotal));
-    setEl("gauge-comp-label", compBrands.length ? compBrands.slice(0,2).join(" + ") : "All competitors");
-    setEl("gauge-comp-print", _pula(kSpend.print));
-    setEl("gauge-comp-broadcast", _pula(kSpend.broadcast));
-    setEl("gauge-comp-radio", _pula(kSpend.radio));
-    setEl("gauge-comp-digital", _pula(kDigital));
-    if (charts.gComp){
-      charts.gComp.data.datasets[0].data = [kSpend.print, kSpend.broadcast, kSpend.radio, kDigital];
-      charts.gComp.update();
-    }
+    // ----- Headline gauges: share of voice + sentiment -----
+    mcRenderHeadlineGauges(mentions);
 
     // ----- Share of voice pie (sov) -----
     if (charts.sov && sov.length){
@@ -3800,17 +3788,17 @@
       charts.mediaType.update();
     }
 
-    // ----- Source spend bar (sourceSpend) -----
-    // Aggregate ad_value by source, top 5
+    // ----- Coverage by source bar (sourceSpend) -----
+    // Count mentions per source, top 5
     if (charts.sourceSpend && mentions && mentions.length){
       const sourceMap = {};
       mentions.forEach(m => {
         if (!m.source) return;
-        sourceMap[m.source] = (sourceMap[m.source]||0) + (Number(m.ad_value)||0);
+        sourceMap[m.source] = (sourceMap[m.source]||0) + 1;
       });
       const top5 = Object.entries(sourceMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
       charts.sourceSpend.data.labels = top5.map(x=>x[0]);
-      charts.sourceSpend.data.datasets[0].data = top5.map(x=>Math.round(x[1]/1000));
+      charts.sourceSpend.data.datasets[0].data = top5.map(x=>x[1]);
       charts.sourceSpend.update();
     }
 
@@ -4235,7 +4223,6 @@
     else if (/coverage trend|\btrend\b/i.test(title))     { dim = 'month';      dimLabel = 'Month'; }
     else if (/sentiment/i.test(title))                    { dim = 'sentiment';  dimLabel = 'Sentiment'; }
     else if (/share of voice|competition|competitor/i.test(title)) { dim = 'brand'; dimLabel = 'Brand / competitor'; }
-    else if (/pr value|ad value|est\.? pr/i.test(title))  { dim = 'brand';      dimLabel = 'Brand'; }
 
     const items = mentions.filter(prefilter);
     const groups = {};
@@ -4247,10 +4234,9 @@
       else if (dim === 'sentiment')  key = _sentLabel(m.sentiment);
       else if (dim === 'month')      key = (m.published_at||'').slice(0,7);
       else                           key = 'All';
-      if (!groups[key]) groups[key] = { mentions: 0, reach: 0, ad_value: 0 };
+      if (!groups[key]) groups[key] = { mentions: 0, reach: 0 };
       groups[key].mentions++;
       groups[key].reach    += Number(m.reach)    || 0;
-      groups[key].ad_value += Number(m.ad_value) || 0;
     });
     const rows = Object.entries(groups)
       .map(([k,v]) => ({ key:k, ...v }))
@@ -4272,7 +4258,6 @@
     if (rows.length){
       const totalMentions = rows.reduce((a,r)=>a+r.mentions,0);
       const totalReach    = rows.reduce((a,r)=>a+r.reach,0);
-      const totalValue    = rows.reduce((a,r)=>a+r.ad_value,0);
       body += `<div style="margin-top:${kpis.length?'18px':'0'};font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:10px">Breakdown by ${_escapeHtml(dimLabel.toLowerCase())}</div>`;
       body += `<div style="border:1px solid var(--line);border-radius:10px;overflow:hidden">
         <table style="width:100%;border-collapse:collapse;font-size:13px">
@@ -4280,21 +4265,18 @@
             <th style="padding:10px 14px;font-weight:700;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em">${_escapeHtml(dimLabel)}</th>
             <th style="padding:10px 14px;font-weight:700;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;text-align:right">Mentions</th>
             <th style="padding:10px 14px;font-weight:700;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;text-align:right">Reach</th>
-            <th style="padding:10px 14px;font-weight:700;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;text-align:right">Ad value</th>
           </tr></thead><tbody>`;
       rows.forEach(r => {
         body += `<tr style="border-top:1px solid var(--line)">
           <td style="padding:10px 14px;color:var(--ink);font-weight:600">${_escapeHtml(r.key)}</td>
           <td style="padding:10px 14px;text-align:right;color:var(--text)">${r.mentions}</td>
           <td style="padding:10px 14px;text-align:right;color:var(--text)">${_fmt(r.reach)}</td>
-          <td style="padding:10px 14px;text-align:right;color:var(--text)">P ${r.ad_value.toLocaleString()}</td>
         </tr>`;
       });
       body += `<tr style="border-top:2px solid var(--line);background:var(--bg)">
         <td style="padding:10px 14px;font-weight:800;color:var(--ink)">Total</td>
         <td style="padding:10px 14px;text-align:right;font-weight:800;color:var(--ink)">${totalMentions}</td>
         <td style="padding:10px 14px;text-align:right;font-weight:800;color:var(--ink)">${_fmt(totalReach)}</td>
-        <td style="padding:10px 14px;text-align:right;font-weight:800;color:var(--ink)">P ${totalValue.toLocaleString()}</td>
       </tr>`;
       body += `</tbody></table></div>`;
     } else {
@@ -4312,8 +4294,8 @@
 
   // Export the exact rows shown in a drill-down modal
   function mcExportRows(rows, dimLabel, title){
-    const hdr = [dimLabel, "Mentions", "Reach", "Ad Value (BWP)"];
-    const csvRows = rows.map(r => [r.key, r.mentions, r.reach, r.ad_value]);
+    const hdr = [dimLabel, "Mentions", "Reach"];
+    const csvRows = rows.map(r => [r.key, r.mentions, r.reach]);
     const csv = [hdr, ...csvRows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
     _mcDownloadBlob(csv, `mediaclip-${title.replace(/[^\w]+/g,'_')}-${new Date().toISOString().slice(0,10)}.csv`, "text/csv");
     mcCloseModal();
@@ -4352,7 +4334,6 @@
         <div class="stat" style="text-align:center"><div class="n"><span class="clip-sent ${_sentClass(m.sentiment)}" style="font-size:11px">${_sentLabel(m.sentiment)}</span></div><div class="l">Sentiment</div></div>
         ${_sentTypeLabel(m.sentiment_type) ? `<div class="stat" style="text-align:center"><div class="n"><span class="m-senttype ${_sentTypeLabel(m.sentiment_type).toLowerCase()}" style="font-size:10.5px">${_sentTypeLabel(m.sentiment_type)}</span></div><div class="l">Sentiment type</div></div>` : ''}
         <div class="stat"><div class="n">${_fmt(m.reach)}</div><div class="l">Reach</div></div>
-        <div class="stat"><div class="n">P ${(Number(m.ad_value)||0).toLocaleString()}</div><div class="l">Est. ad value</div></div>
       </div>
     `;
     mcOpenModal("Clip", (m.source || "Source") + " · " + (m.brand || ""), body);
@@ -4390,13 +4371,12 @@
         <div class="stat-row" style="margin-top:8px">
           <div class="stat"><div class="n">${mentions.length}</div><div class="l">Records</div></div>
           <div class="stat"><div class="n">${_fmt(mentions.reduce((a,m)=>a+(Number(m.reach)||0),0))}</div><div class="l">Total reach</div></div>
-          <div class="stat"><div class="n">P ${mentions.reduce((a,m)=>a+(Number(m.ad_value)||0),0).toLocaleString()}</div><div class="l">Est. ad value</div></div>
         </div>
         <div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap">
           <button class="btn primary" onclick="mcDoExportCSV()" style="flex:1;min-width:180px">Download CSV</button>
           <button class="btn" onclick="mcDoExportPDF()" style="flex:1;min-width:180px">Download PDF (print)</button>
         </div>
-        <div style="font-size:12px;color:var(--muted);line-height:1.5">CSV includes every mention row with brand, source, sentiment, reach and ad value. PDF opens the print dialog — pick "Save as PDF" as the destination.</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5">CSV includes every mention row with brand, source, sentiment and reach. PDF opens the print dialog — pick "Save as PDF" as the destination.</div>
       </div>
     `);
     const foot = document.querySelector('#modal .modal-foot');
@@ -4404,11 +4384,11 @@
   }
   function mcDoExportCSV(){
     const mentions = window._lastMentions || [];
-    const hdr = ["Date","Brand","Source","Type","Sentiment","Language","Title","Reach","Ad Value (BWP)","URL"];
+    const hdr = ["Date","Brand","Source","Type","Sentiment","Language","Title","Reach","URL"];
     const rows = mentions.map(m => [
       (m.published_at||"").slice(0,10),
       m.brand||"", m.source||"", m.media_type||"", m.sentiment||"",
-      m.language||"en", m.title||"", m.reach||0, m.ad_value||0, m.url||""
+      m.language||"en", m.title||"", m.reach||0, m.url||""
     ]);
     const csv = [hdr, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
     const client = (mcFilters.client||"BIHL_Group").replace(/\s+/g,'_');
@@ -4616,14 +4596,12 @@ Issued by the BIHL Group Communications Office`;
       const compMentions = all.filter(m => compBrands.some(b => (m.brand||"").toLowerCase().includes(b)));
       const total = compMentions.length;
       const totalReach = compMentions.reduce((a,m)=>a+(Number(m.reach)||0),0);
-      const totalValue = compMentions.reduce((a,m)=>a+(Number(m.ad_value)||0),0);
       mcOpenModal("Competitor overview", "Sanlam Life · Old Mutual Botswana · Metropolitan Botswana", `
         <div class="stat-row" style="margin-bottom:16px">
           <div class="stat"><div class="n">${total}</div><div class="l">Mentions</div></div>
           <div class="stat"><div class="n">${_fmt(totalReach)}</div><div class="l">Reach</div></div>
-          <div class="stat"><div class="n">P ${totalValue.toLocaleString()}</div><div class="l">Est. ad value</div></div>
         </div>
-        <div style="font-size:12px;color:var(--muted);line-height:1.5">Competitor activity summarised from the current feed. For a full competitor deep-dive — spend by channel, historical trend, campaign-level creative and share-of-voice — open the Competition tab from the left sidebar.</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5">Competitor activity summarised from the current feed. For a full competitor deep-dive — channel mix, historical trend, campaign-level creative and share-of-voice — open the Competition tab from the left sidebar.</div>
       `);
       const foot = document.querySelector('#modal .modal-foot');
       if (foot) foot.innerHTML = `<button class="btn" onclick="mcCloseModal()">Close</button>`;
@@ -4971,8 +4949,6 @@ Issued by the BIHL Group Communications Office`;
       const first = a.first_seen_at ? _fmtDate(a.first_seen_at) : '—';
       const impLow = a.impressions_lower, impHigh = a.impressions_upper;
       const impStr = (impLow && impHigh) ? `${_fmt(impLow)}–${_fmt(impHigh)}` : (impLow ? `${_fmt(impLow)}+` : '—');
-      const spendLow = a.spend_lower, spendHigh = a.spend_upper;
-      const spendStr = (spendLow && spendHigh) ? `${a.currency||'USD'} ${spendLow.toLocaleString()}–${spendHigh.toLocaleString()}` : '—';
       const previewImg = a.preview_url
         ? `<img src="${_escapeHtml(a.preview_url)}" alt="Ad preview" style="width:100%;height:180px;object-fit:cover;border-radius:8px;background:var(--bg)" loading="lazy" onerror="this.style.display='none'">`
         : `<div style="width:100%;height:180px;border-radius:8px;background:linear-gradient(135deg,var(--bg),var(--line));display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Preview unavailable</div>`;
@@ -4997,7 +4973,7 @@ Issued by the BIHL Group Communications Office`;
             <span style="background:var(--bg);padding:2px 8px;border-radius:10px">First seen ${first}</span>
           </div>
           <div style="font-size:10.5px;color:var(--muted);line-height:1.4">
-            <span>Est. impressions ${impStr}</span> · <span>Spend ${spendStr}</span>
+            <span>Est. impressions ${impStr}</span>
           </div>
           ${sourceLink}
         </div>
@@ -5201,7 +5177,7 @@ Issued by the BIHL Group Communications Office`;
   }
 
   // Card shell + heading with a single muted line. Same visual pattern as the
-  // ad-spend placeholder on the Analytics page.
+  // ads-detected placeholder on the Analytics page.
   function _compEmptyCard(title, line){
     return '<div class="card">'
       + '<div class="secth"><h2>' + _compEsc(title) + '</h2></div>'
@@ -5710,7 +5686,6 @@ Issued by the BIHL Group Communications Office`;
         <div class="stat"><div class="n">${_escapeHtml(period || "-")}</div><div class="l">Period</div></div>
         <div class="stat"><div class="n">${filtered.length}</div><div class="l">Mentions in report</div></div>
         <div class="stat"><div class="n">${_fmt(filtered.reduce((a,m)=>a+(Number(m.reach)||0),0))}</div><div class="l">Total reach</div></div>
-        <div class="stat"><div class="n">P ${filtered.reduce((a,m)=>a+(Number(m.ad_value)||0),0).toLocaleString()}</div><div class="l">Est. ad value</div></div>
       </div>
       <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn primary" onclick="mcDoReportCSV('${_escapeHtml(title)}', '${_escapeHtml(period)}', ${JSON.stringify(wanted).replace(/"/g,'&quot;')})" style="flex:1;min-width:180px">Download CSV</button>
@@ -5725,11 +5700,11 @@ Issued by the BIHL Group Communications Office`;
     const mentions = window._lastMentions || [];
     const wanted = Array.isArray(typeFilter) ? typeFilter : [];
     const filtered = wanted.length ? mentions.filter(m => wanted.includes((m.media_type||'').toLowerCase())) : mentions;
-    const hdr = ["Date","Brand","Source","Type","Sentiment","Language","Title","Reach","Ad Value (BWP)"];
+    const hdr = ["Date","Brand","Source","Type","Sentiment","Language","Title","Reach"];
     const rows = filtered.map(m => [
       (m.published_at||"").slice(0,10),
       m.brand||"", m.source||"", m.media_type||"", m.sentiment||"",
-      m.language||"en", m.title||"", m.reach||0, m.ad_value||0
+      m.language||"en", m.title||"", m.reach||0
     ]);
     const csv = [hdr, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
     _mcDownloadBlob(csv, `${title.replace(/[^\w]+/g,'_')}-${period.replace(/\s+/g,'_')}.csv`, "text/csv;charset=utf-8");
@@ -5741,7 +5716,6 @@ Issued by the BIHL Group Communications Office`;
     const filtered = wanted.length ? mentions.filter(m => wanted.includes((m.media_type||'').toLowerCase())) : mentions;
     const totalMentions = filtered.length;
     const totalReach = filtered.reduce((a,m)=>a+(Number(m.reach)||0),0);
-    const totalValue = filtered.reduce((a,m)=>a+(Number(m.ad_value)||0),0);
     const posShare = filtered.length ? Math.round(100 * filtered.filter(m=>(m.sentiment||"").toLowerCase()==="positive").length / filtered.length) : 0;
     const negShare = filtered.length ? Math.round(100 * filtered.filter(m=>(m.sentiment||"").toLowerCase()==="negative").length / filtered.length) : 0;
     const rowsHtml = filtered.slice(0, 100).map(m => `
@@ -5753,7 +5727,6 @@ Issued by the BIHL Group Communications Office`;
         <td>${_escapeHtml(_sentLabel(m.sentiment))}</td>
         <td>${_escapeHtml((m.title||'').slice(0,120))}</td>
         <td style="text-align:right">${_fmt(m.reach)}</td>
-        <td style="text-align:right">P ${(Number(m.ad_value)||0).toLocaleString()}</td>
       </tr>`).join("");
     const html = `<!doctype html><html><head><meta charset="utf-8"><title>${_escapeHtml(title)} — ${_escapeHtml(period)}</title>
       <style>
@@ -5787,14 +5760,13 @@ Issued by the BIHL Group Communications Office`;
         <div class="kpis">
           <div class="kpi"><div class="n">${totalMentions}</div><div class="l">Mentions</div></div>
           <div class="kpi"><div class="n">${_fmt(totalReach)}</div><div class="l">Total reach</div></div>
-          <div class="kpi"><div class="n">P ${totalValue.toLocaleString()}</div><div class="l">Est. ad value</div></div>
           <div class="kpi"><div class="n">${posShare}%</div><div class="l">Positive sentiment</div></div>
           <div class="kpi"><div class="n">${negShare}%</div><div class="l">Negative sentiment</div></div>
         </div>
         <h2>Coverage detail</h2>
         <table><thead><tr>
-          <th>Date</th><th>Brand</th><th>Source</th><th>Type</th><th>Sentiment</th><th>Headline</th><th style="text-align:right">Reach</th><th style="text-align:right">Ad value</th>
-        </tr></thead><tbody>${rowsHtml || '<tr><td colspan="8" style="padding:14px;text-align:center;color:#999">No mentions in this reporting period.</td></tr>'}</tbody></table>
+          <th>Date</th><th>Brand</th><th>Source</th><th>Type</th><th>Sentiment</th><th>Headline</th><th style="text-align:right">Reach</th>
+        </tr></thead><tbody>${rowsHtml || '<tr><td colspan="7" style="padding:14px;text-align:center;color:#999">No mentions in this reporting period.</td></tr>'}</tbody></table>
         <div class="foot"><div>MediaClip · mediaclip.net</div><div>Page 1</div></div>
         <scr` + `ipt>window.addEventListener('load', function(){ setTimeout(function(){ window.print(); }, 400); });</scr` + `ipt>
       </body></html>`;
@@ -6025,9 +5997,11 @@ Issued by the BIHL Group Communications Office`;
   const days=Array.from({length:30},(_,i)=>((i+1)));
   function wave(base,amp,seed){return days.map((d,i)=>Math.round(base+amp*Math.sin(i/3+seed)+amp*0.5*Math.sin(i/1.7+seed)));}
 
-  // gauges — 4 segments: Print / Broadcast / Radio / Digital
-  ring('gMascom',{l:['Print','Broadcast','Radio','Digital'],v:[101,98,53,168]},[RED,INK,AMBER,GREEN]);
-  ring('gComp',{l:['Print','Broadcast','Radio','Digital'],v:[88,121,79,196]},[RED,INK,AMBER,GREEN]);
+  // headline gauges — share of voice (client vs rest of tracked set) + sentiment split.
+  // Seeded empty; mcPaintHeadlineGauges() fills them from the split loadDashboard() computed.
+  ring('gSov',{l:['Client','Rest of tracked set'],v:[0,100]},[RED,GREY]);
+  ring('gSent',{l:['Positive','Neutral','Negative'],v:[0,0,0]},[GREEN,GREY,RED]);
+  try { mcPaintHeadlineGauges(); } catch(e){}
   ring('sov',{l:['BIHL','Botswana Life','BIFM','BIC'],v:[48,22,18,12]},[RED,INK,GREY,BIC_COLOR]);
   ring('sentiment',{l:['Positive','Neutral','Negative'],v:[71,21,8]},[GREEN,GREY,RED]);
 
@@ -6039,8 +6013,8 @@ Issued by the BIHL Group Communications Office`;
     {label:'Adverts',data:wave(18,7,5),borderColor:AMBER,backgroundColor:'rgba(242,169,59,.12)',fill:true,tension:.4,pointRadius:0,borderWidth:2}
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:16}}},scales:{x:{grid:{display:false},ticks:{maxTicksLimit:6}},y:{grid:{color:'#F0F2F4'},ticks:{maxTicksLimit:5}}}}});
 
-  // source spend
-  charts.sourceSpend=new Chart(document.getElementById('sourceSpend'),{type:'bar',data:{labels:['Mmegi','The Voice','Sunday Std','Weekend Post','Business Wk'],datasets:[{data:[101,86,72,54,38],backgroundColor:RED,borderRadius:6,barThickness:26}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},ticks:{callback:v=>'P'+v+'K',maxTicksLimit:5}}}}});
+  // coverage by source (mention counts per outlet; hydrated from the mention feed)
+  charts.sourceSpend=new Chart(document.getElementById('sourceSpend'),{type:'bar',data:{labels:['Mmegi','The Voice','Sunday Std','Weekend Post','Business Wk'],datasets:[{data:[101,86,72,54,38],backgroundColor:RED,borderRadius:6,barThickness:26}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},ticks:{maxTicksLimit:5}}}}});
 
   // reach grouped (dashboard) — 4 brand series so BIC (Botswana Insurance Company) is not omitted
   const reachCfg=(id,print)=>{charts[id]=new Chart(document.getElementById(id),{type:'bar',data:{labels:['The Voice','Mmegi','Sunday Std','Weekend Post'],datasets:[
@@ -6079,12 +6053,12 @@ Issued by the BIHL Group Communications Office`;
     {label:'BIFM',data:[180,160,110,90,140,50],backgroundColor:GREY,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
     {label:'BIC',data:[210,180,120,90,70,60],backgroundColor:BIC_COLOR,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
   ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:14}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},ticks:{callback:v=>v+'K',maxTicksLimit:5}}}}});
-  // Digital ad-spend detected across competitors (Meta Ad Library + Google Ads Transparency + X Ad Repository)
+  // Digital ads detected across competitors — active creative counts per platform (Meta Ad Library + Google Ads Transparency + X Ad Repository). Sample until the tenant's portal syncs are configured.
   charts.digitalCompetitive=new Chart(document.getElementById('digitalCompetitive'),{type:'bar',data:{labels:['Meta','Google','YouTube','LinkedIn','TikTok'],datasets:[
-    {label:'Client',data:[168,142,98,74,42],backgroundColor:GREEN,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
-    {label:'Competitor A',data:[195,168,105,86,52],backgroundColor:RED,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
-    {label:'Competitor B',data:[142,118,84,68,38],backgroundColor:INK,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
-  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:14}},tooltip:{callbacks:{label:(c)=>c.dataset.label+': P'+c.parsed.y+'K'}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},ticks:{callback:v=>'P'+v+'K',maxTicksLimit:5}}}}});
+    {label:'Client',data:[24,20,14,11,6],backgroundColor:GREEN,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
+    {label:'Competitor A',data:[28,24,15,12,7],backgroundColor:RED,borderRadius:5,barPercentage:.7,categoryPercentage:.7},
+    {label:'Competitor B',data:[20,17,12,10,5],backgroundColor:INK,borderRadius:5,barPercentage:.7,categoryPercentage:.7}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',padding:14}},tooltip:{callbacks:{label:(c)=>c.dataset.label+': '+c.parsed.y+' active creatives'}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F0F2F4'},title:{display:true,text:'Active creatives'},ticks:{precision:0,maxTicksLimit:5}}}}});
   ring('channelMix',{l:['Print','Radio','Broadcast','Digital','Online news','Social'],v:[24,22,16,26,7,5]},[RED,AMBER,INK,GREEN,GREY,'#8257e6']);
 
   // analytics trend
